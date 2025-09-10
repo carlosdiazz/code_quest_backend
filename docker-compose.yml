@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   db:
-    image: postgres:15
+    image: postgres:17
     container_name: postgres_db
     restart: always
     env_file:
@@ -12,9 +12,6 @@ services:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
-      - "${DB_PORT}:5432"
+      - "${DB_PORT}:${DB_PORT}"
     volumes:
-      - db_data:/var/lib/postgresql/data
-
-volumes:
-  db_data:
+      - ./postgres:/var/lib/postgresql/data

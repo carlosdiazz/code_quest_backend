@@ -16,12 +16,12 @@ import { envs } from '../config';
       password: envs.DB_PASSWORD,
       autoLoadEntities: true,
       synchronize: false,
-      ssl: true,
-      extra: {
-        ssl: {
-          rejectUnauthorized: false,
-        },
-      },
+      ssl: envs.STATE === 'DEV' ? false : true,
+      //extra: {
+      //  ssl: {
+      //    rejectUnauthorized: false,
+      //  },
+      //},
     }),
   ],
 })
