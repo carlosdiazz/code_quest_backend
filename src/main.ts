@@ -1,8 +1,41 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
+import { Logger, ValidationPipe } from '@nestjs/common';
+import {
+  FastifyAdapter,
+  NestFastifyApplication,
+} from '@nestjs/platform-fastify';
+
+import { AppModule } from './app';
+import { envs } from './config';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  await app.listen(process.env.PORT ?? 3000);
+  const logger = new Logger('MAIN');
+  logger.verbose(envs);
+
+  const app = await NestFactory.create<NestFastifyApplication>(
+    AppModule,
+    new FastifyAdapter(),
+  );
+
+  app.setGlobalPrefix('api');
+
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+    }),
+  );
+
+  const { PORT } = envs;
+  await app.listen(PORT, '0.0.0.0');
+  logger.debug(`🚀🚀🚀🚀🔥🔥App is ready  on port!!!!!! ${PORT}🔥🔥🚀🚀🚀🚀`);
 }
-bootstrap();
+
+void bootstrap();
+
+function handleError(error: unknown) {
+  console.error(error);
+  process.exit(1);
+}
+
+process.on('uncaughtException', handleError);
