@@ -9,22 +9,6 @@ type User {
 }
 
 type Query {
+  allUser(offset: Int = 0, limit: Int = 10, active: Boolean = true): [User!]!
   user(id: Int!): User!
-}
-
-type Mutation {
-  createUser(createUserInput: CreateUserInput!): User!
-  updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: Int!): User!
-}
-
-input CreateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
-}
-
-input UpdateUserInput {
-  """Example field (placeholder)"""
-  exampleField: Int
-  id: Int!
 }
