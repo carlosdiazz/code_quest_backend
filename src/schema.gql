@@ -2,13 +2,50 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type ResponsePropio {
+  message: String!
+  error: String
+  statusCode: Float!
+}
+
 type User {
   id: Int!
   provider: String!
   providerId: String!
 }
 
+type Category {
+  id: Int!
+  name: String!
+  description: String!
+  slug: String!
+  color: String!
+}
+
 type Query {
   allUser(offset: Int = 0, limit: Int = 10, active: Boolean = true): [User!]!
   user(id: Int!): User!
+  allCategory(offset: Int = 0, limit: Int = 10, active: Boolean = true): [Category!]!
+  category(id: Int!): Category!
+}
+
+type Mutation {
+  createCategory(createCategoryInput: CreateCategoryInput!): Category!
+  updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
+  removeCategory(id: Int!): ResponsePropio!
+}
+
+input CreateCategoryInput {
+  name: String!
+  slug: String!
+  description: String
+  color: String!
+}
+
+input UpdateCategoryInput {
+  name: String
+  slug: String
+  description: String
+  color: String
+  id: Int!
 }
