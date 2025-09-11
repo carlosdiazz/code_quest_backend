@@ -26,9 +26,28 @@
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
 ## Project setup
-
+#### ( Paso 1 )  Instalación de dependencias
 ```bash
 $ npm install
+```
+___
+#### ( Paso 2 )  Config Variables de Entorno
+
+Crear un archivo `.env` basando en el archivo de ejemplo `.template.env`
+
+___
+#### ( Paso 3 )  Montar Base de Datos de Docker
+
+
+``` 
+docker compose up -d 
+```
+___
+#### ( Paso 4 )  Correr las migraciones de Base de Datos
+
+
+``` 
+npm run migration:run
 ```
 
 ## Compile and run the project
