@@ -7,20 +7,16 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity({ name: 'category' })
+@Entity({ name: 'post' })
 @ObjectType()
-export class Category {
+export class Post {
   @PrimaryGeneratedColumn()
   @Field(() => Int)
   public id: number;
 
   @Field(() => String)
   @Column({ type: 'varchar' })
-  public name: string;
-
-  @Field(() => String)
-  @Column({ type: 'varchar', default: '' })
-  public description: string;
+  public title: string;
 
   @Field(() => String)
   @Column({ type: 'varchar', unique: true })
@@ -28,7 +24,31 @@ export class Category {
 
   @Field(() => String)
   @Column({ type: 'varchar' })
-  public color: string;
+  public content: string;
+
+  @Field(() => String)
+  @Column({ type: 'varchar' })
+  public excerpt: string;
+
+  @Field(() => String)
+  @Column({ type: 'varchar' })
+  public coverImage: string;
+
+  @Field(() => Boolean)
+  @Column({ type: 'boolean' })
+  public published: boolean;
+
+  @Field(() => Boolean)
+  @Column({ type: 'boolean' })
+  public featured: boolean;
+
+  @Field(() => Int)
+  @Column({ type: 'int' })
+  public likesCount: number;
+
+  @Field(() => [String])
+  @Column({ type: 'varchar', array: true, default: [] })
+  public tags: string[];
 
   @Field(() => Date)
   @CreateDateColumn({

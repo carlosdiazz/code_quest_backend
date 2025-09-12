@@ -1,9 +1,9 @@
 import { IsNumber, Min } from 'class-validator';
-import { CreateUserInput } from './create-user.input';
+import { CreatePostInput } from './create-post.input';
 import { InputType, Field, Int, PartialType } from '@nestjs/graphql';
 
 @InputType()
-export class UpdateUserInput extends PartialType(CreateUserInput) {
+export class UpdatePostInput extends PartialType(CreatePostInput) {
   @Field(() => Int)
   @IsNumber()
   @Min(1)

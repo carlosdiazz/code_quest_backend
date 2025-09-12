@@ -12,7 +12,13 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { envs } from 'src/config';
 import { DatabaseModule } from 'src/database';
-import { CategoryModule, UserModule } from 'src/components';
+import {
+  CategoryModule,
+  CommentModule,
+  LikeModule,
+  PostModule,
+  UserModule,
+} from 'src/components';
 
 const isProduction = envs.STATE === 'PROD';
 
@@ -39,6 +45,9 @@ const apolloPlugin = isProduction
     //Components
     UserModule,
     CategoryModule,
+    PostModule,
+    LikeModule,
+    CommentModule,
   ],
   controllers: [AppController],
   providers: [AppService],

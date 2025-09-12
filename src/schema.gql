@@ -12,7 +12,18 @@ type User {
   id: Int!
   provider: String!
   providerId: String!
+  role: String!
+  avatar: String!
+  name: String!
+  email: String!
+  createAt: DateTime!
+  updateAt: DateTime!
 }
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
 
 type Category {
   id: Int!
@@ -20,6 +31,33 @@ type Category {
   description: String!
   slug: String!
   color: String!
+  createAt: DateTime!
+  updateAt: DateTime!
+}
+
+type Post {
+  id: Int!
+  title: String!
+  slug: String!
+  content: String!
+  excerpt: String!
+  coverImage: String!
+  published: Boolean!
+  featured: Boolean!
+  likesCount: Int!
+  tags: [String!]!
+  createAt: DateTime!
+  updateAt: DateTime!
+}
+
+type Comment {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+type Like {
+  """Example field (placeholder)"""
+  exampleField: Int!
 }
 
 type Query {
@@ -27,12 +65,24 @@ type Query {
   user(id: Int!): User!
   allCategory(offset: Int = 0, limit: Int = 10, active: Boolean = true): [Category!]!
   category(id: Int!): Category!
+  post(id: Int!): Post!
+  like(id: Int!): Like!
+  comment(id: Int!): Comment!
 }
 
 type Mutation {
   createCategory(createCategoryInput: CreateCategoryInput!): Category!
   updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
   removeCategory(id: Int!): ResponsePropio!
+  createPost(createPostInput: CreatePostInput!): Post!
+  updatePost(updatePostInput: UpdatePostInput!): Post!
+  removePost(id: Int!): ResponsePropio!
+  createLike(createLikeInput: CreateLikeInput!): Like!
+  updateLike(updateLikeInput: UpdateLikeInput!): Like!
+  removeLike(id: Int!): Like!
+  createComment(createCommentInput: CreateCommentInput!): Comment!
+  updateComment(updateCommentInput: UpdateCommentInput!): Comment!
+  removeComment(id: Int!): Comment!
 }
 
 input CreateCategoryInput {
@@ -47,5 +97,52 @@ input UpdateCategoryInput {
   slug: String
   description: String
   color: String
+  id: Int!
+}
+
+input CreatePostInput {
+  title: String!
+  slug: String!
+  content: String!
+  excerpt: String!
+  coverImage: String!
+  published: Boolean!
+  featured: Boolean!
+  likesCount: Int!
+  tags: [String!]!
+}
+
+input UpdatePostInput {
+  title: String
+  slug: String
+  content: String
+  excerpt: String
+  coverImage: String
+  published: Boolean
+  featured: Boolean
+  likesCount: Int
+  tags: [String!]
+  id: Int!
+}
+
+input CreateLikeInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateLikeInput {
+  """Example field (placeholder)"""
+  exampleField: Int
+  id: Int!
+}
+
+input CreateCommentInput {
+  """Example field (placeholder)"""
+  exampleField: Int!
+}
+
+input UpdateCommentInput {
+  """Example field (placeholder)"""
+  exampleField: Int
   id: Int!
 }

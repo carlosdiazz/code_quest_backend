@@ -8,22 +8,20 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-import { CreateCategoryInput } from './dto/create-category.input';
-import { UpdateCategoryInput } from './dto/update-category.input';
-import { Category } from './entities/category.entity';
+import { CreatePostInput } from './dto/create-post.input';
+import { UpdatePostInput } from './dto/update-post.input';
 import { MESSAGE, PaginationArgs, ResponsePropio } from 'src/common';
+import { Post } from './entities/post.entity';
 
 @Injectable()
-export class CategoryService {
+export class PostService {
   constructor(
-    @InjectRepository(Category)
-    private readonly repository: Repository<Category>,
+    @InjectRepository(Post)
+    private readonly repository: Repository<Post>,
   ) {}
 
-  public async create(
-    createCategoryInput: CreateCategoryInput,
-  ): Promise<Category> {
-    const { slug, ...rest } = createCategoryInput;
+  public async create(createPostInput: CreatePostInput): Promise<Post> {
+    const { slug, ...rest } = createPostInput;
     await this.findOneBySlug(slug);
 
     try {
@@ -38,7 +36,7 @@ export class CategoryService {
     }
   }
 
-  public async findAll(pagination: PaginationArgs): Promise<Category[]> {
+  public async findAll(pagination: PaginationArgs): Promise<Post[]> {
     const { limit, offset } = pagination;
 
     return await this.repository.find({
@@ -47,7 +45,7 @@ export class CategoryService {
     });
   }
 
-  public async findOne(id: number): Promise<Category> {
+  public async findOne(id: number): Promise<Post> {
     const entity = await this.repository.findOneBy({ id });
     if (!entity) {
       throw new NotFoundException(`${MESSAGE.NO_EXISTE} => Category`);
@@ -57,8 +55,8 @@ export class CategoryService {
 
   public async update(
     id: number,
-    updateCategoryInput: UpdateCategoryInput,
-  ): Promise<Category> {
+    updatePostInput: UpdatePostInput,
+  ): Promise<Post> {
     const entity = await this.findOne(id);
     //TODO const { slug } = updateCategoryInput;
     //TODO if (slug) {
@@ -66,7 +64,7 @@ export class CategoryService {
     //TODO }
 
     try {
-      this.repository.merge(entity, updateCategoryInput);
+      this.repository.merge(entity, updatePostInput);
       return await this.repository.save(entity);
     } catch (error) {
       throw new UnprocessableEntityException(error?.message);
@@ -89,9 +87,7 @@ export class CategoryService {
   private async findOneBySlug(slug: string): Promise<void> {
     const entity = await this.repository.findOneBy({ slug });
     if (entity) {
-      throw new BadRequestException(
-        `${MESSAGE.YA_EXISTE_ESTE_SLUG} => Category`,
-      );
+      throw new BadRequestException(`${MESSAGE.YA_EXISTE_ESTE_SLUG} => Post`);
     }
   }
 }

@@ -6,16 +6,17 @@ import {
   Int,
 } from '@nestjs/graphql';
 
-import { UseGuards } from '@nestjs/common';
+//import { UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './entities/user.entity';
 //import { CreateUserInput } from './dto/create-user.input';
 //import { UpdateUserInput } from './dto/update-user.input';
-import { AuthGuard } from './guard/auth.guard';
+//import { AuthGuard } from './guard/auth.guard';
 import { PaginationArgs } from 'src/common';
+import { ParseIntPipe } from '@nestjs/common';
 
 @Resolver(() => User)
-@UseGuards(AuthGuard)
+//@UseGuards(AuthGuard)
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
 
@@ -25,8 +26,10 @@ export class UserResolver {
   }
 
   @Query(() => User, { name: 'user' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.userService.findOne(id);
+  public async findOne(
+    @Args('id', { type: () => Int }, ParseIntPipe) id: number,
+  ): Promise<User> {
+    return await this.userService.findOne(id);
   }
 
   //@Mutation(() => User)
