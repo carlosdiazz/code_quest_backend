@@ -3,9 +3,12 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+
+import { Post } from './../../post/entities/post.entity';
 
 @Entity({ name: 'category' })
 @ObjectType()
@@ -29,6 +32,12 @@ export class Category {
   @Field(() => String)
   @Column({ type: 'varchar' })
   public color: string;
+
+  @Field(() => [Post])
+  @OneToMany(() => Post, (post) => post.category, {
+    eager: true,
+  })
+  post: Post[];
 
   @Field(() => Date)
   @CreateDateColumn({

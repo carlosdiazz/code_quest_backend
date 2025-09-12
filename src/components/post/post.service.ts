@@ -12,21 +12,27 @@ import { CreatePostInput } from './dto/create-post.input';
 import { UpdatePostInput } from './dto/update-post.input';
 import { MESSAGE, PaginationArgs, ResponsePropio } from 'src/common';
 import { Post } from './entities/post.entity';
+import { CategoryService } from '../category';
 
 @Injectable()
 export class PostService {
   constructor(
     @InjectRepository(Post)
     private readonly repository: Repository<Post>,
+    private readonly categoryService: CategoryService,
   ) {}
 
   public async create(createPostInput: CreatePostInput): Promise<Post> {
-    const { slug, ...rest } = createPostInput;
+    const { slug, id_category, ...rest } = createPostInput;
     await this.findOneBySlug(slug);
+    await this.categoryService.findOne(id_category);
 
     try {
       const newEntity = this.repository.create({
         slug,
+        category: {
+          id: id_category,
+        },
         ...rest,
       });
       const entity = await this.repository.save(newEntity);
@@ -58,13 +64,23 @@ export class PostService {
     updatePostInput: UpdatePostInput,
   ): Promise<Post> {
     const entity = await this.findOne(id);
-    //TODO const { slug } = updateCategoryInput;
-    //TODO if (slug) {
-    //TODO   await this.findOneBySlug(slug);
-    //TODO }
+    const { slug, id_category, ...rest } = updatePostInput;
+
+    if (id_category) {
+      await this.categoryService.findOne(id_category);
+    }
+
+    if (slug) {
+      await this.findOneBySlug(slug, id);
+    }
 
     try {
-      this.repository.merge(entity, updatePostInput);
+      this.repository.merge(entity, {
+        category: {
+          id: id_category,
+        },
+        ...rest,
+      });
       return await this.repository.save(entity);
     } catch (error) {
       throw new UnprocessableEntityException(error?.message);
@@ -84,9 +100,10 @@ export class PostService {
     }
   }
 
-  private async findOneBySlug(slug: string): Promise<void> {
-    const entity = await this.repository.findOneBy({ slug });
-    if (entity) {
+  private async findOneBySlug(slug: string, currentId?: number): Promise<void> {
+    const entity = await this.repository.findOne({ where: { slug } });
+
+    if (entity && entity.id !== currentId) {
       throw new BadRequestException(`${MESSAGE.YA_EXISTE_ESTE_SLUG} => Post`);
     }
   }

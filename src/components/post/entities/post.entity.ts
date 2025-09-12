@@ -1,12 +1,18 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
+
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
+import { Category } from './../../category/entities/category.entity';
+import { Comment } from './../../comment/entities/comment.entity';
 @Entity({ name: 'post' })
 @ObjectType()
 export class Post {
@@ -49,6 +55,19 @@ export class Post {
   @Field(() => [String])
   @Column({ type: 'varchar', array: true, default: [] })
   public tags: string[];
+
+  @Field(() => Category)
+  @ManyToOne(() => Category, (category) => category.post, {
+    lazy: true,
+  })
+  @JoinColumn({ name: 'id_category' })
+  category: Category;
+
+  @Field(() => [Comment])
+  @OneToMany(() => Comment, (comment) => comment.post, {
+    eager: true,
+  })
+  comment: Comment[];
 
   @Field(() => Date)
   @CreateDateColumn({

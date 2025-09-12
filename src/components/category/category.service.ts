@@ -60,10 +60,10 @@ export class CategoryService {
     updateCategoryInput: UpdateCategoryInput,
   ): Promise<Category> {
     const entity = await this.findOne(id);
-    //TODO const { slug } = updateCategoryInput;
-    //TODO if (slug) {
-    //TODO   await this.findOneBySlug(slug);
-    //TODO }
+    const { slug } = updateCategoryInput;
+    if (slug) {
+      await this.findOneBySlug(slug, id);
+    }
 
     try {
       this.repository.merge(entity, updateCategoryInput);
@@ -86,9 +86,10 @@ export class CategoryService {
     }
   }
 
-  private async findOneBySlug(slug: string): Promise<void> {
-    const entity = await this.repository.findOneBy({ slug });
-    if (entity) {
+  private async findOneBySlug(slug: string, currentId?: number): Promise<void> {
+    const entity = await this.repository.findOne({ where: { slug } });
+
+    if (entity && entity.id !== currentId) {
       throw new BadRequestException(
         `${MESSAGE.YA_EXISTE_ESTE_SLUG} => Category`,
       );

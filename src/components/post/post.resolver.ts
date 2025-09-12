@@ -19,7 +19,7 @@ export class PostResolver {
     return await this.postService.create(createPostInput);
   }
 
-  @Query(() => [Post], { name: 'post' })
+  @Query(() => [Post], { name: 'allPost' })
   public async findAll(
     @Args() paginationArgs: PaginationArgs,
   ): Promise<Post[]> {

@@ -40,4 +40,9 @@ export class CreatePostInput {
   @IsArray()
   @IsString({ each: true })
   public tags: string[];
+
+  @Field(() => Int)
+  @IsNumber()
+  @Min(1)
+  public id_category: number;
 }

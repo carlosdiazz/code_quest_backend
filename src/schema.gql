@@ -25,12 +25,10 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
-type Category {
+type Comment {
   id: Int!
-  name: String!
-  description: String!
-  slug: String!
-  color: String!
+  content: String!
+  post: Post!
   createAt: DateTime!
   updateAt: DateTime!
 }
@@ -46,13 +44,21 @@ type Post {
   featured: Boolean!
   likesCount: Int!
   tags: [String!]!
+  category: Category!
+  comment: [Comment!]!
   createAt: DateTime!
   updateAt: DateTime!
 }
 
-type Comment {
-  """Example field (placeholder)"""
-  exampleField: Int!
+type Category {
+  id: Int!
+  name: String!
+  description: String!
+  slug: String!
+  color: String!
+  post: [Post!]!
+  createAt: DateTime!
+  updateAt: DateTime!
 }
 
 type Like {
@@ -65,8 +71,11 @@ type Query {
   user(id: Int!): User!
   allCategory(offset: Int = 0, limit: Int = 10, active: Boolean = true): [Category!]!
   category(id: Int!): Category!
+  allPost(offset: Int = 0, limit: Int = 10, active: Boolean = true): [Post!]!
   post(id: Int!): Post!
+  allLike: [Like!]!
   like(id: Int!): Like!
+  allComment(offset: Int = 0, limit: Int = 10, active: Boolean = true): [Comment!]!
   comment(id: Int!): Comment!
 }
 
@@ -82,7 +91,7 @@ type Mutation {
   removeLike(id: Int!): Like!
   createComment(createCommentInput: CreateCommentInput!): Comment!
   updateComment(updateCommentInput: UpdateCommentInput!): Comment!
-  removeComment(id: Int!): Comment!
+  removeComment(id: Int!): ResponsePropio!
 }
 
 input CreateCategoryInput {
@@ -110,6 +119,7 @@ input CreatePostInput {
   featured: Boolean!
   likesCount: Int!
   tags: [String!]!
+  id_category: Int!
 }
 
 input UpdatePostInput {
@@ -122,6 +132,7 @@ input UpdatePostInput {
   featured: Boolean
   likesCount: Int
   tags: [String!]
+  id_category: Int
   id: Int!
 }
 
@@ -137,12 +148,12 @@ input UpdateLikeInput {
 }
 
 input CreateCommentInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  content: String!
+  id_post: Int!
 }
 
 input UpdateCommentInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  content: String
+  id_post: Int
   id: Int!
 }

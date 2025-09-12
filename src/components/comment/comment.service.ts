@@ -1,26 +1,92 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadGatewayException,
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+
 import { CreateCommentInput } from './dto/create-comment.input';
 import { UpdateCommentInput } from './dto/update-comment.input';
+import { MESSAGE, PaginationArgs, ResponsePropio } from 'src/common';
+import { Comment } from './entities/comment.entity';
+import { PostService } from '../post';
 
 @Injectable()
 export class CommentService {
-  create(createCommentInput: CreateCommentInput) {
-    return 'This action adds a new comment';
+  constructor(
+    @InjectRepository(Comment)
+    private readonly repository: Repository<Comment>,
+    private readonly postService: PostService,
+  ) {}
+
+  public async create(
+    createCommentInput: CreateCommentInput,
+  ): Promise<Comment> {
+    const { id_post, ...rest } = createCommentInput;
+
+    await this.postService.findOne(id_post);
+
+    try {
+      const newEntity = this.repository.create({
+        post: {
+          id: id_post,
+        },
+        ...rest,
+      });
+      const entity = await this.repository.save(newEntity);
+      return await this.findOne(entity.id);
+    } catch (error) {
+      throw new UnprocessableEntityException(error?.message);
+    }
   }
 
-  findAll() {
-    return `This action returns all comment`;
+  public async findAll(paginationArgs: PaginationArgs): Promise<Comment[]> {
+    const { limit, offset } = paginationArgs;
+
+    return await this.repository.find({
+      take: limit,
+      skip: offset,
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} comment`;
+  public async findOne(id: number): Promise<Comment> {
+    const entity = await this.repository.findOneBy({ id });
+    if (!entity) {
+      throw new NotFoundException(`${MESSAGE.NO_EXISTE} => Category`);
+    }
+    return entity;
   }
 
-  update(id: number, updateCommentInput: UpdateCommentInput) {
-    return `This action updates a #${id} comment`;
+  public async update(
+    id: number,
+    updateCommentInput: UpdateCommentInput,
+  ): Promise<Comment> {
+    const entity = await this.findOne(id);
+
+    const { content } = updateCommentInput;
+
+    try {
+      this.repository.merge(entity, {
+        content,
+      });
+      return await this.repository.save(entity);
+    } catch (error) {
+      throw new UnprocessableEntityException(error?.message);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} comment`;
+  public async remove(id: number): Promise<ResponsePropio> {
+    const entity = await this.findOne(id);
+    try {
+      await this.repository.remove(entity);
+      return {
+        message: MESSAGE.SE_ELIMINO_CORRECTAMENTE,
+        statusCode: 200,
+      };
+    } catch {
+      throw new BadGatewayException(MESSAGE.NO_SE_PUEDE_ELIMINAR);
+    }
   }
 }

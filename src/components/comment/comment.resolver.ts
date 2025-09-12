@@ -1,35 +1,52 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
+import { ParseIntPipe } from '@nestjs/common';
+
 import { CommentService } from './comment.service';
 import { Comment } from './entities/comment.entity';
 import { CreateCommentInput } from './dto/create-comment.input';
 import { UpdateCommentInput } from './dto/update-comment.input';
+import { PaginationArgs, ResponsePropio } from 'src/common';
 
 @Resolver(() => Comment)
+//@UseGuards(AuthGuard)
 export class CommentResolver {
   constructor(private readonly commentService: CommentService) {}
 
   @Mutation(() => Comment)
-  createComment(@Args('createCommentInput') createCommentInput: CreateCommentInput) {
-    return this.commentService.create(createCommentInput);
+  public async createComment(
+    @Args('createCommentInput') createCommentInput: CreateCommentInput,
+  ): Promise<Comment> {
+    return await this.commentService.create(createCommentInput);
   }
 
-  @Query(() => [Comment], { name: 'comment' })
-  findAll() {
-    return this.commentService.findAll();
+  @Query(() => [Comment], { name: 'allComment' })
+  public async findAll(
+    @Args() paginationArgs: PaginationArgs,
+  ): Promise<Comment[]> {
+    return await this.commentService.findAll(paginationArgs);
   }
 
   @Query(() => Comment, { name: 'comment' })
-  findOne(@Args('id', { type: () => Int }) id: number) {
-    return this.commentService.findOne(id);
+  public async findOne(
+    @Args('id', { type: () => Int }, ParseIntPipe) id: number,
+  ): Promise<Comment> {
+    return await this.commentService.findOne(id);
   }
 
   @Mutation(() => Comment)
-  updateComment(@Args('updateCommentInput') updateCommentInput: UpdateCommentInput) {
-    return this.commentService.update(updateCommentInput.id, updateCommentInput);
+  public async updateComment(
+    @Args('updateCommentInput') updateCommentInput: UpdateCommentInput,
+  ): Promise<Comment> {
+    return await this.commentService.update(
+      updateCommentInput.id,
+      updateCommentInput,
+    );
   }
 
-  @Mutation(() => Comment)
-  removeComment(@Args('id', { type: () => Int }) id: number) {
-    return this.commentService.remove(id);
+  @Mutation(() => ResponsePropio)
+  public async removeComment(
+    @Args('id', { type: () => Int }, ParseIntPipe) id: number,
+  ): Promise<ResponsePropio> {
+    return await this.commentService.remove(id);
   }
 }
