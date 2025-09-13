@@ -74,6 +74,7 @@ type Query {
   category(id: Int!): Category!
   allPost(offset: Int = 0, limit: Int = 10, active: Boolean = true): [Post!]!
   post(id: Int!): Post!
+  postBySlug(slug: String!): Post!
   allLike(offset: Int = 0, limit: Int = 10, active: Boolean = true): [Like!]!
   like(id: Int!): Like!
   allComment(offset: Int = 0, limit: Int = 10, active: Boolean = true): [Comment!]!
