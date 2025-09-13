@@ -62,8 +62,9 @@ type Category {
 }
 
 type Like {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  id: Int!
+  createAt: DateTime!
+  updateAt: DateTime!
 }
 
 type Query {
@@ -73,7 +74,7 @@ type Query {
   category(id: Int!): Category!
   allPost(offset: Int = 0, limit: Int = 10, active: Boolean = true): [Post!]!
   post(id: Int!): Post!
-  allLike: [Like!]!
+  allLike(offset: Int = 0, limit: Int = 10, active: Boolean = true): [Like!]!
   like(id: Int!): Like!
   allComment(offset: Int = 0, limit: Int = 10, active: Boolean = true): [Comment!]!
   comment(id: Int!): Comment!
@@ -88,7 +89,7 @@ type Mutation {
   removePost(id: Int!): ResponsePropio!
   createLike(createLikeInput: CreateLikeInput!): Like!
   updateLike(updateLikeInput: UpdateLikeInput!): Like!
-  removeLike(id: Int!): Like!
+  removeLike(id: Int!): ResponsePropio!
   createComment(createCommentInput: CreateCommentInput!): Comment!
   updateComment(updateCommentInput: UpdateCommentInput!): Comment!
   removeComment(id: Int!): ResponsePropio!
@@ -137,13 +138,11 @@ input UpdatePostInput {
 }
 
 input CreateLikeInput {
-  """Example field (placeholder)"""
-  exampleField: Int!
+  id_post: Int!
 }
 
 input UpdateLikeInput {
-  """Example field (placeholder)"""
-  exampleField: Int
+  id_post: Int
   id: Int!
 }
 

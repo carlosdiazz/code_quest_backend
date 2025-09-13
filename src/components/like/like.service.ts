@@ -1,26 +1,46 @@
-import { Injectable } from '@nestjs/common';
+import { BadGatewayException, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+
 import { CreateLikeInput } from './dto/create-like.input';
-import { UpdateLikeInput } from './dto/update-like.input';
+
+import { Like } from './entities/like.entity';
+import { PaginationArgs, ResponsePropio } from 'src/common';
 
 @Injectable()
 export class LikeService {
-  create(createLikeInput: CreateLikeInput) {
-    return 'This action adds a new like';
+  constructor(
+    @InjectRepository(Like)
+    private readonly repository: Repository<Like>,
+  ) {}
+
+  public async create(createLikeInput: CreateLikeInput): Promise<Like> {
+    throw new BadGatewayException('TODO');
+    //const { id_post } = createLikeInput;
+    //
+    //try {
+    //  const newEntity = this.repository.create({
+    //    slug,
+    //    ...rest,
+    //  });
+    //  const entity = await this.repository.save(newEntity);
+    //  return await this.findOne(entity.id);
+    //} catch (error) {
+    //  throw new UnprocessableEntityException(error?.message);
+    //}
   }
 
-  findAll() {
-    return `This action returns all like`;
+  public async findAll(paginationArgs: PaginationArgs): Promise<Like[]> {
+    throw new BadGatewayException('TODO'); //return `This action returns all like`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} like`;
+  public async findOne(id: number): Promise<Like> {
+    throw new BadGatewayException('TODO');
+    //return `This action returns a #${id} like`;
   }
 
-  update(id: number, updateLikeInput: UpdateLikeInput) {
-    return `This action updates a #${id} like`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} like`;
+  public async remove(id: number): Promise<ResponsePropio> {
+    throw new BadGatewayException('TODO');
+    //return `This action removes a #${id} like`;
   }
 }

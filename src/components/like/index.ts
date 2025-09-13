@@ -1,5 +1,4 @@
 export * from './dto/create-like.input';
-export * from './dto/update-like.input';
 
 export * from './entities/like.entity';
 
