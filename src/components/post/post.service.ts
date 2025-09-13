@@ -54,7 +54,15 @@ export class PostService {
   public async findOne(id: number): Promise<Post> {
     const entity = await this.repository.findOneBy({ id });
     if (!entity) {
-      throw new NotFoundException(`${MESSAGE.NO_EXISTE} => Category`);
+      throw new NotFoundException(`${MESSAGE.NO_EXISTE} => Post`);
+    }
+    return entity;
+  }
+
+  public async findBySlug(slug: string): Promise<Post> {
+    const entity = await this.repository.findOneBy({ slug });
+    if (!entity) {
+      throw new NotFoundException(`${MESSAGE.NO_EXISTE} => Post`);
     }
     return entity;
   }

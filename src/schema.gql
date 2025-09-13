@@ -88,7 +88,6 @@ type Mutation {
   updatePost(updatePostInput: UpdatePostInput!): Post!
   removePost(id: Int!): ResponsePropio!
   createLike(createLikeInput: CreateLikeInput!): Like!
-  updateLike(updateLikeInput: UpdateLikeInput!): Like!
   removeLike(id: Int!): ResponsePropio!
   createComment(createCommentInput: CreateCommentInput!): Comment!
   updateComment(updateCommentInput: UpdateCommentInput!): Comment!
@@ -139,11 +138,6 @@ input UpdatePostInput {
 
 input CreateLikeInput {
   id_post: Int!
-}
-
-input UpdateLikeInput {
-  id_post: Int
-  id: Int!
 }
 
 input CreateCommentInput {

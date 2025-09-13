@@ -33,6 +33,13 @@ export class PostResolver {
     return await this.postService.findOne(id);
   }
 
+  @Query(() => Post, { name: 'postBySlug' })
+  public async findOneBySlug(
+    @Args('slug', { type: () => String }) slug: string,
+  ): Promise<Post> {
+    return await this.postService.findBySlug(slug);
+  }
+
   @Mutation(() => Post)
   public async updatePost(
     @Args('updatePostInput') updatePostInput: UpdatePostInput,
