@@ -87,6 +87,7 @@ export class PostService {
         category: {
           id: id_category,
         },
+        slug: slug, //TODO
         ...rest,
       });
       return await this.repository.save(entity);
