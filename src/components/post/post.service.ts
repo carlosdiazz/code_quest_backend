@@ -13,7 +13,7 @@ import { UpdatePostInput } from './dto/update-post.input';
 import { MESSAGE, PaginationArgs, ResponsePropio } from 'src/common';
 import { Post } from './entities/post.entity';
 import { CategoryService } from '../category';
-import { User } from '../user';
+import { User } from '../auth';
 
 @Injectable()
 export class PostService {

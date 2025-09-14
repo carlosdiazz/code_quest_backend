@@ -6,7 +6,7 @@ import { Like } from './entities/like.entity';
 import { CreateLikeInput } from './dto/create-like.input';
 
 import { PaginationArgs, ResponsePropio } from 'src/common';
-import { AuthGuard, CurrentUser, User } from '../user';
+import { AuthGuard, CurrentUser, User } from '../auth';
 
 @Resolver(() => Like)
 @UseGuards(AuthGuard)

@@ -8,9 +8,9 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { Post } from './../../post/entities/post.entity';
-import { Comment } from './../../comment/entities/comment.entity';
-import { Like } from './../../like/entities/like.entity';
+import { Post } from '../../post/entities/post.entity';
+import { Comment } from '../../comment/entities/comment.entity';
+import { Like } from '../../like/entities/like.entity';
 
 export enum Role {
   ADMIN = 'admin',

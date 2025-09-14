@@ -12,7 +12,7 @@ import { UpdateCommentInput } from './dto/update-comment.input';
 import { MESSAGE, PaginationArgs, ResponsePropio } from 'src/common';
 import { Comment } from './entities/comment.entity';
 import { PostService } from '../post';
-import { User } from '../user';
+import { User } from '../auth';
 
 @Injectable()
 export class CommentService {

@@ -7,7 +7,7 @@ import { CreatePostInput } from './dto/create-post.input';
 import { UpdatePostInput } from './dto/update-post.input';
 import { PaginationArgs, ResponsePropio } from 'src/common';
 
-import { AuthGuard, CurrentUser, User } from '../user';
+import { AuthGuard, CurrentUser, User } from '../auth';
 
 @Resolver(() => Post)
 @UseGuards(AuthGuard)

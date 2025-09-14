@@ -11,7 +11,7 @@ import { CreateLikeInput } from './dto/create-like.input';
 
 import { Like } from './entities/like.entity';
 import { MESSAGE, PaginationArgs, ResponsePropio } from '../../common';
-import { User } from '../user';
+import { User } from '../auth';
 import { PostService } from '../post';
 
 @Injectable()

@@ -6,8 +6,8 @@ import { Comment } from './entities/comment.entity';
 import { CreateCommentInput } from './dto/create-comment.input';
 import { UpdateCommentInput } from './dto/update-comment.input';
 import { PaginationArgs, ResponsePropio } from 'src/common';
-import { AuthGuard } from '../user/guard/auth.guard';
-import { CurrentUser, User } from '../user';
+import { AuthGuard } from '../auth/guard/auth.guard';
+import { CurrentUser, User } from '../auth';
 
 @Resolver(() => Comment)
 @UseGuards(AuthGuard)

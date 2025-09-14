@@ -13,7 +13,7 @@ import {
 
 import { Category } from './../../category/entities/category.entity';
 import { Comment } from './../../comment/entities/comment.entity';
-import { User } from './../../user/entities/user.entity';
+import { User } from '../../auth/entities/user.entity';
 import { Like } from './../../like/entities/like.entity';
 @Entity({ name: 'post' })
 @ObjectType()

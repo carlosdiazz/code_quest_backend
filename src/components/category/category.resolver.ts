@@ -6,7 +6,7 @@ import { Category } from './entities/category.entity';
 import { CreateCategoryInput } from './dto/create-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
 import { PaginationArgs, ResponsePropio } from 'src/common';
-import { AuthGuard } from './../user/guard/auth.guard';
+import { AuthGuard } from '../auth/guard/auth.guard';
 
 @Resolver(() => Category)
 @UseGuards(AuthGuard)
