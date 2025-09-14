@@ -32,7 +32,7 @@ export class AuthGuard implements CanActivate {
       const decodedToken = await admin.auth().verifyIdToken(idToken);
 
       req.user = decodedToken;
-
+      console.log(decodedToken);
       // 🔥 Aquí se guarda o se recupera el usuario de la DB
       const dbUser =
         await this.userService.findOrCreateFromFirebase(decodedToken);
@@ -40,8 +40,7 @@ export class AuthGuard implements CanActivate {
       req.dbUser = dbUser;
 
       return true;
-    } catch (error) {
-      console.log(error);
+    } catch {
       throw new UnauthorizedException('Token inválido');
     }
   }

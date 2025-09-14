@@ -13,6 +13,7 @@ import { UpdatePostInput } from './dto/update-post.input';
 import { MESSAGE, PaginationArgs, ResponsePropio } from 'src/common';
 import { Post } from './entities/post.entity';
 import { CategoryService } from '../category';
+import { User } from '../user';
 
 @Injectable()
 export class PostService {
@@ -22,7 +23,10 @@ export class PostService {
     private readonly categoryService: CategoryService,
   ) {}
 
-  public async create(createPostInput: CreatePostInput): Promise<Post> {
+  public async create(
+    createPostInput: CreatePostInput,
+    user: User,
+  ): Promise<Post> {
     const { slug, id_category, ...rest } = createPostInput;
     await this.findOneBySlug(slug);
     await this.categoryService.findOne(id_category);
@@ -32,6 +36,9 @@ export class PostService {
         slug,
         category: {
           id: id_category,
+        },
+        user: {
+          id: user.id,
         },
         ...rest,
       });

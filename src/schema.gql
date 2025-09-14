@@ -8,14 +8,13 @@ type ResponsePropio {
   statusCode: Float!
 }
 
-type User {
+type Category {
   id: Int!
-  provider: String!
-  providerId: String!
-  role: String!
-  avatar: String!
   name: String!
-  email: String!
+  description: String!
+  slug: String!
+  color: String!
+  post: [Post!]!
   createAt: DateTime!
   updateAt: DateTime!
 }
@@ -29,6 +28,7 @@ type Comment {
   id: Int!
   content: String!
   post: Post!
+  user: User!
   createAt: DateTime!
   updateAt: DateTime!
 }
@@ -45,18 +45,22 @@ type Post {
   likesCount: Int!
   tags: [String!]!
   category: Category!
+  user: User!
   comment: [Comment!]!
   createAt: DateTime!
   updateAt: DateTime!
 }
 
-type Category {
+type User {
   id: Int!
+  provider: String!
+  providerId: String!
+  role: String!
+  avatar: String!
   name: String!
-  description: String!
-  slug: String!
-  color: String!
+  email: String!
   post: [Post!]!
+  comment: [Comment!]!
   createAt: DateTime!
   updateAt: DateTime!
 }

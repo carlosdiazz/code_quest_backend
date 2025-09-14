@@ -12,6 +12,7 @@ import { UpdateCommentInput } from './dto/update-comment.input';
 import { MESSAGE, PaginationArgs, ResponsePropio } from 'src/common';
 import { Comment } from './entities/comment.entity';
 import { PostService } from '../post';
+import { User } from '../user';
 
 @Injectable()
 export class CommentService {
@@ -23,6 +24,7 @@ export class CommentService {
 
   public async create(
     createCommentInput: CreateCommentInput,
+    user: User,
   ): Promise<Comment> {
     const { id_post, ...rest } = createCommentInput;
 
@@ -32,6 +34,9 @@ export class CommentService {
       const newEntity = this.repository.create({
         post: {
           id: id_post,
+        },
+        user: {
+          id: user.id,
         },
         ...rest,
       });

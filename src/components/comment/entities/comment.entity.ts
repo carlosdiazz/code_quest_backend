@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 
 import { Post } from './../../post/entities/post.entity';
+import { User } from './../../user/entities/user.entity';
 
 @Entity({ name: 'comment' })
 @ObjectType()
@@ -28,6 +29,13 @@ export class Comment {
   })
   @JoinColumn({ name: 'id_post' })
   post: Post;
+
+  @Field(() => User)
+  @ManyToOne(() => User, (user) => user.comment, {
+    lazy: true,
+  })
+  @JoinColumn({ name: 'id_user' })
+  user: User;
 
   @Field(() => Date)
   @CreateDateColumn({

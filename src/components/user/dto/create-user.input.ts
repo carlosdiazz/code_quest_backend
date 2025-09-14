@@ -18,7 +18,7 @@ export class CreateUserInput {
 
   @Field(() => String)
   @IsString()
-  public avatar: Role;
+  public avatar: string;
 
   @Field(() => String)
   @IsString()

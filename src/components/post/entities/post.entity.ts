@@ -13,6 +13,7 @@ import {
 
 import { Category } from './../../category/entities/category.entity';
 import { Comment } from './../../comment/entities/comment.entity';
+import { User } from './../../user/entities/user.entity';
 @Entity({ name: 'post' })
 @ObjectType()
 export class Post {
@@ -62,6 +63,13 @@ export class Post {
   })
   @JoinColumn({ name: 'id_category' })
   category: Category;
+
+  @Field(() => User)
+  @ManyToOne(() => User, (user) => user.post, {
+    lazy: true,
+  })
+  @JoinColumn({ name: 'id_user' })
+  user: User;
 
   @Field(() => [Comment])
   @OneToMany(() => Comment, (comment) => comment.post, {

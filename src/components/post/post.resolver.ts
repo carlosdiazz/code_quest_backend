@@ -1,5 +1,5 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { ParseIntPipe } from '@nestjs/common';
+import { ParseIntPipe, UseGuards } from '@nestjs/common';
 
 import { PostService } from './post.service';
 import { Post } from './entities/post.entity';
@@ -7,16 +7,19 @@ import { CreatePostInput } from './dto/create-post.input';
 import { UpdatePostInput } from './dto/update-post.input';
 import { PaginationArgs, ResponsePropio } from 'src/common';
 
+import { AuthGuard, CurrentUser, User } from '../user';
+
 @Resolver(() => Post)
-//@UseGuards(AuthGuard)
+@UseGuards(AuthGuard)
 export class PostResolver {
   constructor(private readonly postService: PostService) {}
 
   @Mutation(() => Post)
   public async createPost(
     @Args('createPostInput') createPostInput: CreatePostInput,
+    @CurrentUser() user: User,
   ): Promise<Post> {
-    return await this.postService.create(createPostInput);
+    return await this.postService.create(createPostInput, user);
   }
 
   @Query(() => [Post], { name: 'allPost' })

@@ -3,9 +3,13 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+
+import { Post } from './../../post/entities/post.entity';
+import { Comment } from './../../comment/entities/comment.entity';
 
 export enum Role {
   ADMIN = 'admin',
@@ -28,7 +32,6 @@ export class User {
   public providerId: string;
 
   @Field(() => String)
-  @Field(() => String)
   @Column({
     type: 'enum',
     enum: Role,
@@ -47,6 +50,18 @@ export class User {
   @Field(() => String)
   @Column({ type: 'varchar' })
   public email: string;
+
+  @Field(() => [Post])
+  @OneToMany(() => Post, (post) => post.user, {
+    eager: true,
+  })
+  post: Post[];
+
+  @Field(() => [Comment])
+  @OneToMany(() => Comment, (comment) => comment.user, {
+    eager: true,
+  })
+  comment: Comment[];
 
   @Field(() => Date)
   @CreateDateColumn({

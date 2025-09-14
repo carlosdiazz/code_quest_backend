@@ -1,18 +1,11 @@
-import {
-  BadGatewayException,
-  //BadGatewayException,
-  Injectable,
-  Logger,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { DecodedIdToken } from 'firebase-admin/auth';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
-//import { CreateUserInput } from './dto/create-user.input';
-//import { UpdateUserInput } from './dto/update-user.input';
 import { Role, User } from './entities/user.entity';
 import { MESSAGE, PaginationArgs } from 'src/common';
+import { CreateUserInput } from './dto/create-user.input';
 
 @Injectable()
 export class UserService {
@@ -20,10 +13,6 @@ export class UserService {
   constructor(
     @InjectRepository(User) private readonly repository: Repository<User>,
   ) {}
-
-  //create(createUserInput: CreateUserInput) {
-  //  throw new BadGatewayException('TODO');
-  //}
 
   public async findAll(pagination: PaginationArgs): Promise<User[]> {
     const { limit, offset } = pagination;
@@ -53,38 +42,29 @@ export class UserService {
   public async findOrCreateFromFirebase(
     decodedIdTOken: DecodedIdToken,
   ): Promise<User> {
-    const user: User = {
-      avatar: 'www.avatar.com',
-      email: 'jose@mail.coms',
-      name: 'Jose',
-      role: Role.ADMIN,
-      provider: 'pro',
-      providerId: 'proo',
-      id: 1,
-      createAt: new Date(),
-      updateAt: new Date(),
+    const { uid, email, firebase, picture } = decodedIdTOken;
+    const { sign_in_provider } = firebase;
+
+    const user = await this.repository.findOne({
+      where: { providerId: uid },
+    });
+
+    if (user) {
+      return user;
+    }
+
+    const userDto: CreateUserInput = {
+      providerId: uid,
+      email: email || 'Unknown Email',
+      name: email || 'Unknown Name',
+      role: Role.USER,
+      avatar:
+        picture ||
+        'https://e7.pngegg.com/pngimages/84/165/png-clipart-united-states-avatar-organization-information-user-avatar-service-computer-wallpaper-thumbnail.png',
+      provider: sign_in_provider,
     };
 
-    return user;
-    //const { uid, email, firebase, name } = decodedIdTOken;
-    //const { sign_in_provider } = firebase;
-    //
-    //const user = await this.userRepository.findOne({
-    //  where: { providerId: uid },
-    //});
-    //
-    //if (user) {
-    //  return user;
-    //}
-    //throw new BadGatewayException('TODO');
-    //const userDto: CreateUserInput = {
-    //  providerId: uid,
-    //  email: email || 'Unknown Email',
-    //  fullName: name || 'Unknown Name',
-    //  provider: sign_in_provider,
-    //};
-    //
-    //const newUser = this.userRepository.create(userDto);
-    //return await this.userRepository.save(newUser);
+    const newUser = this.repository.create(userDto);
+    return await this.repository.save(newUser);
   }
 }

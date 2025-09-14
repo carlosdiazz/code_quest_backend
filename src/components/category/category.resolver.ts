@@ -1,14 +1,15 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
-import { ParseIntPipe } from '@nestjs/common';
+import { ParseIntPipe, UseGuards } from '@nestjs/common';
 
 import { CategoryService } from './category.service';
 import { Category } from './entities/category.entity';
 import { CreateCategoryInput } from './dto/create-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
 import { PaginationArgs, ResponsePropio } from 'src/common';
+import { AuthGuard } from './../user/guard/auth.guard';
 
 @Resolver(() => Category)
-//@UseGuards(AuthGuard)
+@UseGuards(AuthGuard)
 export class CategoryResolver {
   constructor(private readonly categoryService: CategoryService) {}
 

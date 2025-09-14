@@ -5,9 +5,10 @@ import { CommentService } from './comment.service';
 import { CommentResolver } from './comment.resolver';
 import { Comment } from './entities/comment.entity';
 import { PostModule } from '../post';
+import { UserModule } from '../user';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Comment]), PostModule],
+  imports: [TypeOrmModule.forFeature([Comment]), PostModule, UserModule],
   providers: [CommentResolver, CommentService],
   exports: [CommentService],
 })
