@@ -46,8 +46,13 @@ export class PostResolver {
   @Mutation(() => Post)
   public async updatePost(
     @Args('updatePostInput') updatePostInput: UpdatePostInput,
+    @CurrentUser() user: User,
   ): Promise<Post> {
-    return await this.postService.update(updatePostInput.id, updatePostInput);
+    return await this.postService.update(
+      updatePostInput.id,
+      updatePostInput,
+      user,
+    );
   }
 
   @Mutation(() => ResponsePropio)

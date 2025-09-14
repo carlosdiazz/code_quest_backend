@@ -51,7 +51,7 @@ export class Post {
   public featured: boolean;
 
   @Field(() => Int)
-  @Column({ type: 'int' })
+  @Column({ type: 'int', default: 0 })
   public likesCount: number;
 
   @Field(() => [String])
@@ -67,7 +67,7 @@ export class Post {
 
   @Field(() => User)
   @ManyToOne(() => User, (user) => user.post, {
-    lazy: true,
+    eager: true,
   })
   @JoinColumn({ name: 'id_user' })
   public user: User;

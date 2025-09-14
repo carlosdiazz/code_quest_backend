@@ -126,7 +126,6 @@ input CreatePostInput {
   coverImage: String!
   published: Boolean!
   featured: Boolean!
-  likesCount: Int!
   tags: [String!]!
   id_category: Int!
 }
@@ -139,7 +138,6 @@ input UpdatePostInput {
   coverImage: String
   published: Boolean
   featured: Boolean
-  likesCount: Int
   tags: [String!]
   id_category: Int
   id: Int!

@@ -29,7 +29,8 @@ export class LikeService {
   ): Promise<Like> {
     const { id_post } = createLikeInput;
 
-    await this.postService.findOne(id_post);
+    const post = await this.postService.findOne(id_post);
+    await this.verifyByUser(id_post, user.id);
 
     try {
       const newEntity = this.repository.create({
@@ -41,6 +42,11 @@ export class LikeService {
         },
       });
       const entity = await this.repository.save(newEntity);
+
+      // Actualizar el contador de likes en el post
+      post.likesCount += 1;
+      await this.postService.updateLikesCount(post.id, post.likesCount);
+
       return await this.findOne(entity.id);
     } catch (error) {
       throw new UnprocessableEntityException(error?.message);
@@ -74,6 +80,19 @@ export class LikeService {
       };
     } catch {
       throw new BadGatewayException(MESSAGE.NO_SE_PUEDE_ELIMINAR);
+    }
+  }
+
+  private async verifyByUser(id_post: number, id_user: number): Promise<void> {
+    const entity = await this.repository.findOne({
+      where: {
+        user: { id: id_user },
+        post: { id: id_post },
+      },
+    });
+
+    if (entity) {
+      throw new BadGatewayException('No puedes volver a dar Like');
     }
   }
 }

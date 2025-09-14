@@ -54,7 +54,7 @@ export class User {
 
   @Field(() => [Post])
   @OneToMany(() => Post, (post) => post.user, {
-    eager: true,
+    lazy: true,
   })
   public post: Post[];
 

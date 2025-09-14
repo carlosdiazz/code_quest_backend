@@ -31,10 +31,10 @@ export class CreatePostInput {
   @IsBoolean()
   public featured: boolean;
 
-  @Field(() => Int)
-  @IsNumber()
-  @Min(0)
-  public likesCount: number;
+  //@Field(() => Int)
+  //@IsNumber()
+  //@Min(0)
+  //public likesCount: number;
 
   @Field(() => [String])
   @IsArray()
