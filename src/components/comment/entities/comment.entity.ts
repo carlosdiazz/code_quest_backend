@@ -28,14 +28,14 @@ export class Comment {
     lazy: true,
   })
   @JoinColumn({ name: 'id_post' })
-  post: Post;
+  public post: Post;
 
   @Field(() => User)
   @ManyToOne(() => User, (user) => user.comment, {
     lazy: true,
   })
   @JoinColumn({ name: 'id_user' })
-  user: User;
+  public user: User;
 
   @Field(() => Date)
   @CreateDateColumn({

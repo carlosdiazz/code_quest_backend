@@ -1,46 +1,79 @@
-import { BadGatewayException, Injectable } from '@nestjs/common';
+import {
+  BadGatewayException,
+  Injectable,
+  NotFoundException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { CreateLikeInput } from './dto/create-like.input';
 
 import { Like } from './entities/like.entity';
-import { PaginationArgs, ResponsePropio } from 'src/common';
+import { MESSAGE, PaginationArgs, ResponsePropio } from '../../common';
+import { User } from '../user';
+import { PostService } from '../post';
 
 @Injectable()
 export class LikeService {
   constructor(
     @InjectRepository(Like)
     private readonly repository: Repository<Like>,
+
+    private readonly postService: PostService,
   ) {}
 
-  public async create(createLikeInput: CreateLikeInput): Promise<Like> {
-    throw new BadGatewayException('TODO');
-    //const { id_post } = createLikeInput;
-    //
-    //try {
-    //  const newEntity = this.repository.create({
-    //    slug,
-    //    ...rest,
-    //  });
-    //  const entity = await this.repository.save(newEntity);
-    //  return await this.findOne(entity.id);
-    //} catch (error) {
-    //  throw new UnprocessableEntityException(error?.message);
-    //}
+  public async create(
+    createLikeInput: CreateLikeInput,
+    user: User,
+  ): Promise<Like> {
+    const { id_post } = createLikeInput;
+
+    await this.postService.findOne(id_post);
+
+    try {
+      const newEntity = this.repository.create({
+        post: {
+          id: id_post,
+        },
+        user: {
+          id: user.id,
+        },
+      });
+      const entity = await this.repository.save(newEntity);
+      return await this.findOne(entity.id);
+    } catch (error) {
+      throw new UnprocessableEntityException(error?.message);
+    }
   }
 
   public async findAll(paginationArgs: PaginationArgs): Promise<Like[]> {
-    throw new BadGatewayException('TODO'); //return `This action returns all like`;
+    const { limit, offset } = paginationArgs;
+
+    return await this.repository.find({
+      take: limit,
+      skip: offset,
+    });
   }
 
   public async findOne(id: number): Promise<Like> {
-    throw new BadGatewayException('TODO');
-    //return `This action returns a #${id} like`;
+    const entity = await this.repository.findOneBy({ id });
+    if (!entity) {
+      throw new NotFoundException(`${MESSAGE.NO_EXISTE} => Like`);
+    }
+    return entity;
   }
 
   public async remove(id: number): Promise<ResponsePropio> {
-    throw new BadGatewayException('TODO');
-    //return `This action removes a #${id} like`;
+    const entity = await this.findOne(id);
+    try {
+      await this.repository.remove(entity);
+      return {
+        message: MESSAGE.SE_ELIMINO_CORRECTAMENTE,
+        statusCode: 200,
+      };
+    } catch {
+      throw new BadGatewayException(MESSAGE.NO_SE_PUEDE_ELIMINAR);
+    }
   }
 }

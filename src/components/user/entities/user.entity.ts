@@ -10,6 +10,7 @@ import {
 
 import { Post } from './../../post/entities/post.entity';
 import { Comment } from './../../comment/entities/comment.entity';
+import { Like } from './../../like/entities/like.entity';
 
 export enum Role {
   ADMIN = 'admin',
@@ -55,13 +56,19 @@ export class User {
   @OneToMany(() => Post, (post) => post.user, {
     eager: true,
   })
-  post: Post[];
+  public post: Post[];
 
   @Field(() => [Comment])
   @OneToMany(() => Comment, (comment) => comment.user, {
     eager: true,
   })
-  comment: Comment[];
+  public comment: Comment[];
+
+  @Field(() => [Like])
+  @OneToMany(() => Like, (like) => like.user, {
+    eager: true,
+  })
+  public like: Like[];
 
   @Field(() => Date)
   @CreateDateColumn({

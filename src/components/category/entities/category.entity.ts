@@ -37,7 +37,7 @@ export class Category {
   @OneToMany(() => Post, (post) => post.category, {
     eager: true,
   })
-  post: Post[];
+  public post: Post[];
 
   @Field(() => Date)
   @CreateDateColumn({

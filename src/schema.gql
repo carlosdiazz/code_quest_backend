@@ -33,6 +33,14 @@ type Comment {
   updateAt: DateTime!
 }
 
+type Like {
+  id: Int!
+  user: User!
+  post: Post!
+  createAt: DateTime!
+  updateAt: DateTime!
+}
+
 type Post {
   id: Int!
   title: String!
@@ -46,6 +54,7 @@ type Post {
   tags: [String!]!
   category: Category!
   user: User!
+  like: [Like!]!
   comment: [Comment!]!
   createAt: DateTime!
   updateAt: DateTime!
@@ -61,12 +70,7 @@ type User {
   email: String!
   post: [Post!]!
   comment: [Comment!]!
-  createAt: DateTime!
-  updateAt: DateTime!
-}
-
-type Like {
-  id: Int!
+  like: [Like!]!
   createAt: DateTime!
   updateAt: DateTime!
 }

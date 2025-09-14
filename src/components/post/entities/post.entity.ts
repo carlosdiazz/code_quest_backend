@@ -14,6 +14,7 @@ import {
 import { Category } from './../../category/entities/category.entity';
 import { Comment } from './../../comment/entities/comment.entity';
 import { User } from './../../user/entities/user.entity';
+import { Like } from './../../like/entities/like.entity';
 @Entity({ name: 'post' })
 @ObjectType()
 export class Post {
@@ -62,20 +63,26 @@ export class Post {
     lazy: true,
   })
   @JoinColumn({ name: 'id_category' })
-  category: Category;
+  public category: Category;
 
   @Field(() => User)
   @ManyToOne(() => User, (user) => user.post, {
     lazy: true,
   })
   @JoinColumn({ name: 'id_user' })
-  user: User;
+  public user: User;
+
+  @Field(() => [Like])
+  @OneToMany(() => Like, (like) => like.post, {
+    eager: true,
+  })
+  public like: Like[];
 
   @Field(() => [Comment])
   @OneToMany(() => Comment, (comment) => comment.post, {
     eager: true,
   })
-  comment: Comment[];
+  public comment: Comment[];
 
   @Field(() => Date)
   @CreateDateColumn({

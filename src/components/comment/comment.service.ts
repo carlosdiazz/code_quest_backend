@@ -59,7 +59,7 @@ export class CommentService {
   public async findOne(id: number): Promise<Comment> {
     const entity = await this.repository.findOneBy({ id });
     if (!entity) {
-      throw new NotFoundException(`${MESSAGE.NO_EXISTE} => Category`);
+      throw new NotFoundException(`${MESSAGE.NO_EXISTE} => Comment`);
     }
     return entity;
   }
