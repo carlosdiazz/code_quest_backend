@@ -27,6 +27,8 @@ scalar DateTime
 type Comment {
   id: Int!
   content: String!
+  parent: Comment
+  replies: [Comment!]
   post: Post!
   user: User!
   createAt: DateTime!
@@ -150,10 +152,10 @@ input CreateLikeInput {
 input CreateCommentInput {
   content: String!
   id_post: Int!
+  parent_id: Int
 }
 
 input UpdateCommentInput {
   content: String
-  id_post: Int
   id: Int!
 }

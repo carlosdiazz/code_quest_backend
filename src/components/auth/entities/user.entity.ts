@@ -60,7 +60,7 @@ export class User {
 
   @Field(() => [Comment])
   @OneToMany(() => Comment, (comment) => comment.user, {
-    eager: true,
+    lazy: true,
   })
   public comment: Comment[];
 

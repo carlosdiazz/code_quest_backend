@@ -39,10 +39,12 @@ export class CommentResolver {
   @Mutation(() => Comment)
   public async updateComment(
     @Args('updateCommentInput') updateCommentInput: UpdateCommentInput,
+    @CurrentUser() user: User,
   ): Promise<Comment> {
     return await this.commentService.update(
       updateCommentInput.id,
       updateCommentInput,
+      user,
     );
   }
 

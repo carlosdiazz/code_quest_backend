@@ -75,6 +75,7 @@ export class Post {
   @Field(() => [Like])
   @OneToMany(() => Like, (like) => like.post, {
     eager: true,
+    onDelete: 'CASCADE',
   })
   public like: Like[];
 

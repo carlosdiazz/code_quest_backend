@@ -42,6 +42,9 @@ export class CategoryService {
     const { limit, offset } = pagination;
 
     return await this.repository.find({
+      order: {
+        createAt: 'DESC',
+      },
       take: limit,
       skip: offset,
     });

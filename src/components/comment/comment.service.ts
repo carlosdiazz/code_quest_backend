@@ -26,7 +26,7 @@ export class CommentService {
     createCommentInput: CreateCommentInput,
     user: User,
   ): Promise<Comment> {
-    const { id_post, ...rest } = createCommentInput;
+    const { id_post, parent_id, ...rest } = createCommentInput;
 
     await this.postService.findOne(id_post);
 
@@ -40,6 +40,19 @@ export class CommentService {
         },
         ...rest,
       });
+
+      if (parent_id) {
+        const parentComment = await this.repository.findOneBy({
+          id: parent_id,
+        });
+        if (!parentComment) {
+          throw new NotFoundException(
+            `Comentario padre con id ${parent_id} no encontrado`,
+          );
+        }
+        newEntity.parent = parentComment;
+      }
+
       const entity = await this.repository.save(newEntity);
       return await this.findOne(entity.id);
     } catch (error) {
@@ -50,10 +63,18 @@ export class CommentService {
   public async findAll(paginationArgs: PaginationArgs): Promise<Comment[]> {
     const { limit, offset } = paginationArgs;
 
-    return await this.repository.find({
+    const allComments = await this.repository.find({
+      order: {
+        createAt: 'DESC',
+      },
       take: limit,
       skip: offset,
+      relations: { replies: true, parent: true },
     });
+
+    const rootComments = allComments.filter((comment) => !comment.parent);
+
+    return rootComments;
   }
 
   public async findOne(id: number): Promise<Comment> {
@@ -67,8 +88,15 @@ export class CommentService {
   public async update(
     id: number,
     updateCommentInput: UpdateCommentInput,
+    user: User,
   ): Promise<Comment> {
     const entity = await this.findOne(id);
+
+    if (entity.user.id != user.id) {
+      throw new UnprocessableEntityException(
+        `No puedes editar un post que no es suyo`,
+      );
+    }
 
     const { content } = updateCommentInput;
 
