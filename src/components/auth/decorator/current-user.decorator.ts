@@ -1,9 +1,13 @@
-import { createParamDecorator, ExecutionContext } from '@nestjs/common';
+import {
+  createParamDecorator,
+  ExecutionContext,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
-import { User } from '../entities/user.entity';
+import { Role, User } from '../entities/user.entity';
 
 export const CurrentUser = createParamDecorator(
-  (_data: unknown, context: ExecutionContext): User => {
+  (role: string, context: ExecutionContext): User => {
     const ctx = GqlExecutionContext.create(context);
     const req = ctx.getContext().req;
 
@@ -11,6 +15,11 @@ export const CurrentUser = createParamDecorator(
 
     if (!user) {
       throw new Error('No se encontró el usuario en la solicitud');
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-enum-comparison
+    if (role === Role.ADMIN && user.role != Role.ADMIN) {
+      throw new UnauthorizedException('No tiene el rol para esta accion');
     }
 
     return user;

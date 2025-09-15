@@ -110,7 +110,8 @@ export class CommentService {
     }
   }
 
-  public async remove(id: number): Promise<ResponsePropio> {
+  public async remove(id: number, user: User): Promise<ResponsePropio> {
+    //TODO validar que solo el usuario Admin peuda elimianr, otro suuario solo puede elimianr lo de el
     const entity = await this.findOne(id);
     try {
       await this.repository.remove(entity);

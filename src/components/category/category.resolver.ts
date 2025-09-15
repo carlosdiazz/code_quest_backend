@@ -7,6 +7,7 @@ import { CreateCategoryInput } from './dto/create-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
 import { PaginationArgs, ResponsePropio } from 'src/common';
 import { AuthGuard } from '../auth/guard/auth.guard';
+import { CurrentUser, Role, User } from '../auth';
 
 @Resolver(() => Category)
 @UseGuards(AuthGuard)
@@ -16,6 +17,8 @@ export class CategoryResolver {
   @Mutation(() => Category)
   public async createCategory(
     @Args('createCategoryInput') createCategoryInput: CreateCategoryInput,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    @CurrentUser(Role.ADMIN) _user: User,
   ): Promise<Category> {
     return await this.categoryService.create(createCategoryInput);
   }
@@ -37,6 +40,8 @@ export class CategoryResolver {
   @Mutation(() => Category)
   public async updateCategory(
     @Args('updateCategoryInput') updateCategoryInput: UpdateCategoryInput,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    @CurrentUser(Role.ADMIN) _user: User,
   ): Promise<Category> {
     return await this.categoryService.update(
       updateCategoryInput.id,

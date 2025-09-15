@@ -9,4 +9,5 @@ export * from './user.service';
 export * from './user.module';
 
 export * from './decorator/current-user.decorator';
+export * from './decorator/is_public.decorator';
 export * from './guard/auth.guard';

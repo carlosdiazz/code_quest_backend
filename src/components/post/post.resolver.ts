@@ -7,7 +7,7 @@ import { CreatePostInput } from './dto/create-post.input';
 import { UpdatePostInput } from './dto/update-post.input';
 import { PaginationArgs, ResponsePropio } from 'src/common';
 
-import { AuthGuard, CurrentUser, User } from '../auth';
+import { AuthGuard, CurrentUser, Public, Role, User } from '../auth';
 
 @Resolver(() => Post)
 @UseGuards(AuthGuard)
@@ -17,11 +17,12 @@ export class PostResolver {
   @Mutation(() => Post)
   public async createPost(
     @Args('createPostInput') createPostInput: CreatePostInput,
-    @CurrentUser() user: User,
+    @CurrentUser(Role.ADMIN) user: User,
   ): Promise<Post> {
     return await this.postService.create(createPostInput, user);
   }
 
+  @Public()
   @Query(() => [Post], { name: 'allPost' })
   public async findAll(
     @Args() paginationArgs: PaginationArgs,
@@ -36,6 +37,7 @@ export class PostResolver {
     return await this.postService.findOne(id);
   }
 
+  @Public()
   @Query(() => Post, { name: 'postBySlug' })
   public async findOneBySlug(
     @Args('slug', { type: () => String }) slug: string,
@@ -46,7 +48,7 @@ export class PostResolver {
   @Mutation(() => Post)
   public async updatePost(
     @Args('updatePostInput') updatePostInput: UpdatePostInput,
-    @CurrentUser() user: User,
+    @CurrentUser(Role.ADMIN) user: User,
   ): Promise<Post> {
     return await this.postService.update(
       updatePostInput.id,
@@ -58,6 +60,8 @@ export class PostResolver {
   @Mutation(() => ResponsePropio)
   public async removePost(
     @Args('id', { type: () => Int }, ParseIntPipe) id: number,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    @CurrentUser(Role.ADMIN) _user: User,
   ): Promise<ResponsePropio> {
     return await this.postService.remove(id);
   }

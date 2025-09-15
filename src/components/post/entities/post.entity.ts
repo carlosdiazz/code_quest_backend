@@ -82,6 +82,7 @@ export class Post {
   @Field(() => [Comment])
   @OneToMany(() => Comment, (comment) => comment.post, {
     eager: true,
+    onDelete: 'CASCADE',
   })
   public comment: Comment[];
 

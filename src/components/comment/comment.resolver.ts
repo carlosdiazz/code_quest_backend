@@ -51,7 +51,8 @@ export class CommentResolver {
   @Mutation(() => ResponsePropio)
   public async removeComment(
     @Args('id', { type: () => Int }, ParseIntPipe) id: number,
+    @CurrentUser() user: User,
   ): Promise<ResponsePropio> {
-    return await this.commentService.remove(id);
+    return await this.commentService.remove(id, user);
   }
 }
