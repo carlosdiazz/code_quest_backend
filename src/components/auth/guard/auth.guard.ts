@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
 
-import { admin } from 'src/firebase/fireabse-admin';
+import { admin } from 'src/config/firebase/fireabse-admin';
 import { UserService } from '../user.service';
 
 @Injectable()
@@ -30,9 +30,7 @@ export class AuthGuard implements CanActivate {
 
     try {
       const decodedToken = await admin.auth().verifyIdToken(idToken);
-
       req.user = decodedToken;
-      console.log(decodedToken);
 
       const dbUser =
         await this.userService.findOrCreateFromFirebase(decodedToken);
