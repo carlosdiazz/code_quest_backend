@@ -117,13 +117,15 @@ export class PostService {
 
   public async remove(id: number): Promise<ResponsePropio> {
     const entity = await this.findOne(id);
+    console.log(entity);
     try {
       await this.repository.remove(entity);
       return {
         message: MESSAGE.SE_ELIMINO_CORRECTAMENTE,
         statusCode: 200,
       };
-    } catch {
+    } catch (e) {
+      console.log(e);
       throw new BadGatewayException(MESSAGE.NO_SE_PUEDE_ELIMINAR);
     }
   }

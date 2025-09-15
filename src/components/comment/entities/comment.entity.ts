@@ -40,6 +40,7 @@ export class Comment {
   @Field(() => Post)
   @ManyToOne(() => Post, (post) => post.comment, {
     lazy: true,
+    onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'id_post' })
   public post: Post;

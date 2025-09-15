@@ -28,6 +28,7 @@ export class Like {
   @Field(() => Post)
   @ManyToOne(() => Post, (post) => post.like, {
     lazy: true,
+    onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'id_post' })
   public post: Post;
