@@ -91,7 +91,7 @@ Se incluye un Dockerfile completo para crear la imagen del backend.
 
 ```bash
 docker build -t code-quest-backend .
-docker run -d -p 3000:3000 --env-file .env code-quest-backend
+docker run -d -p 4000:3000 --env-file .env code-quest-backend
 ```
 
 ### Opción 2: Sin Docker
