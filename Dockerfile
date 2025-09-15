@@ -35,8 +35,6 @@ COPY --from=build /usr/src/app/node_modules ./node_modules
 #Copiar la carperta de DIST
 COPY --from=build /usr/src/app/dist ./dist
 
-COPY --from=build /usr/src/app/config ./config
-
 ENV NODE_ENV=production
 
 EXPOSE 3000
