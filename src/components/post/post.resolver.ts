@@ -8,6 +8,7 @@ import { UpdatePostInput } from './dto/update-post.input';
 import { PaginationArgs, ResponsePropio } from 'src/common';
 
 import { AuthGuard, CurrentUser, Public, Role, User } from '../auth';
+import { ResponsePostDTO } from './dto/response-post.dto';
 
 @Resolver(() => Post)
 @UseGuards(AuthGuard)
@@ -23,10 +24,10 @@ export class PostResolver {
   }
 
   @Public()
-  @Query(() => [Post], { name: 'allPost' })
+  @Query(() => ResponsePostDTO, { name: 'allPost' })
   public async findAll(
     @Args() paginationArgs: PaginationArgs,
-  ): Promise<Post[]> {
+  ): Promise<ResponsePostDTO> {
     return await this.postService.findAll(paginationArgs);
   }
 

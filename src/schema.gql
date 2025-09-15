@@ -77,12 +77,22 @@ type User {
   updateAt: DateTime!
 }
 
+type ResponseAllUserDTO {
+  items: [User!]!
+  total: Int!
+}
+
+type ResponsePostDTO {
+  items: [Post!]!
+  total: Int!
+}
+
 type Query {
-  allUser(offset: Int = 0, limit: Int = 10, active: Boolean = true): [User!]!
+  allUser(offset: Int = 0, limit: Int = 10, active: Boolean = true): ResponseAllUserDTO!
   user(id: Int!): User!
   allCategory(offset: Int = 0, limit: Int = 10, active: Boolean = true): [Category!]!
   category(id: Int!): Category!
-  allPost(offset: Int = 0, limit: Int = 10, active: Boolean = true): [Post!]!
+  allPost(offset: Int = 0, limit: Int = 10, active: Boolean = true): ResponsePostDTO!
   post(id: Int!): Post!
   postBySlug(slug: String!): Post!
   allLike(offset: Int = 0, limit: Int = 10, active: Boolean = true): [Like!]!
@@ -92,6 +102,7 @@ type Query {
 }
 
 type Mutation {
+  updateUser(updateUserInput: UpdateUserInput!): User!
   createCategory(createCategoryInput: CreateCategoryInput!): Category!
   updateCategory(updateCategoryInput: UpdateCategoryInput!): Category!
   removeCategory(id: Int!): ResponsePropio!
@@ -103,6 +114,16 @@ type Mutation {
   createComment(createCommentInput: CreateCommentInput!): Comment!
   updateComment(updateCommentInput: UpdateCommentInput!): Comment!
   removeComment(id: Int!): ResponsePropio!
+}
+
+input UpdateUserInput {
+  provider: String
+  providerId: String
+  role: String
+  avatar: String
+  name: String
+  email: String
+  id: Int!
 }
 
 input CreateCategoryInput {

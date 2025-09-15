@@ -14,6 +14,7 @@ import { MESSAGE, PaginationArgs, ResponsePropio } from 'src/common';
 import { Post } from './entities/post.entity';
 import { CategoryService } from '../category';
 import { User } from '../auth';
+import { ResponsePostDTO } from './dto/response-post.dto';
 
 @Injectable()
 export class PostService {
@@ -49,16 +50,32 @@ export class PostService {
     }
   }
 
-  public async findAll(pagination: PaginationArgs): Promise<Post[]> {
+  public async findAll(pagination: PaginationArgs): Promise<ResponsePostDTO> {
     const { limit, offset } = pagination;
 
-    return await this.repository.find({
+    const total = await this.repository.count();
+
+    const items = await this.repository.find({
       order: {
         createAt: 'DESC',
+      },
+      relations: {
+        comment: { replies: true, parent: true },
       },
       take: limit,
       skip: offset,
     });
+
+    for (const post of items) {
+      if (post.comment) {
+        post.comment = post.comment.filter((c) => !c.parent);
+      }
+    }
+
+    return {
+      items,
+      total,
+    };
   }
 
   public async findOne(id: number): Promise<Post> {
@@ -73,10 +90,20 @@ export class PostService {
   }
 
   public async findBySlug(slug: string): Promise<Post> {
-    const entity = await this.repository.findOneBy({ slug });
+    const entity = await this.repository.findOne({
+      where: { slug },
+      relations: {
+        comment: { replies: true, parent: true },
+      },
+    });
     if (!entity) {
       throw new NotFoundException(`${MESSAGE.NO_EXISTE} => Post`);
     }
+
+    if (entity.comment) {
+      entity.comment = entity.comment.filter((c) => !c.parent);
+    }
+
     return entity;
   }
 

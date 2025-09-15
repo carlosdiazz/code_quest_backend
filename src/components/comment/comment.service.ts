@@ -12,7 +12,7 @@ import { UpdateCommentInput } from './dto/update-comment.input';
 import { MESSAGE, PaginationArgs, ResponsePropio } from 'src/common';
 import { Comment } from './entities/comment.entity';
 import { PostService } from '../post';
-import { User } from '../auth';
+import { Role, User } from '../auth';
 
 @Injectable()
 export class CommentService {
@@ -111,8 +111,16 @@ export class CommentService {
   }
 
   public async remove(id: number, user: User): Promise<ResponsePropio> {
-    //TODO validar que solo el usuario Admin peuda elimianr, otro suuario solo puede elimianr lo de el
     const entity = await this.findOne(id);
+
+    if (user.role !== Role.ADMIN) {
+      if (entity.user.id != user.id) {
+        throw new UnprocessableEntityException(
+          `No puedes eliminar un Comentario Ajeno`,
+        );
+      }
+    }
+
     try {
       await this.repository.remove(entity);
       return {

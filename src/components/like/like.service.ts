@@ -19,7 +19,6 @@ export class LikeService {
   constructor(
     @InjectRepository(Like)
     private readonly repository: Repository<Like>,
-
     private readonly postService: PostService,
   ) {}
 
