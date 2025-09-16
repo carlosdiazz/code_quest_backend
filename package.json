@@ -1,9 +1,9 @@
 {
   "name": "code_quest_backend",
-  "version": "0.0.1",
-  "description": "",
-  "author": "",
-  "private": true,
+  "version": "0.1.2",
+  "description": "DevCaribe",
+  "author": "DevCaribe",
+  "private": false,
   "license": "UNLICENSED",
   "scripts": {
     "build": "nest build",
