@@ -1,13 +1,12 @@
 import { Resolver, Query, Args } from '@nestjs/graphql';
+import { UseGuards } from '@nestjs/common';
 
 import { PostService } from './post.service';
 import { Post } from './entities/post.entity';
 
-import { PaginationArgs } from 'src/common';
-
 import { AuthGuardPublic, CurrentUserOptional, User } from '../auth';
 import { ResponseOnePostDTO, ResponsePostDTO } from './dto/response-post.dto';
-import { UseGuards } from '@nestjs/common';
+import { AllPostArgs } from './dto/all-post.args';
 
 @Resolver(() => Post)
 @UseGuards(AuthGuardPublic)
@@ -16,7 +15,7 @@ export class PostPublicResolver {
 
   @Query(() => ResponsePostDTO, { name: 'allPost' })
   public async findAll(
-    @Args() paginationArgs: PaginationArgs,
+    @Args() paginationArgs: AllPostArgs,
   ): Promise<ResponsePostDTO> {
     return await this.postService.findAll(paginationArgs);
   }

@@ -1,5 +1,13 @@
 import { InputType, Int, Field } from '@nestjs/graphql';
-import { IsArray, IsBoolean, IsNumber, IsString, Min } from 'class-validator';
+import {
+  IsArray,
+  IsBoolean,
+  IsNumber,
+  IsString,
+  IsUrl,
+  Matches,
+  Min,
+} from 'class-validator';
 
 @InputType()
 export class CreatePostInput {
@@ -20,7 +28,10 @@ export class CreatePostInput {
   public excerpt: string;
 
   @Field(() => String)
-  @IsString() //TODO valdiar URL
+  @IsUrl()
+  @Matches(/\.(png|jpg|gif)$/, {
+    message: 'La URL debe terminar en .png, .jpg, .gif',
+  })
   public coverImage: string;
 
   @Field(() => Boolean)
@@ -30,11 +41,6 @@ export class CreatePostInput {
   @Field(() => Boolean)
   @IsBoolean()
   public featured: boolean;
-
-  //@Field(() => Int)
-  //@IsNumber()
-  //@Min(0)
-  //public likesCount: number;
 
   @Field(() => [String])
   @IsArray()

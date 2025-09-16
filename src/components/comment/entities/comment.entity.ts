@@ -49,6 +49,13 @@ export class Comment {
   })
   public likesCount: number;
 
+  @Field(() => Int)
+  @VirtualColumn({
+    query: (alias) =>
+      `(SELECT COUNT(*) FROM "sub_comment" l WHERE l.id_comment = ${alias}.id)`,
+  })
+  public commentCount: number;
+
   @Field(() => [LikeComment])
   @OneToMany(() => LikeComment, (likeComment) => likeComment.comment, {
     lazy: true,

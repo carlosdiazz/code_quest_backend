@@ -28,7 +28,7 @@ export class CommentService {
   ): Promise<Comment> {
     const { id_post, ...rest } = createCommentInput;
 
-    await this.postService.findOne(id_post);
+    await this.postService.findOneById(id_post);
 
     try {
       const newEntity = this.repository.create({

@@ -58,6 +58,13 @@ export class Post {
   })
   public likesCount: number;
 
+  @Field(() => Int)
+  @VirtualColumn({
+    query: (alias) =>
+      `(SELECT COUNT(*) FROM "comment" l WHERE l.id_post = ${alias}.id)`,
+  })
+  public commentCount: number;
+
   @Field(() => [String])
   @Column({ type: 'varchar', array: true, default: [] })
   public tags: string[];

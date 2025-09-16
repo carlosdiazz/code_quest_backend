@@ -57,13 +57,14 @@ type Comment {
   post: Post!
   user: User!
   likesCount: Int!
+  commentCount: Int!
   like_comment: [LikeComment!]!
   sub_comment: [SubComment!]!
   createAt: DateTime!
   updateAt: DateTime!
 }
 
-type Like {
+type LikePost {
   id: Int!
   user: User!
   post: Post!
@@ -81,10 +82,11 @@ type Post {
   published: Boolean!
   featured: Boolean!
   likesCount: Int!
+  commentCount: Int!
   tags: [String!]!
   category: Category!
   user: User!
-  like: [Like!]!
+  like_post: [LikePost!]!
   comment: [Comment!]!
   createAt: DateTime!
   updateAt: DateTime!
@@ -101,7 +103,7 @@ type User {
   post: [Post!]!
   comment: [Comment!]!
   sub_comment: [SubComment!]!
-  like: [Like!]!
+  like_post: [LikePost!]!
   like_comment: [LikeComment!]!
   like_sub_comment: [LikeSubComment!]!
   createAt: DateTime!
@@ -129,14 +131,16 @@ type Query {
   allCategory(offset: Int = 0, limit: Int = 10, active: Boolean = true): [Category!]!
   category(id: Int!): Category!
   post(id: Int!): Post!
-  allPost(offset: Int = 0, limit: Int = 10, active: Boolean = true): ResponsePostDTO!
+  allPost(offset: Int = 0, limit: Int = 10, active: Boolean = true, id_category: Int): ResponsePostDTO!
   postBySlug(slug: String!): ResponseOnePostDTO!
-  allLike(offset: Int = 0, limit: Int = 10, active: Boolean = true): [Like!]!
-  like(id: Int!): Like!
+  allLikePost(offset: Int = 0, limit: Int = 10, active: Boolean = true): [LikePost!]!
+  likePost(id: Int!): LikePost!
   allLikeComment(offset: Int = 0, limit: Int = 10, active: Boolean = true): [LikeComment!]!
   likeComment(id: Int!): LikeComment!
   allComment(offset: Int = 0, limit: Int = 10, active: Boolean = true): [Comment!]!
   comment(id: Int!): Comment!
+  allLikeSubComment(offset: Int = 0, limit: Int = 10, active: Boolean = true): [LikeSubComment!]!
+  likeSubComment(id: Int!): LikeSubComment!
   allSubComment(offset: Int = 0, limit: Int = 10, active: Boolean = true): [SubComment!]!
   subComment(id: Int!): SubComment!
 }
@@ -149,13 +153,15 @@ type Mutation {
   createPost(createPostInput: CreatePostInput!): Post!
   updatePost(updatePostInput: UpdatePostInput!): Post!
   removePost(id: Int!): ResponsePropio!
-  createLike(createLikeInput: CreateLikeInput!): Like!
-  removeLike(id: Int!): ResponsePropio!
+  createLikePost(createLikePostInput: CreateLikeInput!): LikePost!
+  removeLikePost(id: Int!): ResponsePropio!
   createLikeComment(createLikeCommentInput: CreateLikeCommentInput!): LikeComment!
   removeLikeComment(id: Int!): ResponsePropio!
   createComment(createCommentInput: CreateCommentInput!): Comment!
   updateComment(updateCommentInput: UpdateCommentInput!): Comment!
   removeComment(id: Int!): ResponsePropio!
+  createLikeSubComment(createLikeSubCommentInput: CreateLikeSubCommentInput!): LikeSubComment!
+  removeLikeSubComment(id: Int!): ResponsePropio!
   createSubComment(createSubCommentInput: CreateSubCommentInput!): SubComment!
   updateSubComment(updateSubCommentInput: UpdateSubCommentInput!): SubComment!
   removeSubComment(id: Int!): SubComment!
@@ -227,6 +233,10 @@ input CreateCommentInput {
 input UpdateCommentInput {
   content: String
   id: Int!
+}
+
+input CreateLikeSubCommentInput {
+  id_sub_comment: Int!
 }
 
 input CreateSubCommentInput {

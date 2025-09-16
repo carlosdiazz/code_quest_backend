@@ -37,12 +37,10 @@ export class AuthGuard implements CanActivate {
     }
 
     const idToken = authHeader.split('Bearer ')[1];
-    //console.log(`TOKEN => ${idToken}`);
 
     try {
       const decodedToken = await admin.auth().verifyIdToken(idToken);
       req.user = decodedToken;
-      console.log(req.user);
 
       const dbUser =
         await this.authService.findOrCreateFromFirebase(decodedToken);

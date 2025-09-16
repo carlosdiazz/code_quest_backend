@@ -10,11 +10,12 @@ import { Repository } from 'typeorm';
 
 import { CreatePostInput } from './dto/create-post.input';
 import { UpdatePostInput } from './dto/update-post.input';
-import { MESSAGE, PaginationArgs, ResponsePropio } from 'src/common';
+import { MESSAGE, ResponsePropio } from 'src/common';
 import { Post } from './entities/post.entity';
 import { CategoryService } from '../category';
 import { User } from '../auth';
 import { ResponseOnePostDTO, ResponsePostDTO } from './dto/response-post.dto';
+import { AllPostArgs } from './dto/all-post.args';
 
 @Injectable()
 export class PostService {
@@ -29,7 +30,7 @@ export class PostService {
     user: User,
   ): Promise<Post> {
     const { slug, id_category, ...rest } = createPostInput;
-    await this.findOneBySlug(slug);
+    await this.verifySlug(slug);
     await this.categoryService.findOne(id_category);
 
     try {
@@ -44,24 +45,28 @@ export class PostService {
         ...rest,
       });
       const entity = await this.repository.save(newEntity);
-      return await this.findOne(entity.id);
+      return await this.findOneById(entity.id);
     } catch (error) {
       throw new UnprocessableEntityException(error?.message);
     }
   }
 
-  public async findAll(pagination: PaginationArgs): Promise<ResponsePostDTO> {
-    const { limit, offset } = pagination;
+  public async findAll(pagination: AllPostArgs): Promise<ResponsePostDTO> {
+    const { limit, offset, id_category } = pagination;
 
-    const total = await this.repository.count();
-
-    const items = await this.repository.find({
-      order: {
-        createAt: 'DESC',
-      },
-      take: limit,
-      skip: offset,
-    });
+    const [total, items] = await Promise.all([
+      this.repository.count({
+        where: { category: { id: id_category } },
+      }),
+      this.repository.find({
+        where: {
+          category: { id: id_category },
+        },
+        order: { createAt: 'DESC' },
+        take: limit,
+        skip: offset,
+      }),
+    ]);
 
     return {
       items,
@@ -69,7 +74,7 @@ export class PostService {
     };
   }
 
-  public async findOne(id: number): Promise<Post> {
+  public async findOneById(id: number): Promise<Post> {
     const entity = await this.repository.findOne({
       where: { id },
     });
@@ -84,13 +89,7 @@ export class PostService {
     slug: string,
     user: User | undefined,
   ): Promise<ResponseOnePostDTO> {
-    const item = await this.repository.findOne({
-      where: { slug },
-    });
-
-    if (!item) {
-      throw new NotFoundException(`${MESSAGE.NO_EXISTE} => Post`);
-    }
+    const item = await this.findOneBySlug(slug);
 
     let is_like = false;
 
@@ -106,9 +105,7 @@ export class PostService {
         },
       });
 
-      if (itemByLike) {
-        is_like = true;
-      }
+      if (itemByLike) is_like = true;
     }
 
     return {
@@ -122,7 +119,7 @@ export class PostService {
     updatePostInput: UpdatePostInput,
     user: User,
   ): Promise<Post> {
-    const entity = await this.findOne(id);
+    const entity = await this.findOneById(id);
 
     if (entity.user.id != user.id) {
       throw new UnprocessableEntityException(
@@ -138,7 +135,7 @@ export class PostService {
     }
 
     if (slug) {
-      await this.findOneBySlug(slug, id);
+      await this.verifySlug(slug, id);
     }
 
     try {
@@ -153,21 +150,29 @@ export class PostService {
   }
 
   public async remove(id: number): Promise<ResponsePropio> {
-    const entity = await this.findOne(id);
-    console.log(entity);
+    const entity = await this.findOneById(id);
     try {
       await this.repository.remove(entity);
       return {
         message: MESSAGE.SE_ELIMINO_CORRECTAMENTE,
         statusCode: 200,
       };
-    } catch (e) {
-      console.log(e);
+    } catch {
       throw new BadGatewayException(MESSAGE.NO_SE_PUEDE_ELIMINAR);
     }
   }
 
-  private async findOneBySlug(slug: string, currentId?: number): Promise<void> {
+  private async findOneBySlug(slug: string): Promise<Post> {
+    const entity = await this.repository.findOne({
+      where: { slug },
+    });
+
+    if (!entity) throw new NotFoundException(`${MESSAGE.NO_EXISTE} => Post`);
+
+    return entity;
+  }
+
+  private async verifySlug(slug: string, currentId?: number): Promise<void> {
     const entity = await this.repository.findOne({ where: { slug } });
 
     if (entity && entity.id !== currentId) {

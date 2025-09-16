@@ -18,7 +18,7 @@ import {
   CommentModule,
   LikeCommentModule,
   LikePostModule,
-  LikeSubComment,
+  LikeSubCommentModule,
   PostModule,
   SubCommentModule,
 } from 'src/components';
@@ -51,7 +51,7 @@ const apolloPlugin = isProduction
     PostModule,
     LikePostModule,
     LikeCommentModule,
-    LikeSubComment,
+    LikeSubCommentModule,
     CommentModule,
     SubCommentModule,
   ],

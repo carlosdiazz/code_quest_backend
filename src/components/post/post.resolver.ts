@@ -26,7 +26,7 @@ export class PostResolver {
   public async findOne(
     @Args('id', { type: () => Int }, ParseIntPipe) id: number,
   ): Promise<Post> {
-    return await this.postService.findOne(id);
+    return await this.postService.findOneById(id);
   }
 
   @Mutation(() => Post)

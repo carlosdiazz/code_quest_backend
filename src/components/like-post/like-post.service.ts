@@ -28,7 +28,7 @@ export class LikePostService {
   ): Promise<LikePost> {
     const { id_post } = createLikeInput;
 
-    await this.postService.findOne(id_post);
+    await this.postService.findOneById(id_post);
     await this.verifyByUser(id_post, user.id);
 
     try {
