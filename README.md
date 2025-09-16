@@ -41,15 +41,7 @@ Esto levantará la base de datos definida en el `docker-compose.yml`.
 1. Crear un proyecto en Google Cloud.
 2. Habilitar Firebase y configurar la autenticación.
 3. Como metodos de autenticacion usamos el del Correo y el de Google
-4. Descargar el archivo de credenciales JSON.
-5. Colocar el archivo en:
 
-```
-src/config/firebase/firebase.json
-```
-
-> Este archivo debe estar en la carperta Firebase que se encuentra en:
->  `src/config/firebase/firebase.json`
 
 ## 3. Instalación de dependencias
 
@@ -91,7 +83,7 @@ Se incluye un Dockerfile completo para crear la imagen del backend.
 
 ```bash
 docker build -t code-quest-backend .
-docker run -d -p 4000:3000 --env-file .env code-quest-backend
+docker run -d -p 3000:3000 --env-file .env code-quest-backend
 ```
 
 ### Opción 2: Sin Docker
@@ -127,7 +119,7 @@ npm run start
 src/
  ├─ modules/       # Módulos del proyecto
  ├─ common/        # Componentes y utilidades comunes
- ├─ config/        # Configuraciones (incluye firebase.json)
+ ├─ config/        # Configuraciones
  ├─ main.ts        # Entrada principal de la aplicación
  └─ ...
 ```
