@@ -9,12 +9,12 @@ import { GqlExecutionContext } from '@nestjs/graphql';
 import { Reflector } from '@nestjs/core';
 
 import { admin } from 'src/config/firebase/fireabse-admin';
-import { UserService } from '../user.service';
+import { AuthService } from '../auth.service';
 
 @Injectable()
 export class AuthGuardPublic implements CanActivate {
   constructor(
-    private readonly userService: UserService,
+    private readonly authService: AuthService,
     private readonly reflector: Reflector,
   ) {}
 
@@ -34,7 +34,7 @@ export class AuthGuardPublic implements CanActivate {
       req.user = decodedToken;
 
       const dbUser =
-        await this.userService.findOrCreateFromFirebase(decodedToken);
+        await this.authService.findOrCreateFromFirebase(decodedToken);
 
       req.dbUser = dbUser;
 

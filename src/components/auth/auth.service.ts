@@ -1,6 +1,5 @@
 import {
   Injectable,
-  Logger,
   NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
@@ -15,8 +14,7 @@ import { UpdateUserInput } from './dto/update-user.input';
 import { ResponseAllUserDTO } from './dto/response-all-user.dto';
 
 @Injectable()
-export class UserService {
-  private logger = new Logger('UserService');
+export class AuthService {
   constructor(
     @InjectRepository(User) private readonly repository: Repository<User>,
   ) {}
@@ -53,7 +51,7 @@ export class UserService {
     user: User,
   ): Promise<User> {
     const entity = await this.findOne(id);
-
+    //todo soloa tualizar el mismo suer al emnso que sea admin
     try {
       this.repository.merge(entity, updateUserInput);
       return await this.repository.save(entity);

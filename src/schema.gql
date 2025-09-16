@@ -32,11 +32,21 @@ type LikeComment {
   updateAt: DateTime!
 }
 
+type LikeSubComment {
+  id: Int!
+  user: User!
+  sub_comment: SubComment!
+  createAt: DateTime!
+  updateAt: DateTime!
+}
+
 type SubComment {
   id: Int!
   content: String!
   comment: Comment!
   user: User!
+  like_sub_comment: [LikeSubComment!]!
+  likesCount: Int!
   createAt: DateTime!
   updateAt: DateTime!
 }
@@ -93,6 +103,7 @@ type User {
   sub_comment: [SubComment!]!
   like: [Like!]!
   like_comment: [LikeComment!]!
+  like_sub_comment: [LikeSubComment!]!
   createAt: DateTime!
   updateAt: DateTime!
 }

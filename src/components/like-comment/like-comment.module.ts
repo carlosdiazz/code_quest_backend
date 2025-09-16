@@ -5,10 +5,10 @@ import { LikeCommentService } from './like-comment.service';
 import { LikeCommentResolver } from './like-comment.resolver';
 import { LikeComment } from './entities/like-comment.entity';
 import { CommentModule } from '../comment';
-import { UserModule } from '../auth';
+import { AuthModule } from '../auth';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([LikeComment]), CommentModule, UserModule],
+  imports: [TypeOrmModule.forFeature([LikeComment]), CommentModule, AuthModule],
   providers: [LikeCommentResolver, LikeCommentService],
   exports: [LikeCommentService],
 })

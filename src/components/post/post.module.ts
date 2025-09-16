@@ -5,11 +5,11 @@ import { PostService } from './post.service';
 import { PostResolver } from './post.resolver';
 import { Post } from './entities/post.entity';
 import { CategoryModule } from '../category';
-import { UserModule } from '../auth';
+import { AuthModule } from '../auth';
 import { PostPublicResolver } from './post-public.resolver';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Post]), CategoryModule, UserModule],
+  imports: [TypeOrmModule.forFeature([Post]), CategoryModule, AuthModule],
   providers: [PostResolver, PostPublicResolver, PostService],
   exports: [PostService],
 })

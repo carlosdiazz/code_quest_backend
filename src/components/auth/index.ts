@@ -3,10 +3,10 @@ export * from './dto/update-user.input';
 
 export * from './entities/user.entity';
 
-export * from './user.resolver';
-export * from './user.service';
+export * from './auth.resolver';
+export * from './auth.service';
 
-export * from './user.module';
+export * from './auth.module';
 
 export * from './decorator/current-user.decorator';
 export * from './decorator/is_public.decorator';
