@@ -87,6 +87,7 @@ export class PostService {
     const item = await this.repository.findOne({
       where: { slug },
     });
+
     if (!item) {
       throw new NotFoundException(`${MESSAGE.NO_EXISTE} => Post`);
     }
@@ -94,9 +95,20 @@ export class PostService {
     let is_like = false;
 
     if (user) {
-      console.log(user);
-      console.log(item);
-      is_like = item.like.some((like) => like.user.id === user.id);
+      const itemByLike = await this.repository.findOne({
+        where: {
+          slug,
+          like: {
+            user: {
+              providerId: user?.providerId,
+            },
+          },
+        },
+      });
+
+      if (itemByLike) {
+        is_like = true;
+      }
     }
 
     return {

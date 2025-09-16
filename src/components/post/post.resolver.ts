@@ -5,17 +5,9 @@ import { PostService } from './post.service';
 import { Post } from './entities/post.entity';
 import { CreatePostInput } from './dto/create-post.input';
 import { UpdatePostInput } from './dto/update-post.input';
-import { PaginationArgs, ResponsePropio } from 'src/common';
+import { ResponsePropio } from 'src/common';
 
-import {
-  AuthGuard,
-  CurrentUser,
-  CurrentUserOptional,
-  Public,
-  Role,
-  User,
-} from '../auth';
-import { ResponseOnePostDTO, ResponsePostDTO } from './dto/response-post.dto';
+import { AuthGuard, CurrentUser, Role, User } from '../auth';
 
 @Resolver(() => Post)
 @UseGuards(AuthGuard)
@@ -30,28 +22,11 @@ export class PostResolver {
     return await this.postService.create(createPostInput, user);
   }
 
-  @Public()
-  @Query(() => ResponsePostDTO, { name: 'allPost' })
-  public async findAll(
-    @Args() paginationArgs: PaginationArgs,
-  ): Promise<ResponsePostDTO> {
-    return await this.postService.findAll(paginationArgs);
-  }
-
   @Query(() => Post, { name: 'post' })
   public async findOne(
     @Args('id', { type: () => Int }, ParseIntPipe) id: number,
   ): Promise<Post> {
     return await this.postService.findOne(id);
-  }
-
-  @Public()
-  @Query(() => ResponseOnePostDTO, { name: 'postBySlug' })
-  public async findOneBySlug(
-    @Args('slug', { type: () => String }) slug: string,
-    @CurrentUserOptional() user: User | undefined,
-  ): Promise<ResponseOnePostDTO> {
-    return await this.postService.findBySlug(slug, user);
   }
 
   @Mutation(() => Post)

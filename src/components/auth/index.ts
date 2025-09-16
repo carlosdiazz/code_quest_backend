@@ -10,4 +10,7 @@ export * from './user.module';
 
 export * from './decorator/current-user.decorator';
 export * from './decorator/is_public.decorator';
+export * from './decorator/current-user-optional.decorator';
+
+export * from './guard/auth-public.guard';
 export * from './guard/auth.guard';

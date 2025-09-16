@@ -6,10 +6,11 @@ import { PostResolver } from './post.resolver';
 import { Post } from './entities/post.entity';
 import { CategoryModule } from '../category';
 import { UserModule } from '../auth';
+import { PostPublicResolver } from './post-public.resolver';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Post]), CategoryModule, UserModule],
-  providers: [PostResolver, PostService],
+  providers: [PostResolver, PostPublicResolver, PostService],
   exports: [PostService],
 })
 export class PostModule {}

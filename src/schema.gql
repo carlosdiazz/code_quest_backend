@@ -117,8 +117,8 @@ type Query {
   user(id: Int!): User!
   allCategory(offset: Int = 0, limit: Int = 10, active: Boolean = true): [Category!]!
   category(id: Int!): Category!
-  allPost(offset: Int = 0, limit: Int = 10, active: Boolean = true): ResponsePostDTO!
   post(id: Int!): Post!
+  allPost(offset: Int = 0, limit: Int = 10, active: Boolean = true): ResponsePostDTO!
   postBySlug(slug: String!): ResponseOnePostDTO!
   allLike(offset: Int = 0, limit: Int = 10, active: Boolean = true): [Like!]!
   like(id: Int!): Like!
