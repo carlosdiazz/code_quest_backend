@@ -24,13 +24,31 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type LikeComment {
+  id: Int!
+  user: User!
+  comment: Comment!
+  createAt: DateTime!
+  updateAt: DateTime!
+}
+
+type SubComment {
+  id: Int!
+  content: String!
+  comment: Comment!
+  user: User!
+  createAt: DateTime!
+  updateAt: DateTime!
+}
+
 type Comment {
   id: Int!
   content: String!
-  parent: Comment
-  replies: [Comment!]
   post: Post!
   user: User!
+  likesCount: Int!
+  like_comment: [LikeComment!]!
+  sub_comment: [SubComment!]!
   createAt: DateTime!
   updateAt: DateTime!
 }
@@ -72,7 +90,9 @@ type User {
   email: String!
   post: [Post!]!
   comment: [Comment!]!
+  sub_comment: [SubComment!]!
   like: [Like!]!
+  like_comment: [LikeComment!]!
   createAt: DateTime!
   updateAt: DateTime!
 }
@@ -87,6 +107,11 @@ type ResponsePostDTO {
   total: Int!
 }
 
+type ResponseOnePostDTO {
+  item: Post!
+  is_like: Boolean!
+}
+
 type Query {
   allUser(offset: Int = 0, limit: Int = 10, active: Boolean = true): ResponseAllUserDTO!
   user(id: Int!): User!
@@ -94,11 +119,15 @@ type Query {
   category(id: Int!): Category!
   allPost(offset: Int = 0, limit: Int = 10, active: Boolean = true): ResponsePostDTO!
   post(id: Int!): Post!
-  postBySlug(slug: String!): Post!
+  postBySlug(slug: String!): ResponseOnePostDTO!
   allLike(offset: Int = 0, limit: Int = 10, active: Boolean = true): [Like!]!
   like(id: Int!): Like!
+  allLikeComment(offset: Int = 0, limit: Int = 10, active: Boolean = true): [LikeComment!]!
+  likeComment(id: Int!): LikeComment!
   allComment(offset: Int = 0, limit: Int = 10, active: Boolean = true): [Comment!]!
   comment(id: Int!): Comment!
+  allSubComment(offset: Int = 0, limit: Int = 10, active: Boolean = true): [SubComment!]!
+  subComment(id: Int!): SubComment!
 }
 
 type Mutation {
@@ -111,9 +140,14 @@ type Mutation {
   removePost(id: Int!): ResponsePropio!
   createLike(createLikeInput: CreateLikeInput!): Like!
   removeLike(id: Int!): ResponsePropio!
+  createLikeComment(createLikeCommentInput: CreateLikeCommentInput!): LikeComment!
+  removeLikeComment(id: Int!): ResponsePropio!
   createComment(createCommentInput: CreateCommentInput!): Comment!
   updateComment(updateCommentInput: UpdateCommentInput!): Comment!
   removeComment(id: Int!): ResponsePropio!
+  createSubComment(createSubCommentInput: CreateSubCommentInput!): SubComment!
+  updateSubComment(updateSubCommentInput: UpdateSubCommentInput!): SubComment!
+  removeSubComment(id: Int!): SubComment!
 }
 
 input UpdateUserInput {
@@ -170,13 +204,26 @@ input CreateLikeInput {
   id_post: Int!
 }
 
+input CreateLikeCommentInput {
+  id_comment: Int!
+}
+
 input CreateCommentInput {
   content: String!
   id_post: Int!
-  parent_id: Int
 }
 
 input UpdateCommentInput {
+  content: String
+  id: Int!
+}
+
+input CreateSubCommentInput {
+  content: String!
+  id_comment: Int!
+}
+
+input UpdateSubCommentInput {
   content: String
   id: Int!
 }

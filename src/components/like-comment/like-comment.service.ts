@@ -4,37 +4,36 @@ import {
   NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
-import { CreateLikeInput } from './dto/create-like.input';
-
-import { Like } from './entities/like.entity';
-import { MESSAGE, PaginationArgs, ResponsePropio } from '../../common';
+import { CreateLikeCommentInput } from './dto/create-like-comment.input';
+import { LikeComment } from './entities/like-comment.entity';
+import { CommentService } from '../comment';
+import { MESSAGE, PaginationArgs, ResponsePropio } from 'src/common';
 import { User } from '../auth';
-import { PostService } from '../post';
 
 @Injectable()
-export class LikeService {
+export class LikeCommentService {
   constructor(
-    @InjectRepository(Like)
-    private readonly repository: Repository<Like>,
-    private readonly postService: PostService,
+    @InjectRepository(LikeComment)
+    private readonly repository: Repository<LikeComment>,
+    private readonly commentService: CommentService,
   ) {}
 
   public async create(
-    createLikeInput: CreateLikeInput,
+    createLikeCommentInput: CreateLikeCommentInput,
     user: User,
-  ): Promise<Like> {
-    const { id_post } = createLikeInput;
+  ): Promise<LikeComment> {
+    const { id_comment } = createLikeCommentInput;
 
-    const post = await this.postService.findOne(id_post);
-    await this.verifyByUser(id_post, user.id);
+    const comment = await this.commentService.findOne(id_comment);
+    await this.verifyByUser(id_comment, user.id);
 
     try {
       const newEntity = this.repository.create({
-        post: {
-          id: id_post,
+        comment: {
+          id: id_comment,
         },
         user: {
           id: user.id,
@@ -43,8 +42,11 @@ export class LikeService {
       const entity = await this.repository.save(newEntity);
 
       // Actualizar el contador de likes en el post
-      post.likesCount += 1;
-      await this.postService.updateLikesCount(post.id, post.likesCount);
+      comment.likesCount += 1;
+      await this.commentService.updateLikesCount(
+        comment.id,
+        comment.likesCount,
+      );
 
       return await this.findOne(entity.id);
     } catch (error) {
@@ -52,7 +54,7 @@ export class LikeService {
     }
   }
 
-  public async findAll(paginationArgs: PaginationArgs): Promise<Like[]> {
+  public async findAll(paginationArgs: PaginationArgs): Promise<LikeComment[]> {
     const { limit, offset } = paginationArgs;
 
     return await this.repository.find({
@@ -61,7 +63,7 @@ export class LikeService {
     });
   }
 
-  public async findOne(id: number): Promise<Like> {
+  public async findOne(id: number): Promise<LikeComment> {
     const entity = await this.repository.findOneBy({ id });
     if (!entity) {
       throw new NotFoundException(`${MESSAGE.NO_EXISTE} => Like`);
@@ -82,11 +84,14 @@ export class LikeService {
     }
   }
 
-  private async verifyByUser(id_post: number, id_user: number): Promise<void> {
+  private async verifyByUser(
+    id_comment: number,
+    id_user: number,
+  ): Promise<void> {
     const entity = await this.repository.findOne({
       where: {
         user: { id: id_user },
-        post: { id: id_post },
+        comment: { id: id_comment },
       },
     });
 

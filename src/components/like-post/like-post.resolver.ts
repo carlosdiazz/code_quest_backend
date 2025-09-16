@@ -1,17 +1,17 @@
 import { Resolver, Query, Mutation, Args, Int } from '@nestjs/graphql';
 import { ParseIntPipe, UseGuards } from '@nestjs/common';
 
-import { LikeService } from './like.service';
 import { Like } from './entities/like.entity';
 import { CreateLikeInput } from './dto/create-like.input';
 
 import { PaginationArgs, ResponsePropio } from 'src/common';
 import { AuthGuard, CurrentUser, User } from '../auth';
+import { LikePostService } from './like-post.service';
 
 @Resolver(() => Like)
 @UseGuards(AuthGuard)
-export class LikeResolver {
-  constructor(private readonly likeService: LikeService) {}
+export class LikePostResolver {
+  constructor(private readonly likeService: LikePostService) {}
 
   @Mutation(() => Like)
   public async createLike(

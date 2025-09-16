@@ -1,8 +1,8 @@
-import { InputType, Field, Int } from '@nestjs/graphql';
+import { InputType, Int, Field } from '@nestjs/graphql';
 import { IsNumber, IsString, Min } from 'class-validator';
 
 @InputType()
-export class CreateCommentInput {
+export class CreateSubCommentInput {
   @Field(() => String)
   @IsString()
   public content: string;
@@ -10,5 +10,5 @@ export class CreateCommentInput {
   @Field(() => Int)
   @IsNumber()
   @Min(1)
-  public id_post: number;
+  public id_comment: number;
 }

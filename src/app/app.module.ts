@@ -15,8 +15,10 @@ import { DatabaseModule } from 'src/database';
 import {
   CategoryModule,
   CommentModule,
-  LikeModule,
+  LikeCommentModule,
+  LikePostModule,
   PostModule,
+  SubCommentModule,
   UserModule,
 } from 'src/components';
 
@@ -46,8 +48,10 @@ const apolloPlugin = isProduction
     UserModule,
     CategoryModule,
     PostModule,
-    LikeModule,
+    LikePostModule,
+    LikeCommentModule,
     CommentModule,
+    SubCommentModule,
   ],
   controllers: [AppController],
   providers: [AppService],

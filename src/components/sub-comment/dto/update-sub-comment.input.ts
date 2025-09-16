@@ -1,11 +1,10 @@
 import { IsNumber, Min } from 'class-validator';
+import { CreateSubCommentInput } from './create-sub-comment.input';
 import { InputType, Field, Int, PartialType, OmitType } from '@nestjs/graphql';
 
-import { CreateCommentInput } from './create-comment.input';
-
 @InputType()
-export class UpdateCommentInput extends PartialType(
-  OmitType(CreateCommentInput, ['id_post'] as const),
+export class UpdateSubCommentInput extends PartialType(
+  OmitType(CreateSubCommentInput, ['id_comment'] as const),
 ) {
   @Field(() => Int)
   @IsNumber()

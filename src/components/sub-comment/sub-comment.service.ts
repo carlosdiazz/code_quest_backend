@@ -4,36 +4,36 @@ import {
   NotFoundException,
   UnprocessableEntityException,
 } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
 
-import { CreateCommentInput } from './dto/create-comment.input';
-import { UpdateCommentInput } from './dto/update-comment.input';
-import { MESSAGE, PaginationArgs, ResponsePropio } from 'src/common';
-import { Comment } from './entities/comment.entity';
-import { PostService } from '../post';
+import { CreateSubCommentInput } from './dto/create-sub-comment.input';
+import { UpdateSubCommentInput } from './dto/update-sub-comment.input';
+import { SubComment } from './entities/sub-comment.entity';
+import { CommentService } from '../comment';
 import { Role, User } from '../auth';
+import { MESSAGE, PaginationArgs, ResponsePropio } from 'src/common';
 
 @Injectable()
-export class CommentService {
+export class SubCommentService {
   constructor(
-    @InjectRepository(Comment)
-    private readonly repository: Repository<Comment>,
-    private readonly postService: PostService,
+    @InjectRepository(SubComment)
+    private readonly repository: Repository<SubComment>,
+    private readonly commentService: CommentService,
   ) {}
 
   public async create(
-    createCommentInput: CreateCommentInput,
+    createSubCommentInput: CreateSubCommentInput,
     user: User,
-  ): Promise<Comment> {
-    const { id_post, ...rest } = createCommentInput;
+  ): Promise<SubComment> {
+    const { id_comment, ...rest } = createSubCommentInput;
 
-    await this.postService.findOne(id_post);
+    await this.commentService.findOne(id_comment);
 
     try {
       const newEntity = this.repository.create({
-        post: {
-          id: id_post,
+        comment: {
+          id: id_comment,
         },
         user: {
           id: user.id,
@@ -48,7 +48,7 @@ export class CommentService {
     }
   }
 
-  public async findAll(paginationArgs: PaginationArgs): Promise<Comment[]> {
+  public async findAll(paginationArgs: PaginationArgs): Promise<SubComment[]> {
     const { limit, offset } = paginationArgs;
 
     return await this.repository.find({
@@ -60,19 +60,19 @@ export class CommentService {
     });
   }
 
-  public async findOne(id: number): Promise<Comment> {
+  public async findOne(id: number): Promise<SubComment> {
     const entity = await this.repository.findOneBy({ id });
     if (!entity) {
-      throw new NotFoundException(`${MESSAGE.NO_EXISTE} => Comment`);
+      throw new NotFoundException(`${MESSAGE.NO_EXISTE} => SubComment`);
     }
     return entity;
   }
 
   public async update(
     id: number,
-    updateCommentInput: UpdateCommentInput,
+    updateSubCommentInput: UpdateSubCommentInput,
     user: User,
-  ): Promise<Comment> {
+  ): Promise<SubComment> {
     const entity = await this.findOne(id);
 
     if (entity.user.id != user.id) {
@@ -81,7 +81,7 @@ export class CommentService {
       );
     }
 
-    const { content } = updateCommentInput;
+    const { content } = updateSubCommentInput;
 
     try {
       this.repository.merge(entity, {
@@ -91,10 +91,6 @@ export class CommentService {
     } catch (error) {
       throw new UnprocessableEntityException(error?.message);
     }
-  }
-
-  public async updateLikesCount(id: number, likesCount: number): Promise<void> {
-    await this.repository.update(id, { likesCount });
   }
 
   public async remove(id: number, user: User): Promise<ResponsePropio> {

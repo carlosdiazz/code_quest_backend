@@ -9,3 +9,12 @@ export class ResponsePostDTO {
   @Field(() => Int)
   public total: number;
 }
+
+@ObjectType()
+export class ResponseOnePostDTO {
+  @Field(() => Post)
+  public item: Post;
+
+  @Field(() => Boolean)
+  public is_like: boolean;
+}

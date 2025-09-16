@@ -1,0 +1,56 @@
+import { ObjectType, Field, Int } from '@nestjs/graphql';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+  UpdateDateColumn,
+} from 'typeorm';
+
+import { Comment } from '../../comment/entities/comment.entity';
+import { User } from '../../auth/entities/user.entity';
+
+@Entity({ name: 'sub_comment' })
+@ObjectType()
+export class SubComment {
+  @PrimaryGeneratedColumn()
+  @Field(() => Int)
+  public id: number;
+
+  @Field(() => String)
+  @Column({ type: 'varchar' })
+  public content: string;
+
+  @Field(() => Comment)
+  @ManyToOne(() => Comment, (comment) => comment.sub_comment, {
+    eager: true,
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'id_comment' })
+  public comment: Comment;
+
+  @Field(() => User)
+  @ManyToOne(() => User, (user) => user.sub_comment, {
+    eager: true,
+  })
+  @JoinColumn({ name: 'id_user' })
+  public user: User;
+
+  @Field(() => Date)
+  @CreateDateColumn({
+    name: 'create_at',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  public createAt: Date;
+
+  @Field(() => Date)
+  @UpdateDateColumn({
+    name: 'update_at',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  public updateAt: Date;
+}

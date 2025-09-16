@@ -7,8 +7,15 @@ import { CreatePostInput } from './dto/create-post.input';
 import { UpdatePostInput } from './dto/update-post.input';
 import { PaginationArgs, ResponsePropio } from 'src/common';
 
-import { AuthGuard, CurrentUser, Public, Role, User } from '../auth';
-import { ResponsePostDTO } from './dto/response-post.dto';
+import {
+  AuthGuard,
+  CurrentUser,
+  CurrentUserOptional,
+  Public,
+  Role,
+  User,
+} from '../auth';
+import { ResponseOnePostDTO, ResponsePostDTO } from './dto/response-post.dto';
 
 @Resolver(() => Post)
 @UseGuards(AuthGuard)
@@ -39,11 +46,12 @@ export class PostResolver {
   }
 
   @Public()
-  @Query(() => Post, { name: 'postBySlug' })
+  @Query(() => ResponseOnePostDTO, { name: 'postBySlug' })
   public async findOneBySlug(
     @Args('slug', { type: () => String }) slug: string,
-  ): Promise<Post> {
-    return await this.postService.findBySlug(slug);
+    @CurrentUserOptional() user: User | undefined,
+  ): Promise<ResponseOnePostDTO> {
+    return await this.postService.findBySlug(slug, user);
   }
 
   @Mutation(() => Post)

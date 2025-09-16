@@ -12,6 +12,8 @@ import {
 
 import { Post } from './../../post/entities/post.entity';
 import { User } from '../../auth/entities/user.entity';
+import { LikeComment } from '../../like-comment/entities/like-comment.entity';
+import { SubComment } from '../../sub-comment/entities/sub-comment.entity';
 
 @Entity({ name: 'comment' })
 @ObjectType()
@@ -23,19 +25,6 @@ export class Comment {
   @Field(() => String)
   @Column({ type: 'varchar' })
   public content: string;
-
-  // RELACIÓN RECURSIVA
-  @Field(() => Comment, { nullable: true })
-  @ManyToOne(() => Comment, (comment) => comment.replies, {
-    nullable: true,
-    onDelete: 'CASCADE',
-  })
-  @JoinColumn({ name: 'parent_id' })
-  public parent?: Comment;
-
-  @Field(() => [Comment], { nullable: true })
-  @OneToMany(() => Comment, (comment) => comment.parent)
-  public replies?: Comment[];
 
   @Field(() => Post)
   @ManyToOne(() => Post, (post) => post.comment, {
@@ -51,6 +40,22 @@ export class Comment {
   })
   @JoinColumn({ name: 'id_user' })
   public user: User;
+
+  @Field(() => Int)
+  @Column({ type: 'int', default: 0 })
+  public likesCount: number;
+
+  @Field(() => [LikeComment])
+  @OneToMany(() => LikeComment, (likeComment) => likeComment.comment, {
+    lazy: true,
+  })
+  public like_comment: LikeComment[];
+
+  @Field(() => [SubComment])
+  @OneToMany(() => SubComment, (subComment) => subComment.comment, {
+    lazy: true,
+  })
+  public sub_comment: SubComment[];
 
   @Field(() => Date)
   @CreateDateColumn({

@@ -10,7 +10,9 @@ import {
 
 import { Post } from '../../post/entities/post.entity';
 import { Comment } from '../../comment/entities/comment.entity';
-import { Like } from '../../like/entities/like.entity';
+import { Like } from '../../like-post/entities/like.entity';
+import { LikeComment } from '../../like-comment/entities/like-comment.entity';
+import { SubComment } from '../../sub-comment/entities/sub-comment.entity';
 
 export enum Role {
   ADMIN = 'admin',
@@ -64,11 +66,23 @@ export class User {
   })
   public comment: Comment[];
 
+  @Field(() => [SubComment])
+  @OneToMany(() => SubComment, (subComment) => subComment.user, {
+    lazy: true,
+  })
+  public sub_comment: SubComment[];
+
   @Field(() => [Like])
   @OneToMany(() => Like, (like) => like.user, {
-    eager: true,
+    lazy: true,
   })
   public like: Like[];
+
+  @Field(() => [LikeComment])
+  @OneToMany(() => LikeComment, (likeComment) => likeComment.user, {
+    lazy: true,
+  })
+  public like_comment: LikeComment[];
 
   @Field(() => Date)
   @CreateDateColumn({
