@@ -8,6 +8,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  VirtualColumn,
 } from 'typeorm';
 
 import { Comment } from '../../comment/entities/comment.entity';
@@ -49,6 +50,13 @@ export class SubComment {
     },
   )
   public like_sub_comment: LikeSubComment[];
+
+  @Field(() => Int)
+  @VirtualColumn({
+    query: (alias) =>
+      `(SELECT COUNT(*) FROM "like_sub_comment" l WHERE l.id_sub_comment = ${alias}.id)`,
+  })
+  public likesCount: number;
 
   @Field(() => Date)
   @CreateDateColumn({

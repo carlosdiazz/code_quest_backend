@@ -30,7 +30,7 @@ export class LikeComment {
     lazy: true,
     onDelete: 'CASCADE',
   })
-  @JoinColumn({ name: 'id_post' })
+  @JoinColumn({ name: 'id_comment' })
   public comment: Comment;
 
   @Field(() => Date)

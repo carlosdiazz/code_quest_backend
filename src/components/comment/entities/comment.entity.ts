@@ -45,7 +45,7 @@ export class Comment {
   @Field(() => Int)
   @VirtualColumn({
     query: (alias) =>
-      `(SELECT COUNT(*) FROM "like_comment" l WHERE l.id_post = ${alias}.id)`,
+      `(SELECT COUNT(*) FROM "like_comment" l WHERE l.id_comment = ${alias}.id)`,
   })
   public likesCount: number;
 
