@@ -9,6 +9,9 @@ interface EnvVars {
   DB_USER: string;
   DB_PORT: number;
   DB_HOST: string;
+  FIREBASE_PROJECT_ID: string;
+  FIREBASE_CLIENT_EMAIL: string;
+  FIREBASE_PRIVATE_KEY: string;
 }
 
 const envsSchema = joi
@@ -20,6 +23,9 @@ const envsSchema = joi
     DB_USER: joi.string().required(),
     DB_PORT: joi.number().required(),
     DB_HOST: joi.string().required(),
+    FIREBASE_PROJECT_ID: joi.string().required(),
+    FIREBASE_CLIENT_EMAIL: joi.string().required(),
+    FIREBASE_PRIVATE_KEY: joi.string().required(),
   })
   .unknown(true);
 
@@ -41,4 +47,7 @@ export const envs: EnvVars = {
   DB_USER: enVars.DB_USER,
   DB_PORT: enVars.DB_PORT,
   DB_HOST: enVars.DB_HOST,
+  FIREBASE_PROJECT_ID: enVars.FIREBASE_PROJECT_ID,
+  FIREBASE_CLIENT_EMAIL: enVars.FIREBASE_CLIENT_EMAIL,
+  FIREBASE_PRIVATE_KEY: enVars.FIREBASE_PRIVATE_KEY,
 };

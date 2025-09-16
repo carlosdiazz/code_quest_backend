@@ -28,10 +28,11 @@ export class CreatePostInput {
   public excerpt: string;
 
   @Field(() => String)
-  @IsUrl()
-  @Matches(/\.(png|jpg|gif)$/, {
-    message: 'La URL debe terminar en .png, .jpg, .gif',
-  })
+  @IsString()
+  //@IsUrl()
+  //@Matches(/\.(png|jpg|gif)$/, {
+  //  message: 'La URL debe terminar en .png, .jpg, .gif',
+  //})
   public coverImage: string;
 
   @Field(() => Boolean)
