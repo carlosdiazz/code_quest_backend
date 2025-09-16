@@ -70,7 +70,7 @@ type Post {
   coverImage: String!
   published: Boolean!
   featured: Boolean!
-  likes_count: Int!
+  likesCount: Int!
   tags: [String!]!
   category: Category!
   user: User!

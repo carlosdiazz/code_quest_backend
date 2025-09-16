@@ -56,7 +56,7 @@ export class Post {
     query: (alias) =>
       `(SELECT COUNT(*) FROM "like" l WHERE l.id_post = ${alias}.id)`,
   })
-  public likes_counts: number;
+  public likesCount: number;
 
   @Field(() => [String])
   @Column({ type: 'varchar', array: true, default: [] })

@@ -5,12 +5,14 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 import { Comment } from '../../comment/entities/comment.entity';
 import { User } from '../../auth/entities/user.entity';
+import { LikeSubComment } from '../../like-sub-comment/entities/like-sub-comment.entity';
 
 @Entity({ name: 'sub_comment' })
 @ObjectType()
@@ -37,6 +39,16 @@ export class SubComment {
   })
   @JoinColumn({ name: 'id_user' })
   public user: User;
+
+  @Field(() => [LikeSubComment])
+  @OneToMany(
+    () => LikeSubComment,
+    (likeSubComment) => likeSubComment.sub_comment,
+    {
+      lazy: true,
+    },
+  )
+  public like_sub_comment: LikeSubComment[];
 
   @Field(() => Date)
   @CreateDateColumn({

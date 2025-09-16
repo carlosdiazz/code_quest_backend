@@ -27,7 +27,7 @@ export class LikeCommentService {
   ): Promise<LikeComment> {
     const { id_comment } = createLikeCommentInput;
 
-    const comment = await this.commentService.findOne(id_comment);
+    await this.commentService.findOne(id_comment);
     await this.verifyByUser(id_comment, user.id);
 
     try {
@@ -40,13 +40,6 @@ export class LikeCommentService {
         },
       });
       const entity = await this.repository.save(newEntity);
-
-      // Actualizar el contador de likes en el post
-      comment.likesCount += 1;
-      await this.commentService.updateLikesCount(
-        comment.id,
-        comment.likesCount,
-      );
 
       return await this.findOne(entity.id);
     } catch (error) {

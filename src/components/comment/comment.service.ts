@@ -93,10 +93,6 @@ export class CommentService {
     }
   }
 
-  public async updateLikesCount(id: number, likesCount: number): Promise<void> {
-    await this.repository.update(id, { likesCount });
-  }
-
   public async remove(id: number, user: User): Promise<ResponsePropio> {
     const entity = await this.findOne(id);
 
