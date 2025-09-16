@@ -15,7 +15,7 @@ import {
 import { Category } from './../../category/entities/category.entity';
 import { Comment } from './../../comment/entities/comment.entity';
 import { User } from '../../auth/entities/user.entity';
-import { Like } from './../../like-post/entities/like.entity';
+import { LikePost } from '../../like-post/entities/like-post.entity';
 @Entity({ name: 'post' })
 @ObjectType()
 export class Post {
@@ -54,7 +54,7 @@ export class Post {
   @Field(() => Int)
   @VirtualColumn({
     query: (alias) =>
-      `(SELECT COUNT(*) FROM "like" l WHERE l.id_post = ${alias}.id)`,
+      `(SELECT COUNT(*) FROM "like_post" l WHERE l.id_post = ${alias}.id)`,
   })
   public likesCount: number;
 
@@ -76,11 +76,11 @@ export class Post {
   @JoinColumn({ name: 'id_user' })
   public user: User;
 
-  @Field(() => [Like])
-  @OneToMany(() => Like, (like) => like.post, {
+  @Field(() => [LikePost])
+  @OneToMany(() => LikePost, (likePost) => likePost.post, {
     eager: true,
   })
-  public like: Like[];
+  public like_post: LikePost[];
 
   @Field(() => [Comment])
   @OneToMany(() => Comment, (comment) => comment.post, {

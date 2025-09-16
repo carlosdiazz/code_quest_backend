@@ -9,7 +9,7 @@ import { Repository } from 'typeorm';
 
 import { CreateLikeInput } from './dto/create-like.input';
 
-import { Like } from './entities/like.entity';
+import { LikePost } from './entities/like-post.entity';
 import { MESSAGE, PaginationArgs, ResponsePropio } from '../../common';
 import { User } from '../auth';
 import { PostService } from '../post';
@@ -17,15 +17,15 @@ import { PostService } from '../post';
 @Injectable()
 export class LikePostService {
   constructor(
-    @InjectRepository(Like)
-    private readonly repository: Repository<Like>,
+    @InjectRepository(LikePost)
+    private readonly repository: Repository<LikePost>,
     private readonly postService: PostService,
   ) {}
 
   public async create(
     createLikeInput: CreateLikeInput,
     user: User,
-  ): Promise<Like> {
+  ): Promise<LikePost> {
     const { id_post } = createLikeInput;
 
     await this.postService.findOne(id_post);
@@ -48,7 +48,7 @@ export class LikePostService {
     }
   }
 
-  public async findAll(paginationArgs: PaginationArgs): Promise<Like[]> {
+  public async findAll(paginationArgs: PaginationArgs): Promise<LikePost[]> {
     const { limit, offset } = paginationArgs;
 
     return await this.repository.find({
@@ -57,7 +57,7 @@ export class LikePostService {
     });
   }
 
-  public async findOne(id: number): Promise<Like> {
+  public async findOne(id: number): Promise<LikePost> {
     const entity = await this.repository.findOneBy({ id });
     if (!entity) {
       throw new NotFoundException(`${MESSAGE.NO_EXISTE} => Like`);

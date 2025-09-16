@@ -10,7 +10,7 @@ import {
 
 import { Post } from '../../post/entities/post.entity';
 import { Comment } from '../../comment/entities/comment.entity';
-import { Like } from '../../like-post/entities/like.entity';
+import { LikePost } from '../../like-post/entities/like-post.entity';
 import { LikeComment } from '../../like-comment/entities/like-comment.entity';
 import { SubComment } from '../../sub-comment/entities/sub-comment.entity';
 import { LikeSubComment } from '../../like-sub-comment/entities/like-sub-comment.entity';
@@ -73,11 +73,11 @@ export class User {
   })
   public sub_comment: SubComment[];
 
-  @Field(() => [Like])
-  @OneToMany(() => Like, (like) => like.user, {
+  @Field(() => [LikePost])
+  @OneToMany(() => LikePost, (likePost) => likePost.user, {
     lazy: true,
   })
-  public like: Like[];
+  public like_post: LikePost[];
 
   @Field(() => [LikeComment])
   @OneToMany(() => LikeComment, (likeComment) => likeComment.user, {

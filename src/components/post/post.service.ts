@@ -98,7 +98,7 @@ export class PostService {
       const itemByLike = await this.repository.findOne({
         where: {
           slug,
-          like: {
+          like_post: {
             user: {
               providerId: user?.providerId,
             },

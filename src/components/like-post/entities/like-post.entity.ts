@@ -8,25 +8,25 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
-import { Post } from './../../post/entities/post.entity';
+import { Post } from '../../post/entities/post.entity';
 import { User } from '../../auth/entities/user.entity';
 
-@Entity({ name: 'like' })
+@Entity({ name: 'like_post' })
 @ObjectType()
-export class Like {
+export class LikePost {
   @PrimaryGeneratedColumn()
   @Field(() => Int)
   public id: number;
 
   @Field(() => User)
-  @ManyToOne(() => User, (user) => user.like, {
+  @ManyToOne(() => User, (user) => user.like_post, {
     lazy: true,
   })
   @JoinColumn({ name: 'id_user' })
   public user: User;
 
   @Field(() => Post)
-  @ManyToOne(() => Post, (post) => post.like, {
+  @ManyToOne(() => Post, (post) => post.like_post, {
     lazy: true,
     onDelete: 'CASCADE',
   })
