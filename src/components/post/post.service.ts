@@ -167,10 +167,6 @@ export class PostService {
     }
   }
 
-  public async updateLikesCount(id: number, likesCount: number): Promise<void> {
-    await this.repository.update(id, { likesCount });
-  }
-
   private async findOneBySlug(slug: string, currentId?: number): Promise<void> {
     const entity = await this.repository.findOne({ where: { slug } });
 

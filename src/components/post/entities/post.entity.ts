@@ -9,6 +9,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  VirtualColumn,
 } from 'typeorm';
 
 import { Category } from './../../category/entities/category.entity';
@@ -51,8 +52,11 @@ export class Post {
   public featured: boolean;
 
   @Field(() => Int)
-  @Column({ type: 'int', default: 0 })
-  public likesCount: number;
+  @VirtualColumn({
+    query: (alias) =>
+      `(SELECT COUNT(*) FROM "like" l WHERE l.id_post = ${alias}.id)`,
+  })
+  public likes_counts: number;
 
   @Field(() => [String])
   @Column({ type: 'varchar', array: true, default: [] })

@@ -28,7 +28,7 @@ export class LikePostService {
   ): Promise<Like> {
     const { id_post } = createLikeInput;
 
-    const post = await this.postService.findOne(id_post);
+    await this.postService.findOne(id_post);
     await this.verifyByUser(id_post, user.id);
 
     try {
@@ -41,10 +41,6 @@ export class LikePostService {
         },
       });
       const entity = await this.repository.save(newEntity);
-
-      // Actualizar el contador de likes en el post
-      post.likesCount += 1;
-      await this.postService.updateLikesCount(post.id, post.likesCount);
 
       return await this.findOne(entity.id);
     } catch (error) {
@@ -71,17 +67,15 @@ export class LikePostService {
 
   public async remove(id: number): Promise<ResponsePropio> {
     const entity = await this.findOne(id);
-    console.log(entity);
-    throw new BadGatewayException('TODo');
-    //try {
-    //  await this.repository.remove(entity);
-    //  return {
-    //    message: MESSAGE.SE_ELIMINO_CORRECTAMENTE,
-    //    statusCode: 200,
-    //  };
-    //} catch {
-    //  throw new BadGatewayException(MESSAGE.NO_SE_PUEDE_ELIMINAR);
-    //}
+    try {
+      await this.repository.remove(entity);
+      return {
+        message: MESSAGE.SE_ELIMINO_CORRECTAMENTE,
+        statusCode: 200,
+      };
+    } catch {
+      throw new BadGatewayException(MESSAGE.NO_SE_PUEDE_ELIMINAR);
+    }
   }
 
   private async verifyByUser(id_post: number, id_user: number): Promise<void> {
