@@ -28,7 +28,7 @@ export class AuthService {
 
     const items = await this.repository.find({
       take: limit,
-      skip: offset,
+      skip: offset * limit,
     });
 
     return {

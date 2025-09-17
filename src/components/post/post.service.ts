@@ -64,7 +64,7 @@ export class PostService {
         },
         order: { createAt: 'DESC' },
         take: limit,
-        skip: offset,
+        skip: offset * limit,
       }),
     ]);
 

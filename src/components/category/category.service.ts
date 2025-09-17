@@ -46,7 +46,7 @@ export class CategoryService {
         createAt: 'DESC',
       },
       take: limit,
-      skip: offset,
+      skip: offset * limit,
     });
   }
 

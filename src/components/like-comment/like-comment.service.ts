@@ -52,7 +52,7 @@ export class LikeCommentService {
 
     return await this.repository.find({
       take: limit,
-      skip: offset,
+      skip: offset * limit,
     });
   }
 
