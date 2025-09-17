@@ -14,6 +14,7 @@ import { envs } from 'src/config';
 import { DatabaseModule } from 'src/database';
 import {
   AuthModule,
+  BookmarkModule,
   CategoryModule,
   CommentModule,
   LikeCommentModule,
@@ -54,6 +55,7 @@ const apolloPlugin = isProduction
     LikeSubCommentModule,
     CommentModule,
     SubCommentModule,
+    BookmarkModule,
   ],
   controllers: [AppController],
   providers: [AppService],

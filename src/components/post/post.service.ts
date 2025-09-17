@@ -92,25 +92,41 @@ export class PostService {
     const item = await this.findOneBySlug(slug);
 
     let is_like = false;
+    let is_bookmark = false;
 
     if (user) {
-      const itemByLike = await this.repository.findOne({
-        where: {
-          slug,
-          like_post: {
-            user: {
-              providerId: user?.providerId,
+      const [itemByLike, itemByBookmark] = await Promise.all([
+        this.repository.findOne({
+          where: {
+            slug,
+            like_post: {
+              user: {
+                providerId: user?.providerId,
+              },
             },
           },
-        },
-      });
+        }),
+
+        this.repository.findOne({
+          where: {
+            slug,
+            bookmark_post: {
+              user: {
+                providerId: user?.providerId,
+              },
+            },
+          },
+        }),
+      ]);
 
       if (itemByLike) is_like = true;
+      if (itemByBookmark) is_bookmark = true;
     }
 
     return {
       item,
       is_like,
+      is_bookmark,
     };
   }
 

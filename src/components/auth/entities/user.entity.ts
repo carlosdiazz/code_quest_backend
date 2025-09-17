@@ -14,6 +14,7 @@ import { LikePost } from '../../like-post/entities/like-post.entity';
 import { LikeComment } from '../../like-comment/entities/like-comment.entity';
 import { SubComment } from '../../sub-comment/entities/sub-comment.entity';
 import { LikeSubComment } from '../../like-sub-comment/entities/like-sub-comment.entity';
+import { Bookmark } from '../../bookmark/entities/bookmark.entity';
 
 export enum Role {
   ADMIN = 'admin',
@@ -78,6 +79,12 @@ export class User {
     lazy: true,
   })
   public like_post: LikePost[];
+
+  @Field(() => [Bookmark])
+  @OneToMany(() => Bookmark, (bookMark) => bookMark.user, {
+    lazy: true,
+  })
+  public bookmark_post: Bookmark[];
 
   @Field(() => [LikeComment])
   @OneToMany(() => LikeComment, (likeComment) => likeComment.user, {

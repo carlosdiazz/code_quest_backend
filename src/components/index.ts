@@ -1,4 +1,5 @@
 export * from './auth';
+export * from './bookmark';
 export * from './category';
 export * from './comment';
 export * from './like-comment';

@@ -72,6 +72,14 @@ type LikePost {
   updateAt: DateTime!
 }
 
+type Bookmark {
+  id: Int!
+  user: User!
+  post: Post!
+  createAt: DateTime!
+  updateAt: DateTime!
+}
+
 type Post {
   id: Int!
   title: String!
@@ -82,11 +90,13 @@ type Post {
   published: Boolean!
   featured: Boolean!
   likesCount: Int!
+  bookmarkCount: Int!
   commentCount: Int!
   tags: [String!]!
   category: Category!
   user: User!
   like_post: [LikePost!]!
+  bookmark_post: [Bookmark!]!
   comment: [Comment!]!
   createAt: DateTime!
   updateAt: DateTime!
@@ -104,6 +114,7 @@ type User {
   comment: [Comment!]!
   sub_comment: [SubComment!]!
   like_post: [LikePost!]!
+  bookmark_post: [Bookmark!]!
   like_comment: [LikeComment!]!
   like_sub_comment: [LikeSubComment!]!
   createAt: DateTime!
@@ -123,6 +134,7 @@ type ResponsePostDTO {
 type ResponseOnePostDTO {
   item: Post!
   is_like: Boolean!
+  is_bookmark: Boolean!
 }
 
 type Query {
@@ -143,6 +155,8 @@ type Query {
   likeSubComment(id: Int!): LikeSubComment!
   allSubComment(offset: Int = 0, limit: Int = 10, active: Boolean = true): [SubComment!]!
   subComment(id: Int!): SubComment!
+  allBookmark(offset: Int = 0, limit: Int = 10, active: Boolean = true): [Bookmark!]!
+  bookmark(id: Int!): Bookmark!
 }
 
 type Mutation {
@@ -165,6 +179,8 @@ type Mutation {
   createSubComment(createSubCommentInput: CreateSubCommentInput!): SubComment!
   updateSubComment(updateSubCommentInput: UpdateSubCommentInput!): SubComment!
   removeSubComment(id: Int!): SubComment!
+  createBookmark(createBookmarkInput: CreateBookmarkInput!): Bookmark!
+  removeBookmark(id: Int!): ResponsePropio!
 }
 
 input UpdateUserInput {
@@ -247,4 +263,8 @@ input CreateSubCommentInput {
 input UpdateSubCommentInput {
   content: String
   id: Int!
+}
+
+input CreateBookmarkInput {
+  id_post: Int!
 }

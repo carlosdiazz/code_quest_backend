@@ -17,4 +17,7 @@ export class ResponseOnePostDTO {
 
   @Field(() => Boolean)
   public is_like: boolean;
+
+  @Field(() => Boolean)
+  public is_bookmark: boolean;
 }
