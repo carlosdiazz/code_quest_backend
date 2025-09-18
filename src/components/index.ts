@@ -9,3 +9,4 @@ export * from './post';
 export * from './sub-comment';
 export * from './total';
 export * from './post-view';
+export * from './ws';

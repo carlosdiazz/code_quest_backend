@@ -3,9 +3,9 @@ import { UseGuards } from '@nestjs/common';
 
 import { PostService } from './post.service';
 import { Post } from './entities/post.entity';
+import { ResponseOnePostDTO, ResponsePostDTO, AllPostArgs } from './dto';
 
 import { AuthGuardPublic, CurrentUserOptional, User } from '../auth';
-import { ResponseOnePostDTO, ResponsePostDTO, AllPostArgs } from './dto';
 
 @Resolver(() => Post)
 @UseGuards(AuthGuardPublic)

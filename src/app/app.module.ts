@@ -24,8 +24,8 @@ import {
   PostViewModule,
   SubCommentModule,
   TotalModule,
+  WsModule,
 } from '../components';
-import { WsModule } from '../components/ws';
 
 const isProduction = envs.STATE === 'PROD';
 
