@@ -24,6 +24,7 @@ import {
   SubCommentModule,
   TotalModule,
 } from 'src/components';
+import { WsModule } from 'src/components/ws';
 
 const isProduction = envs.STATE === 'PROD';
 
@@ -58,6 +59,7 @@ const apolloPlugin = isProduction
     SubCommentModule,
     BookmarkModule,
     TotalModule,
+    WsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

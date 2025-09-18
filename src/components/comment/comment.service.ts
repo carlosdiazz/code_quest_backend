@@ -13,6 +13,8 @@ import { MESSAGE, PaginationArgs, ResponsePropio } from 'src/common';
 import { Comment } from './entities/comment.entity';
 import { PostService } from '../post';
 import { Role, User } from '../auth';
+import { WsGateway, WsTotalResponse } from '../ws';
+import { ENTITY_ENUM } from 'src/config';
 
 @Injectable()
 export class CommentService {
@@ -20,6 +22,7 @@ export class CommentService {
     @InjectRepository(Comment)
     private readonly repository: Repository<Comment>,
     private readonly postService: PostService,
+    private readonly wsGateway: WsGateway,
   ) {}
 
   public async create(
@@ -42,6 +45,7 @@ export class CommentService {
       });
 
       const entity = await this.repository.save(newEntity);
+      await this.wsTotal();
       return await this.findOne(entity.id);
     } catch (error) {
       throw new UnprocessableEntityException(error?.message);
@@ -121,5 +125,11 @@ export class CommentService {
     } catch {
       return 0;
     }
+  }
+
+  private async wsTotal() {
+    const total = await this.returnTotal();
+    const ms: WsTotalResponse = { topic: ENTITY_ENUM.COMMENT, total };
+    this.wsGateway.sendEmitTotal(ms);
   }
 }

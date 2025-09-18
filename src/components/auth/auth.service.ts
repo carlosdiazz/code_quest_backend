@@ -12,11 +12,14 @@ import { MESSAGE, PaginationArgs } from 'src/common';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { ResponseAllUserDTO } from './dto/response-all-user.dto';
+import { WsGateway, WsTotalResponse } from '../ws';
+import { ENTITY_ENUM } from 'src/config';
 
 @Injectable()
 export class AuthService {
   constructor(
     @InjectRepository(User) private readonly repository: Repository<User>,
+    private readonly wsGateway: WsGateway,
   ) {}
 
   public async findAll(
@@ -67,8 +70,7 @@ export class AuthService {
   public async findOrCreateFromFirebase(
     decodedIdTOken: DecodedIdToken,
   ): Promise<User> {
-    const { uid, email, firebase, picture, name } = decodedIdTOken;
-    const { sign_in_provider } = firebase;
+    const { uid } = decodedIdTOken;
 
     const user = await this.repository.findOne({
       where: { providerId: uid },
@@ -77,7 +79,12 @@ export class AuthService {
     if (user) {
       return user;
     }
+    return await this.create(decodedIdTOken);
+  }
 
+  private async create(decodedIdTOken: DecodedIdToken): Promise<User> {
+    const { uid, email, firebase, picture, name } = decodedIdTOken;
+    const { sign_in_provider } = firebase;
     const userDto: CreateUserInput = {
       providerId: uid,
       email: email || 'Unknown Email',
@@ -90,6 +97,7 @@ export class AuthService {
     };
 
     const newUser = this.repository.create(userDto);
+    await this.wsTotal();
     return await this.repository.save(newUser);
   }
 
@@ -99,5 +107,11 @@ export class AuthService {
     } catch {
       return 0;
     }
+  }
+
+  private async wsTotal() {
+    const total = await this.returnTotal();
+    const ms: WsTotalResponse = { topic: ENTITY_ENUM.USER, total };
+    this.wsGateway.sendEmitTotal(ms);
   }
 }

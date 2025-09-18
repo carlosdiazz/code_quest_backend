@@ -9,8 +9,9 @@ import {
 } from 'typeorm';
 
 import { Post } from './../../post/entities/post.entity';
+import { ENTITY_ENUM } from '../../../config';
 
-@Entity({ name: 'category' })
+@Entity({ name: ENTITY_ENUM.CATEGORY })
 @ObjectType()
 export class Category {
   @PrimaryGeneratedColumn()

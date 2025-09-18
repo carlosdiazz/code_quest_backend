@@ -10,8 +10,9 @@ import {
 
 import { User } from '../../auth/entities/user.entity';
 import { Comment } from '../../comment/entities/comment.entity';
+import { ENTITY_ENUM } from '../../../config';
 
-@Entity({ name: 'like_comment' })
+@Entity({ name: ENTITY_ENUM.LIKE_COMMENT })
 @ObjectType()
 export class LikeComment {
   @PrimaryGeneratedColumn()

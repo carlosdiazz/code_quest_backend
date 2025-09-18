@@ -10,9 +10,10 @@ import {
 
 import { User } from '../../auth/entities/user.entity';
 import { Post } from '../../post/entities/post.entity';
+import { ENTITY_ENUM } from '../../../config';
 
 @ObjectType()
-@Entity({ name: 'bookmark_post' })
+@Entity({ name: ENTITY_ENUM.BOOKMARK_POST })
 export class Bookmark {
   @PrimaryGeneratedColumn()
   @Field(() => Int)

@@ -12,12 +12,15 @@ import { CreateCategoryInput } from './dto/create-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
 import { Category } from './entities/category.entity';
 import { MESSAGE, PaginationArgs, ResponsePropio } from 'src/common';
+import { WsGateway, WsTotalResponse } from '../ws';
+import { ENTITY_ENUM } from 'src/config';
 
 @Injectable()
 export class CategoryService {
   constructor(
     @InjectRepository(Category)
     private readonly repository: Repository<Category>,
+    private readonly wsGateway: WsGateway,
   ) {}
 
   public async create(
@@ -32,6 +35,7 @@ export class CategoryService {
         ...rest,
       });
       const entity = await this.repository.save(newEntity);
+      await this.wsTotal();
       return await this.findOne(entity.id);
     } catch (error) {
       throw new UnprocessableEntityException(error?.message);
@@ -105,5 +109,11 @@ export class CategoryService {
     } catch {
       return 0;
     }
+  }
+
+  private async wsTotal() {
+    const total = await this.returnTotal();
+    const ms: WsTotalResponse = { topic: ENTITY_ENUM.CATEGORY, total };
+    this.wsGateway.sendEmitTotal(ms);
   }
 }

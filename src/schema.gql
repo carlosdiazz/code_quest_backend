@@ -142,6 +142,7 @@ type TotalResponse {
   total_category: Int!
   total_user: Int!
   total_comment: Int!
+  total_sub_comment: Int!
 }
 
 type Query {

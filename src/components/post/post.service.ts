@@ -16,6 +16,8 @@ import { CategoryService } from '../category';
 import { User } from '../auth';
 import { ResponseOnePostDTO, ResponsePostDTO } from './dto/response-post.dto';
 import { AllPostArgs } from './dto/all-post.args';
+import { WsGateway, WsTotalResponse } from '../ws';
+import { ENTITY_ENUM } from 'src/config';
 
 @Injectable()
 export class PostService {
@@ -23,6 +25,7 @@ export class PostService {
     @InjectRepository(Post)
     private readonly repository: Repository<Post>,
     private readonly categoryService: CategoryService,
+    private readonly wsGateway: WsGateway,
   ) {}
 
   public async create(
@@ -45,6 +48,7 @@ export class PostService {
         ...rest,
       });
       const entity = await this.repository.save(newEntity);
+      await this.wsTotal();
       return await this.findOneById(entity.id);
     } catch (error) {
       throw new UnprocessableEntityException(error?.message);
@@ -202,5 +206,11 @@ export class PostService {
     } catch {
       return 0;
     }
+  }
+
+  private async wsTotal() {
+    const total = await this.returnTotal();
+    const ms: WsTotalResponse = { topic: ENTITY_ENUM.POST, total };
+    this.wsGateway.sendEmitTotal(ms);
   }
 }

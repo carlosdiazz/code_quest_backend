@@ -17,7 +17,9 @@ import { Comment } from './../../comment/entities/comment.entity';
 import { User } from '../../auth/entities/user.entity';
 import { LikePost } from '../../like-post/entities/like-post.entity';
 import { Bookmark } from '../../bookmark/entities/bookmark.entity';
-@Entity({ name: 'post' })
+import { ENTITY_ENUM } from '../../../config';
+
+@Entity({ name: ENTITY_ENUM.POST })
 @ObjectType()
 export class Post {
   @PrimaryGeneratedColumn()

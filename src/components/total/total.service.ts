@@ -32,7 +32,8 @@ export class TotalService {
     ]);
     return {
       total_category,
-      total_comment: total_comment + total_sub_comment,
+      total_comment,
+      total_sub_comment,
       total_post,
       total_user,
     };

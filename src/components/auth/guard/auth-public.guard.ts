@@ -8,8 +8,8 @@ import {
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { Reflector } from '@nestjs/core';
 
-import { admin } from 'src/config/firebase/fireabse-admin';
 import { AuthService } from '../auth.service';
+import { admin } from 'src/config';
 
 @Injectable()
 export class AuthGuardPublic implements CanActivate {

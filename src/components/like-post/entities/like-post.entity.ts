@@ -10,8 +10,9 @@ import {
 
 import { Post } from '../../post/entities/post.entity';
 import { User } from '../../auth/entities/user.entity';
+import { ENTITY_ENUM } from '../../../config';
 
-@Entity({ name: 'like_post' })
+@Entity({ name: ENTITY_ENUM.LIKE_POST })
 @ObjectType()
 export class LikePost {
   @PrimaryGeneratedColumn()

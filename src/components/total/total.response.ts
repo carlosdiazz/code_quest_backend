@@ -13,4 +13,7 @@ export class TotalResponse {
 
   @Field(() => Int)
   public total_comment: number;
+
+  @Field(() => Int)
+  public total_sub_comment: number;
 }

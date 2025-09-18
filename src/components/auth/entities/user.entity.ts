@@ -15,13 +15,14 @@ import { LikeComment } from '../../like-comment/entities/like-comment.entity';
 import { SubComment } from '../../sub-comment/entities/sub-comment.entity';
 import { LikeSubComment } from '../../like-sub-comment/entities/like-sub-comment.entity';
 import { Bookmark } from '../../bookmark/entities/bookmark.entity';
+import { ENTITY_ENUM } from '../../../config';
 
 export enum Role {
   ADMIN = 'admin',
   USER = 'user',
 }
 
-@Entity({ name: 'user' })
+@Entity({ name: ENTITY_ENUM.USER })
 @ObjectType()
 export class User {
   @PrimaryGeneratedColumn()
