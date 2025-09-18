@@ -98,4 +98,12 @@ export class CategoryService {
       );
     }
   }
+
+  public async returnTotal(): Promise<number> {
+    try {
+      return await this.repository.count();
+    } catch {
+      return 0;
+    }
+  }
 }

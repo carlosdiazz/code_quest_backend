@@ -92,4 +92,12 @@ export class AuthService {
     const newUser = this.repository.create(userDto);
     return await this.repository.save(newUser);
   }
+
+  public async returnTotal(): Promise<number> {
+    try {
+      return await this.repository.count();
+    } catch {
+      return 0;
+    }
+  }
 }

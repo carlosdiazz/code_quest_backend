@@ -1,0 +1,16 @@
+import { Field, Int, ObjectType } from '@nestjs/graphql';
+
+@ObjectType()
+export class TotalResponse {
+  @Field(() => Int)
+  public total_post: number;
+
+  @Field(() => Int)
+  public total_category: number;
+
+  @Field(() => Int)
+  public total_user: number;
+
+  @Field(() => Int)
+  public total_comment: number;
+}

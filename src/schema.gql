@@ -137,6 +137,13 @@ type ResponseOnePostDTO {
   is_bookmark: Boolean!
 }
 
+type TotalResponse {
+  total_post: Int!
+  total_category: Int!
+  total_user: Int!
+  total_comment: Int!
+}
+
 type Query {
   allUser(offset: Int = 0, limit: Int = 10, active: Boolean = true): ResponseAllUserDTO!
   user(id: Int!): User!
@@ -157,6 +164,7 @@ type Query {
   subComment(id: Int!): SubComment!
   allBookmark(offset: Int = 0, limit: Int = 10, active: Boolean = true): [Bookmark!]!
   bookmark(id: Int!): Bookmark!
+  totalResponse: TotalResponse!
 }
 
 type Mutation {

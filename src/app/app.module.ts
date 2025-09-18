@@ -22,6 +22,7 @@ import {
   LikeSubCommentModule,
   PostModule,
   SubCommentModule,
+  TotalModule,
 } from 'src/components';
 
 const isProduction = envs.STATE === 'PROD';
@@ -56,6 +57,7 @@ const apolloPlugin = isProduction
     CommentModule,
     SubCommentModule,
     BookmarkModule,
+    TotalModule,
   ],
   controllers: [AppController],
   providers: [AppService],

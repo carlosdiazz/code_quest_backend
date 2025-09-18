@@ -114,4 +114,12 @@ export class CommentService {
       throw new BadGatewayException(MESSAGE.NO_SE_PUEDE_ELIMINAR);
     }
   }
+
+  public async returnTotal(): Promise<number> {
+    try {
+      return await this.repository.count();
+    } catch {
+      return 0;
+    }
+  }
 }

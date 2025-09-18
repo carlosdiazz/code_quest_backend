@@ -195,4 +195,12 @@ export class PostService {
       throw new BadRequestException(`${MESSAGE.YA_EXISTE_ESTE_SLUG} => Post`);
     }
   }
+
+  public async returnTotal(): Promise<number> {
+    try {
+      return await this.repository.count();
+    } catch {
+      return 0;
+    }
+  }
 }
