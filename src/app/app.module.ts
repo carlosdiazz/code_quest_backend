@@ -17,6 +17,7 @@ import {
   BookmarkModule,
   CategoryModule,
   CommentModule,
+  ImageModule,
   LikeCommentModule,
   LikePostModule,
   LikeSubCommentModule,
@@ -48,6 +49,9 @@ const apolloPlugin = isProduction
     }),
     //DB
     DatabaseModule,
+
+    //UploadImage
+    ImageModule,
 
     //Components
     AuthModule,

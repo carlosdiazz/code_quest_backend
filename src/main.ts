@@ -17,6 +17,9 @@ async function bootstrap() {
     new FastifyAdapter(),
   );
 
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-require-imports
+  await app.register(require('@fastify/multipart'));
+
   app.setGlobalPrefix('api');
 
   app.useGlobalPipes(

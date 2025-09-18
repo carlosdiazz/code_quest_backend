@@ -14,3 +14,4 @@ export * from './decorator/current-user-optional.decorator';
 
 export * from './guard/auth-public.guard';
 export * from './guard/auth.guard';
+export * from './guard/auth-http.guard';

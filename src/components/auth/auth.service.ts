@@ -43,7 +43,7 @@ export class AuthService {
   public async findOne(id: number): Promise<User> {
     const entity = await this.repository.findOneBy({ id });
     if (!entity) {
-      throw new NotFoundException(`${MESSAGE.NO_EXISTE} => Use`);
+      throw new NotFoundException(`${MESSAGE.NO_EXISTE} => User`);
     }
     return entity;
   }

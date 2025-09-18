@@ -12,6 +12,9 @@ interface EnvVars {
   FIREBASE_PROJECT_ID: string;
   FIREBASE_CLIENT_EMAIL: string;
   FIREBASE_PRIVATE_KEY: string;
+  CLOUD_DINARY_NAME: string;
+  CLOUD_DINARY_API_KEY: string;
+  CLOUD_DINARY_API_SECRET: string;
 }
 
 const envsSchema = joi
@@ -26,6 +29,9 @@ const envsSchema = joi
     FIREBASE_PROJECT_ID: joi.string().required(),
     FIREBASE_CLIENT_EMAIL: joi.string().required(),
     FIREBASE_PRIVATE_KEY: joi.string().required(),
+    CLOUD_DINARY_NAME: joi.string().required(),
+    CLOUD_DINARY_API_KEY: joi.string().required(),
+    CLOUD_DINARY_API_SECRET: joi.string().required(),
   })
   .unknown(true);
 
@@ -50,4 +56,7 @@ export const envs: EnvVars = {
   FIREBASE_PROJECT_ID: enVars.FIREBASE_PROJECT_ID,
   FIREBASE_CLIENT_EMAIL: enVars.FIREBASE_CLIENT_EMAIL,
   FIREBASE_PRIVATE_KEY: enVars.FIREBASE_PRIVATE_KEY,
+  CLOUD_DINARY_NAME: enVars.CLOUD_DINARY_NAME,
+  CLOUD_DINARY_API_KEY: enVars.CLOUD_DINARY_API_KEY,
+  CLOUD_DINARY_API_SECRET: enVars.CLOUD_DINARY_API_SECRET,
 };

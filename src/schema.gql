@@ -232,7 +232,6 @@ input CreatePostInput {
   slug: String!
   content: String!
   excerpt: String!
-  coverImage: String!
   published: Boolean!
   featured: Boolean!
   tags: [String!]!
@@ -244,7 +243,6 @@ input UpdatePostInput {
   slug: String
   content: String
   excerpt: String
-  coverImage: String
   published: Boolean
   featured: Boolean
   tags: [String!]
