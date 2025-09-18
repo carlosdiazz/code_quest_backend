@@ -2,7 +2,7 @@
 
 Nosotros somos **DevCaribe**, este es el **backend** del proyecto **Blog Comunitario** para el desafío **CODE QUEST 2025** organizado por **Fernando Herrera**.
 
-La aplicación está desarrollada con **NestJS**, utiliza **PostgreSQL** como base de datos, **TypeORM** como ORM, **GraphQL** para la comunicación y **Fastify** para mejorar el rendimiento. La autenticación y autorización se manejan mediante **Firebase**.
+La aplicación está desarrollada con **NestJS**, utiliza **PostgreSQL** como base de datos, **TypeORM** como ORM, **GraphQL** para la comunicación y **Fastify** para mejorar el rendimiento. La autenticación y autorización se manejan mediante **Firebase**. Para la comunicacion continua implementamos WebSocket usando ***Socket.io***
 
 > ⚠️ Este repositorio corresponde únicamente al **backend** del proyecto.
 
@@ -17,6 +17,7 @@ La aplicación está desarrollada con **NestJS**, utiliza **PostgreSQL** como ba
 - **PostgreSQL** - Base de datos relacional
 - **Firebase** - Autenticación y autorización
 - **Docker / Docker Compose** - Opcional para levantar la base de datos
+- **Socker.io** WebSocket
 
 ---
 
@@ -39,7 +40,7 @@ Esto levantará la base de datos definida en el `docker-compose.yml`.
 ## 2. Firebase
 
 1. Crear un proyecto en Google Cloud.
-2. Habilitar Firebase y configurar la autenticación.
+2. Habilitar Firebase Auth y configurar la autenticación.
 3. Como metodos de autenticacion usamos el del Correo y el de Google
 
 
