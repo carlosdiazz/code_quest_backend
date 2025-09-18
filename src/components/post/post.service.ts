@@ -223,6 +223,15 @@ export class PostService {
     this.wsGateway.sendEmitTotal(ms);
   }
 
+  public async totalViewByUser(user: User): Promise<number> {
+    const posts = await this.repository.find({
+      where: { user: { id: user.id } },
+      select: ['total_view'],
+    });
+
+    return posts.reduce((acc, p) => acc + p.total_view, 0);
+  }
+
   private async add_total_view(id: number, id_user?: number) {
     await this.repository.increment({ id }, 'total_view', 1);
     if (!id_user) return;

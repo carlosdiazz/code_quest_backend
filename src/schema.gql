@@ -154,6 +154,7 @@ type TotalResponse {
   total_user: Int!
   total_comment: Int!
   total_sub_comment: Int!
+  total_view: Int!
 }
 
 type Query {

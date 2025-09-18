@@ -35,7 +35,7 @@ La aplicación está desarrollada con **NestJS**, utiliza **PostgreSQL** como ba
 
 ## 1. Base de Datos
 
-Esto levantará la base de datos definida en el `docker-compose.yml`.
+Subir una base de Dato Postgres, ya sea local o en la nube
 
 ## 2. Firebase
 
@@ -78,13 +78,12 @@ El servidor estará disponible en `http://localhost:{PUERTO}/graphql` para inter
 
 ## Producción
 
-### Opción 1: Usando Docker
+### Opción 1: Usando Docker Compose
 
-Se incluye un Dockerfile completo para crear la imagen del backend.
+Se incluye un ejemplo de un Docker-Compose
 
 ```bash
-docker build -t code-quest-backend .
-docker run -d -p 3000:3000 --env-file .env code-quest-backend
+docker compose up -d
 ```
 
 ### Opción 2: Sin Docker

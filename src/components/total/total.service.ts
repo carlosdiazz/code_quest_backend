@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { TotalResponse } from './total.response';
-import { AuthService } from '../auth';
+import { AuthService, User } from '../auth';
 import { PostService } from '../post';
 import { CategoryService } from '../category';
 import { CommentService } from '../comment';
@@ -16,19 +16,21 @@ export class TotalService {
     private readonly subCommentService: SubCommentService,
   ) {}
 
-  public async totalResponse(): Promise<TotalResponse> {
+  public async totalResponse(user: User): Promise<TotalResponse> {
     const [
       total_category,
       total_comment,
       total_post,
       total_user,
       total_sub_comment,
+      total_view,
     ] = await Promise.all([
       this.categoryService.returnTotal(),
       this.commentService.returnTotal(),
       this.postService.returnTotal(),
       this.authService.returnTotal(),
       this.subCommentService.returnTotal(),
+      this.postService.totalViewByUser(user),
     ]);
     return {
       total_category,
@@ -36,6 +38,7 @@ export class TotalService {
       total_sub_comment,
       total_post,
       total_user,
+      total_view,
     };
   }
 }
