@@ -54,18 +54,21 @@ export class AuthService {
     user: User,
   ): Promise<User> {
     const entity = await this.findOne(id);
-    //todo soloa tualizar el mismo suer al emnso que sea admin
+
+    const { avatar, name, role } = updateUserInput;
+
+    if (user.role === Role.USER) {
+      this.repository.merge(entity, { avatar, name });
+    } else {
+      this.repository.merge(entity, { avatar, name, role });
+    }
+
     try {
-      this.repository.merge(entity, updateUserInput);
       return await this.repository.save(entity);
     } catch (error) {
       throw new UnprocessableEntityException(error?.message);
     }
   }
-
-  //remove(id: number) {
-  //  throw new BadGatewayException('TODO');
-  //}
 
   public async findOrCreateFromFirebase(
     decodedIdTOken: DecodedIdToken,

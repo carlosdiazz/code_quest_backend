@@ -160,6 +160,7 @@ type TotalResponse {
 type Query {
   allUser(offset: Int = 0, limit: Int = 10, active: Boolean = true): ResponseAllUserDTO!
   user(id: Int!): User!
+  checkProfile: User!
   allCategory(offset: Int = 0, limit: Int = 10, active: Boolean = true): [Category!]!
   category(id: Int!): Category!
   post(id: Int!): Post!
@@ -205,12 +206,9 @@ type Mutation {
 }
 
 input UpdateUserInput {
-  provider: String
-  providerId: String
   role: String
   avatar: String
   name: String
-  email: String
   id: Int!
 }
 

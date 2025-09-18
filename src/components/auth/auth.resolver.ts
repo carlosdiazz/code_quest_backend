@@ -1,15 +1,14 @@
 import { Resolver, Query, Args, Int, Mutation } from '@nestjs/graphql';
 import { ParseIntPipe, UseGuards } from '@nestjs/common';
 
-import { Role, User } from './entities/user.entity';
-
-import { PaginationArgs } from '../../common';
-import { UpdateUserInput } from './dto/update-user.input';
+import { User } from './entities/user.entity';
 import { AuthGuard } from './guard/auth.guard';
 import { CurrentUser } from './decorator/current-user.decorator';
+import { UpdateUserInput } from './dto/update-user.input';
 import { ResponseAllUserDTO } from './dto/response-all-user.dto';
 import { AuthService } from './auth.service';
 
+import { PaginationArgs } from '../../common';
 @Resolver(() => User)
 @UseGuards(AuthGuard)
 export class AuthResolver {
@@ -29,15 +28,20 @@ export class AuthResolver {
     return await this.authService.findOne(id);
   }
 
+  @Query(() => User, { name: 'checkProfile' })
+  public async checkProfile(@CurrentUser() user: User): Promise<User> {
+    return await this.authService.findOne(user.id);
+  }
+
   @Mutation(() => User)
   public async updateUser(
     @Args('updateUserInput') updateUserInput: UpdateUserInput,
-    @CurrentUser(Role.ADMIN) _user: User,
+    @CurrentUser() user: User,
   ) {
     return await this.authService.update(
       updateUserInput.id,
       updateUserInput,
-      _user,
+      user,
     );
   }
 }
