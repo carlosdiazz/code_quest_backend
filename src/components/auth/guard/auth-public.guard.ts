@@ -1,4 +1,3 @@
-// src/auth/firebase-auth.guard.graphql.ts
 import {
   CanActivate,
   ExecutionContext,
@@ -9,7 +8,7 @@ import { GqlExecutionContext } from '@nestjs/graphql';
 import { Reflector } from '@nestjs/core';
 
 import { AuthService } from '../auth.service';
-import { admin } from 'src/config';
+import { admin } from '../../../config';
 
 @Injectable()
 export class AuthGuardPublic implements CanActivate {

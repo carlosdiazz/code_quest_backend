@@ -4,7 +4,7 @@ import { ParseIntPipe, UseGuards } from '@nestjs/common';
 import { LikePost } from './entities/like-post.entity';
 import { CreateLikeInput } from './dto/create-like.input';
 
-import { PaginationArgs, ResponsePropio } from 'src/common';
+import { PaginationArgs, ResponsePropio } from '../../common';
 import { AuthGuard, CurrentUser, User } from '../auth';
 import { LikePostService } from './like-post.service';
 

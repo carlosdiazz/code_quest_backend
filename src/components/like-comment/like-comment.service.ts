@@ -10,7 +10,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateLikeCommentInput } from './dto/create-like-comment.input';
 import { LikeComment } from './entities/like-comment.entity';
 import { CommentService } from '../comment';
-import { MESSAGE, PaginationArgs, ResponsePropio } from 'src/common';
+import { MESSAGE, PaginationArgs, ResponsePropio } from '../../common';
 import { User } from '../auth';
 
 @Injectable()

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { ResponsePropio } from 'src/common';
+import { ResponsePropio } from '../common';
 
 @Injectable()
 export class AppService {

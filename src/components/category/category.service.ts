@@ -11,9 +11,9 @@ import { Repository } from 'typeorm';
 import { CreateCategoryInput } from './dto/create-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
 import { Category } from './entities/category.entity';
-import { MESSAGE, PaginationArgs, ResponsePropio } from 'src/common';
+import { MESSAGE, PaginationArgs, ResponsePropio } from '../../common';
 import { WsGateway, WsTotalResponse } from '../ws';
-import { ENTITY_ENUM } from 'src/config';
+import { ENTITY_ENUM } from '../../config';
 
 @Injectable()
 export class CategoryService {

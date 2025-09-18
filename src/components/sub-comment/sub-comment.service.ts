@@ -12,9 +12,9 @@ import { UpdateSubCommentInput } from './dto/update-sub-comment.input';
 import { SubComment } from './entities/sub-comment.entity';
 import { CommentService } from '../comment';
 import { Role, User } from '../auth';
-import { MESSAGE, PaginationArgs, ResponsePropio } from 'src/common';
+import { MESSAGE, PaginationArgs, ResponsePropio } from '../../common';
 import { WsGateway, WsTotalResponse } from '../ws';
-import { ENTITY_ENUM } from 'src/config';
+import { ENTITY_ENUM } from '../../config';
 
 @Injectable()
 export class SubCommentService {

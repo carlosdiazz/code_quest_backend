@@ -11,7 +11,7 @@ import { CreateLikeSubCommentInput } from './dto/create-like-sub-comment.input';
 import { LikeSubComment } from './entities/like-sub-comment.entity';
 import { SubCommentService } from '../sub-comment';
 import { User } from '../auth';
-import { MESSAGE, PaginationArgs, ResponsePropio } from 'src/common';
+import { MESSAGE, PaginationArgs, ResponsePropio } from '../../common';
 
 @Injectable()
 export class LikeSubCommentService {

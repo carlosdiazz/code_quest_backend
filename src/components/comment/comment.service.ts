@@ -9,12 +9,12 @@ import { Repository } from 'typeorm';
 
 import { CreateCommentInput } from './dto/create-comment.input';
 import { UpdateCommentInput } from './dto/update-comment.input';
-import { MESSAGE, PaginationArgs, ResponsePropio } from 'src/common';
+import { MESSAGE, PaginationArgs, ResponsePropio } from '../../common';
 import { Comment } from './entities/comment.entity';
 import { PostService } from '../post';
 import { Role, User } from '../auth';
 import { WsGateway, WsTotalResponse } from '../ws';
-import { ENTITY_ENUM } from 'src/config';
+import { ENTITY_ENUM } from '../../config';
 
 @Injectable()
 export class CommentService {

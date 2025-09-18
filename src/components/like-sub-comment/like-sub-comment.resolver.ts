@@ -5,7 +5,7 @@ import { LikeSubCommentService } from './like-sub-comment.service';
 import { LikeSubComment } from './entities/like-sub-comment.entity';
 import { CreateLikeSubCommentInput } from './dto/create-like-sub-comment.input';
 import { AuthGuard, CurrentUser, User } from '../auth';
-import { PaginationArgs, ResponsePropio } from 'src/common';
+import { PaginationArgs, ResponsePropio } from '../../common';
 
 @Resolver(() => LikeSubComment)
 @UseGuards(AuthGuard)

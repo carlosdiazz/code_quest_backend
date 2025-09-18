@@ -7,7 +7,7 @@ import { CreateSubCommentInput } from './dto/create-sub-comment.input';
 import { UpdateSubCommentInput } from './dto/update-sub-comment.input';
 
 import { AuthGuard, CurrentUser, User } from '../auth';
-import { PaginationArgs, ResponsePropio } from 'src/common';
+import { PaginationArgs, ResponsePropio } from '../../common';
 
 @Resolver(() => SubComment)
 @UseGuards(AuthGuard)

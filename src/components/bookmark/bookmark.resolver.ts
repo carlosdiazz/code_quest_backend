@@ -5,7 +5,7 @@ import { BookmarkService } from './bookmark.service';
 import { Bookmark } from './entities/bookmark.entity';
 import { CreateBookmarkInput } from './dto/create-bookmark.input';
 import { AuthGuard, CurrentUser, User } from '../auth';
-import { PaginationArgs, ResponsePropio } from 'src/common';
+import { PaginationArgs, ResponsePropio } from '../../common';
 
 @Resolver(() => Bookmark)
 @UseGuards(AuthGuard)

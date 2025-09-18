@@ -5,7 +5,7 @@ import { CategoryService } from './category.service';
 import { Category } from './entities/category.entity';
 import { CreateCategoryInput } from './dto/create-category.input';
 import { UpdateCategoryInput } from './dto/update-category.input';
-import { PaginationArgs, ResponsePropio } from 'src/common';
+import { PaginationArgs, ResponsePropio } from '../../common';
 import { AuthGuard } from '../auth/guard/auth.guard';
 import { CurrentUser, Public, Role, User } from '../auth';
 

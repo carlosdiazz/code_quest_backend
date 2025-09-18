@@ -3,7 +3,7 @@ import { ParseIntPipe, UseGuards } from '@nestjs/common';
 
 import { Role, User } from './entities/user.entity';
 
-import { PaginationArgs } from 'src/common';
+import { PaginationArgs } from '../../common';
 import { UpdateUserInput } from './dto/update-user.input';
 import { AuthGuard } from './guard/auth.guard';
 import { CurrentUser } from './decorator/current-user.decorator';

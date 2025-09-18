@@ -10,8 +10,8 @@ import {
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { envs } from 'src/config';
-import { DatabaseModule } from 'src/database';
+import { envs } from '../config';
+import { DatabaseModule } from '../database';
 import {
   AuthModule,
   BookmarkModule,
@@ -23,8 +23,8 @@ import {
   PostModule,
   SubCommentModule,
   TotalModule,
-} from 'src/components';
-import { WsModule } from 'src/components/ws';
+} from '../components';
+import { WsModule } from '../components/ws';
 
 const isProduction = envs.STATE === 'PROD';
 

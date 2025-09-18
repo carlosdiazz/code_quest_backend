@@ -11,7 +11,7 @@ import { CreateBookmarkInput } from './dto/create-bookmark.input';
 import { Bookmark } from './entities/bookmark.entity';
 import { PostService } from '../post';
 import { User } from '../auth';
-import { MESSAGE, PaginationArgs, ResponsePropio } from 'src/common';
+import { MESSAGE, PaginationArgs, ResponsePropio } from '../../common';
 
 @Injectable()
 export class BookmarkService {

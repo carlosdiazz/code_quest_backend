@@ -10,14 +10,14 @@ import { Repository } from 'typeorm';
 
 import { CreatePostInput } from './dto/create-post.input';
 import { UpdatePostInput } from './dto/update-post.input';
-import { MESSAGE, ResponsePropio } from 'src/common';
+import { MESSAGE, ResponsePropio } from '../../common';
 import { Post } from './entities/post.entity';
 import { CategoryService } from '../category';
 import { User } from '../auth';
 import { ResponseOnePostDTO, ResponsePostDTO } from './dto/response-post.dto';
 import { AllPostArgs } from './dto/all-post.args';
 import { WsGateway, WsTotalResponse } from '../ws';
-import { ENTITY_ENUM } from 'src/config';
+import { ENTITY_ENUM } from '../../config';
 
 @Injectable()
 export class PostService {

@@ -5,8 +5,7 @@ import { PostService } from './post.service';
 import { Post } from './entities/post.entity';
 
 import { AuthGuardPublic, CurrentUserOptional, User } from '../auth';
-import { ResponseOnePostDTO, ResponsePostDTO } from './dto/response-post.dto';
-import { AllPostArgs } from './dto/all-post.args';
+import { ResponseOnePostDTO, ResponsePostDTO, AllPostArgs } from './dto';
 
 @Resolver(() => Post)
 @UseGuards(AuthGuardPublic)

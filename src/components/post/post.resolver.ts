@@ -3,9 +3,9 @@ import { ParseIntPipe, UseGuards } from '@nestjs/common';
 
 import { PostService } from './post.service';
 import { Post } from './entities/post.entity';
-import { CreatePostInput } from './dto/create-post.input';
-import { UpdatePostInput } from './dto/update-post.input';
-import { ResponsePropio } from 'src/common';
+import { CreatePostInput, UpdatePostInput } from './dto';
+
+import { ResponsePropio } from '../../common';
 
 import { AuthGuard, CurrentUser, Role, User } from '../auth';
 

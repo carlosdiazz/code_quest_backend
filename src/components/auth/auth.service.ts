@@ -8,12 +8,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 
 import { Role, User } from './entities/user.entity';
-import { MESSAGE, PaginationArgs } from 'src/common';
+import { MESSAGE, PaginationArgs } from '../../common';
 import { CreateUserInput } from './dto/create-user.input';
 import { UpdateUserInput } from './dto/update-user.input';
 import { ResponseAllUserDTO } from './dto/response-all-user.dto';
 import { WsGateway, WsTotalResponse } from '../ws';
-import { ENTITY_ENUM } from 'src/config';
+import { ENTITY_ENUM } from '../../config';
 
 @Injectable()
 export class AuthService {

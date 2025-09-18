@@ -5,7 +5,7 @@ import { LikeCommentService } from './like-comment.service';
 import { LikeComment } from './entities/like-comment.entity';
 import { CreateLikeCommentInput } from './dto/create-like-comment.input';
 import { AuthGuard, CurrentUser, User } from '../auth';
-import { PaginationArgs, ResponsePropio } from 'src/common';
+import { PaginationArgs, ResponsePropio } from '../../common';
 
 @Resolver(() => LikeComment)
 @UseGuards(AuthGuard)

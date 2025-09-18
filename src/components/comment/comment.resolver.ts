@@ -5,7 +5,7 @@ import { CommentService } from './comment.service';
 import { Comment } from './entities/comment.entity';
 import { CreateCommentInput } from './dto/create-comment.input';
 import { UpdateCommentInput } from './dto/update-comment.input';
-import { PaginationArgs, ResponsePropio } from 'src/common';
+import { PaginationArgs, ResponsePropio } from '../../common';
 import { AuthGuard } from '../auth/guard/auth.guard';
 import { CurrentUser, User } from '../auth';
 
