@@ -4,12 +4,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PostService } from './post.service';
 import { PostResolver } from './post.resolver';
 import { Post } from './entities/post.entity';
-import { CategoryModule } from '../category';
-import { AuthModule } from '../auth';
 import { PostPublicResolver } from './post-public.resolver';
+import { CategoryModule } from '../category';
+import { PostViewModule } from '../post-view';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Post]), CategoryModule, AuthModule],
+  imports: [TypeOrmModule.forFeature([Post]), CategoryModule, PostViewModule],
   providers: [PostResolver, PostPublicResolver, PostService],
   exports: [PostService],
 })

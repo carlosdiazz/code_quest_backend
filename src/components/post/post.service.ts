@@ -18,6 +18,7 @@ import { ResponseOnePostDTO, ResponsePostDTO } from './dto/response-post.dto';
 import { AllPostArgs } from './dto/all-post.args';
 import { WsGateway, WsTotalResponse } from '../ws';
 import { ENTITY_ENUM } from '../../config';
+import { PostViewService } from '../post-view';
 
 @Injectable()
 export class PostService {
@@ -26,6 +27,7 @@ export class PostService {
     private readonly repository: Repository<Post>,
     private readonly categoryService: CategoryService,
     private readonly wsGateway: WsGateway,
+    private readonly postviewService: PostViewService,
   ) {}
 
   public async create(
@@ -78,7 +80,7 @@ export class PostService {
     };
   }
 
-  public async findOneById(id: number): Promise<Post> {
+  public async findOneById(id: number, user?: User): Promise<Post> {
     const entity = await this.repository.findOne({
       where: { id },
     });
@@ -86,6 +88,7 @@ export class PostService {
     if (!entity) {
       throw new NotFoundException(`${MESSAGE.NO_EXISTE} => Post`);
     }
+    await this.add_total_view(id, user?.id);
     return entity;
   }
 
@@ -93,7 +96,7 @@ export class PostService {
     slug: string,
     user: User | undefined,
   ): Promise<ResponseOnePostDTO> {
-    const item = await this.findOneBySlug(slug);
+    const item = await this.findOneBySlug(slug, user);
 
     let is_like = false;
     let is_bookmark = false;
@@ -182,12 +185,13 @@ export class PostService {
     }
   }
 
-  private async findOneBySlug(slug: string): Promise<Post> {
+  private async findOneBySlug(slug: string, user?: User): Promise<Post> {
     const entity = await this.repository.findOne({
       where: { slug },
     });
 
     if (!entity) throw new NotFoundException(`${MESSAGE.NO_EXISTE} => Post`);
+    await this.add_total_view(entity.id, user?.id);
 
     return entity;
   }
@@ -212,5 +216,11 @@ export class PostService {
     const total = await this.returnTotal();
     const ms: WsTotalResponse = { topic: ENTITY_ENUM.POST, total };
     this.wsGateway.sendEmitTotal(ms);
+  }
+
+  private async add_total_view(id: number, id_user?: number) {
+    await this.repository.increment({ id }, 'total_view', 1);
+    if (!id_user) return;
+    await this.postviewService.create({ id_post: id, id_user: id_user });
   }
 }

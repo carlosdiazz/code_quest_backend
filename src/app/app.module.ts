@@ -21,6 +21,7 @@ import {
   LikePostModule,
   LikeSubCommentModule,
   PostModule,
+  PostViewModule,
   SubCommentModule,
   TotalModule,
 } from '../components';
@@ -60,6 +61,7 @@ const apolloPlugin = isProduction
     BookmarkModule,
     TotalModule,
     WsModule,
+    PostViewModule,
   ],
   controllers: [AppController],
   providers: [AppService],

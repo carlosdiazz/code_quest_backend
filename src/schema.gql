@@ -80,6 +80,13 @@ type Bookmark {
   updateAt: DateTime!
 }
 
+type PostView {
+  id: Int!
+  user: User!
+  post: Post!
+  createAt: DateTime!
+}
+
 type Post {
   id: Int!
   title: String!
@@ -89,13 +96,16 @@ type Post {
   coverImage: String!
   published: Boolean!
   featured: Boolean!
+  total_view: Int!
   likesCount: Int!
   bookmarkCount: Int!
+  viewUserCount: Int!
   commentCount: Int!
   tags: [String!]!
   category: Category!
   user: User!
   like_post: [LikePost!]!
+  post_view: [PostView!]!
   bookmark_post: [Bookmark!]!
   comment: [Comment!]!
   createAt: DateTime!
@@ -114,6 +124,7 @@ type User {
   comment: [Comment!]!
   sub_comment: [SubComment!]!
   like_post: [LikePost!]!
+  post_view: [PostView!]!
   bookmark_post: [Bookmark!]!
   like_comment: [LikeComment!]!
   like_sub_comment: [LikeSubComment!]!

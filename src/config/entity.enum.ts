@@ -8,6 +8,7 @@ export enum ENTITY_ENUM {
   LIKE_SUB_COMMENT = 'like_sub_comment',
   POST = 'post',
   SUB_COMMENT = 'sub_comment',
+  POST_VIEW = 'post_view',
 }
 
 // import { ENTITY_ENUM } from '../../../config';

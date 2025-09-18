@@ -2,13 +2,13 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { LikePost } from './entities/like-post.entity';
-import { AuthModule } from '../auth';
-import { PostModule } from '../post';
 import { LikePostResolver } from './like-post.resolver';
 import { LikePostService } from './like-post.service';
 
+import { PostModule } from '../post';
+
 @Module({
-  imports: [TypeOrmModule.forFeature([LikePost]), PostModule, AuthModule],
+  imports: [TypeOrmModule.forFeature([LikePost]), PostModule],
   providers: [LikePostResolver, LikePostService],
   exports: [LikePostService],
 })

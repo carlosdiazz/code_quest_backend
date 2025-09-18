@@ -8,3 +8,4 @@ export * from './like-sub-comment';
 export * from './post';
 export * from './sub-comment';
 export * from './total';
+export * from './post-view';

@@ -5,10 +5,9 @@ import { BookmarkService } from './bookmark.service';
 import { BookmarkResolver } from './bookmark.resolver';
 import { Bookmark } from './entities/bookmark.entity';
 import { PostModule } from '../post';
-import { AuthModule } from '../auth';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Bookmark]), PostModule, AuthModule],
+  imports: [TypeOrmModule.forFeature([Bookmark]), PostModule],
   providers: [BookmarkResolver, BookmarkService],
   exports: [BookmarkService],
 })

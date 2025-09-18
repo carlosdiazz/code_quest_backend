@@ -5,10 +5,9 @@ import { SubCommentService } from './sub-comment.service';
 import { SubCommentResolver } from './sub-comment.resolver';
 import { SubComment } from './entities/sub-comment.entity';
 import { CommentModule } from '../comment';
-import { AuthModule } from '../auth';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([SubComment]), CommentModule, AuthModule],
+  imports: [TypeOrmModule.forFeature([SubComment]), CommentModule],
   providers: [SubCommentResolver, SubCommentService],
   exports: [SubCommentService],
 })

@@ -12,12 +12,14 @@ import {
   VirtualColumn,
 } from 'typeorm';
 
+import { ENTITY_ENUM } from '../../../config';
+
 import { Category } from './../../category/entities/category.entity';
 import { Comment } from './../../comment/entities/comment.entity';
 import { User } from '../../auth/entities/user.entity';
 import { LikePost } from '../../like-post/entities/like-post.entity';
 import { Bookmark } from '../../bookmark/entities/bookmark.entity';
-import { ENTITY_ENUM } from '../../../config';
+import { PostView } from '../../post-view/entities/post-view.entity';
 
 @Entity({ name: ENTITY_ENUM.POST })
 @ObjectType()
@@ -55,23 +57,34 @@ export class Post {
   public featured: boolean;
 
   @Field(() => Int)
+  @Column({ type: 'int', default: 0 })
+  public total_view: number;
+
+  @Field(() => Int)
   @VirtualColumn({
     query: (alias) =>
-      `(SELECT COUNT(*) FROM "like_post" l WHERE l.id_post = ${alias}.id)`,
+      `(SELECT COUNT(*) FROM "${ENTITY_ENUM.LIKE_POST}" l WHERE l.id_post = ${alias}.id)`,
   })
   public likesCount: number;
 
   @Field(() => Int)
   @VirtualColumn({
     query: (alias) =>
-      `(SELECT COUNT(*) FROM "bookmark_post" l WHERE l.id_post = ${alias}.id)`,
+      `(SELECT COUNT(*) FROM "${ENTITY_ENUM.BOOKMARK_POST}" l WHERE l.id_post = ${alias}.id)`,
   })
   public bookmarkCount: number;
 
   @Field(() => Int)
   @VirtualColumn({
     query: (alias) =>
-      `(SELECT COUNT(*) FROM "comment" l WHERE l.id_post = ${alias}.id)`,
+      `(SELECT COUNT(*) FROM "${ENTITY_ENUM.POST_VIEW}" l WHERE l.id_post = ${alias}.id)`,
+  })
+  public viewUserCount: number;
+
+  @Field(() => Int)
+  @VirtualColumn({
+    query: (alias) =>
+      `(SELECT COUNT(*) FROM "${ENTITY_ENUM.COMMENT}" l WHERE l.id_post = ${alias}.id)`,
   })
   public commentCount: number;
 
@@ -98,6 +111,12 @@ export class Post {
     eager: true,
   })
   public like_post: LikePost[];
+
+  @Field(() => [PostView])
+  @OneToMany(() => PostView, (postView) => postView.post, {
+    eager: true,
+  })
+  public post_view: PostView[];
 
   @Field(() => [Bookmark])
   @OneToMany(() => Bookmark, (bookMark) => bookMark.post, {
