@@ -8,7 +8,6 @@ import {
 } from '@nestjs/common';
 
 import { FileInterceptor } from '@nest-lab/fastify-multer';
-
 import type { File } from '@nest-lab/fastify-multer';
 
 import { ImageService } from './image.service';

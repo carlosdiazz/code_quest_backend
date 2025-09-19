@@ -17,7 +17,8 @@ La aplicación está desarrollada con **NestJS**, utiliza **PostgreSQL** como ba
 - **PostgreSQL** - Base de datos relacional
 - **Firebase** - Autenticación y autorización
 - **Docker / Docker Compose** - Opcional para levantar la base de datos
-- **Socker.io** WebSocket
+- **Socker.io** - WebSocket
+- **CloudDinary** - Para guardar y servir las imagenes
 
 ---
 
@@ -45,14 +46,18 @@ Subir una base de Dato Postgres, ya sea local o en la nube
 2. Habilitar Firebase Auth y configurar la autenticación.
 3. Como metodos de autenticacion usamos el del Correo y el de Google
 
+#### 3. Firebase
 
-#### 3. Instalación de dependencias
+1. Crear una cuenta en CLoudDinary
+2. Obtener las variables de configuracion de CloudDinary
+
+#### 4. Instalación de dependencias
 
 ```bash
 npm install
 ```
 
-#### 4. Variables de entorno
+#### 5. Variables de entorno
 
 Clonar el archivo `template.env` como `.env`:
 
@@ -62,14 +67,14 @@ cp template.env .env
 
 Configurar las variables según la base de datos que se use y otras configuraciones (puerto, etc.).
 
-#### 5. Correr la Primera Migracion en al base de Datos
+#### 6. Correr la Primera Migracion en al base de Datos
 
 Ejecutar la primera migración para crear las tablas en la base de datos:
 
 ```bash
 npm run migration:run
 ```
-#### 6. Correrlo en modo desarrollo
+#### 7. Correrlo en modo desarrollo
 
 Levantar el servidor en modo desarrollo:
 
@@ -84,6 +89,7 @@ El servidor estará disponible en `http://localhost:{PUERTO}/graphql` para inter
 #### Pre-requisitos
   - Base de Datos con las migraciones corrida
   - Configuracion de Firebase Lista
+  - Configuracion de CloudDinary Lista
   - Configurara las variables de entorno
 
 #### Opción 1: Usando Docker Compose
@@ -128,6 +134,8 @@ src/
 * Asegúrate de que la base de datos este correindo, antes de levntar el Proyecto, y de haber corrido las migraciones primero, para la creacion de las tablas.
 
 * Asegúrate de que Firebase Auth este bien configurado, y haber habilitado el Provider de Correo y de Google como metodo de autenticacion
+
+* Asegúrate de haber creado una cuenta en CloudDinary y de obtener las variabels de configuracion correctas.
 
 * GraphQL Playground está habilitado para facilitar pruebas de queries y mutations.
 

@@ -38,6 +38,18 @@ export class User {
   @Column({ type: 'varchar' })
   public providerId: string;
 
+  @Field(() => String, { nullable: true })
+  @Column({ type: 'varchar', nullable: true })
+  public about?: string;
+
+  @Field(() => String, { nullable: true })
+  @Column({ type: 'varchar', nullable: true })
+  public twitter_url?: string;
+
+  @Field(() => String, { nullable: true })
+  @Column({ type: 'varchar', nullable: true })
+  public instagram_url?: string;
+
   @Field(() => String)
   @Column({
     type: 'enum',

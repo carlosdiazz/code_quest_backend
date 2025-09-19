@@ -1,7 +1,7 @@
 import { BadGatewayException, Injectable } from '@nestjs/common';
 import { v2 as cloudinary, UploadApiResponse } from 'cloudinary';
 
-import { envs } from 'src/config';
+import { envs } from '../../config';
 
 @Injectable()
 export class ImageService {
@@ -25,6 +25,7 @@ export class ImageService {
         );
         uploadStream.end(buffer);
       });
+      console.log(result);
 
       return result.secure_url;
     } catch (err) {
@@ -32,5 +33,9 @@ export class ImageService {
         err.message || 'Error subiendo a Cloudinary',
       );
     }
+  }
+
+  async deleteFile(publicId: string): Promise<void> {
+    await cloudinary.uploader.destroy(publicId);
   }
 }

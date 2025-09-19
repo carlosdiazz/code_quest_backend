@@ -116,6 +116,9 @@ type User {
   id: Int!
   provider: String!
   providerId: String!
+  about: String
+  twitter_url: String
+  instagram_url: String
   role: String!
   avatar: String!
   name: String!
@@ -209,6 +212,9 @@ input UpdateUserInput {
   role: String
   avatar: String
   name: String
+  about: String
+  twitter_url: String
+  instagram_url: String
   id: Int!
 }
 

@@ -55,12 +55,12 @@ export class AuthService {
   ): Promise<User> {
     const entity = await this.findOne(id);
 
-    const { avatar, name, role } = updateUserInput;
+    const { role, ...rest } = updateUserInput;
 
     if (user.role === Role.USER) {
-      this.repository.merge(entity, { avatar, name });
+      this.repository.merge(entity, { ...rest });
     } else {
-      this.repository.merge(entity, { avatar, name, role });
+      this.repository.merge(entity, { role, ...rest });
     }
 
     try {

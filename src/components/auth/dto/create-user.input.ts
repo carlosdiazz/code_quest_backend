@@ -1,5 +1,5 @@
 import { InputType, Field } from '@nestjs/graphql';
-import { IsString } from 'class-validator';
+import { IsOptional, IsString, IsUrl } from 'class-validator';
 import { Role } from '../entities/user.entity';
 
 @InputType()
@@ -27,4 +27,18 @@ export class CreateUserInput {
   @Field(() => String)
   @IsString()
   public email: string;
+
+  @Field(() => String, { nullable: true })
+  @IsOptional()
+  public about?: string;
+
+  @Field(() => String, { nullable: true })
+  @IsOptional()
+  @IsUrl()
+  public twitter_url?: string;
+
+  @Field(() => String, { nullable: true })
+  @IsOptional()
+  @IsUrl()
+  public instagram_url?: string;
 }
