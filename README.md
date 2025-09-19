@@ -27,8 +27,9 @@ La aplicación está desarrollada con **NestJS**, utiliza **PostgreSQL** como ba
 - Node.js v20+
 - npm v9+
 - PostgreSQL (local o en la nube)
-- Docker (opcional, para levantar la base de datos local)
-- Proyecto de Firebase configurado con archivo `firebase.json`
+- Docker (opcional)
+- Cuenta de Firebase Auth (Provider de Google y Correo habilitado)
+- Cuenta de CloudDinary
 
 ---
 
@@ -46,7 +47,7 @@ Subir una base de Dato Postgres, ya sea local o en la nube
 2. Habilitar Firebase Auth y configurar la autenticación.
 3. Como metodos de autenticacion usamos el del Correo y el de Google
 
-#### 3. Firebase
+#### 3. CloudDinary
 
 1. Crear una cuenta en CLoudDinary
 2. Obtener las variables de configuracion de CloudDinary
@@ -141,4 +142,6 @@ src/
 
 ## IMPORTANTE !!
 
-Todos los usuarios creados, por defecto tienen el rol de USER, hay que ponerlo manual el primer user ADMIN, ya luego ese user ADMIn puede cambiar los demas
+Todos los usuarios creados, por defecto tienen el rol de USER, hay que ponerlo manual el primer user ADMIN, ya luego ese user ADMIN puede cambiar los demas usuarios.
+
+Las migraciones hay que correrla manual, una vez que tengamos la base de Datos Levantada, debemos de ejecutar ```npm run migracion:run```, la primera vez para que la migracion tengan efecto, ya leugo podemos usarlo mediante Docker o en Node.
