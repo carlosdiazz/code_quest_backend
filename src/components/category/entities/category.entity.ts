@@ -6,6 +6,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  VirtualColumn,
 } from 'typeorm';
 
 import { Post } from './../../post/entities/post.entity';
@@ -33,6 +34,13 @@ export class Category {
   @Field(() => String)
   @Column({ type: 'varchar' })
   public color: string;
+
+  @Field(() => Int)
+  @VirtualColumn({
+    query: (alias) =>
+      `(SELECT COUNT(*) FROM "${ENTITY_ENUM.POST}" l WHERE l.id_category = ${alias}.id)`,
+  })
+  public postCount: number;
 
   @Field(() => [Post])
   @OneToMany(() => Post, (post) => post.category, {

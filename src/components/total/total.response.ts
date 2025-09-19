@@ -6,6 +6,9 @@ export class TotalResponse {
   public total_post: number;
 
   @Field(() => Int)
+  public total_post_published: number;
+
+  @Field(() => Int)
   public total_category: number;
 
   @Field(() => Int)

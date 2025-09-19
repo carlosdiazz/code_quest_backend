@@ -13,8 +13,9 @@ export class TotalResolver {
 
   @Query(() => TotalResponse, { name: 'totalResponse' })
   public async totalResponse(
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     @CurrentUser(Role.ADMIN) user: User,
   ): Promise<TotalResponse> {
-    return await this.totalService.totalResponse(user);
+    return await this.totalService.totalResponse();
   }
 }

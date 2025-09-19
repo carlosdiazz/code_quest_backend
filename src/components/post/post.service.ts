@@ -226,15 +226,22 @@ export class PostService {
     }
   }
 
+  public async returnTotalPublished(): Promise<number> {
+    try {
+      return await this.repository.count({ where: { published: true } });
+    } catch {
+      return 0;
+    }
+  }
+
   private async wsTotal() {
     const total = await this.returnTotal();
     const ms: WsTotalResponse = { topic: ENTITY_ENUM.POST, total };
     this.wsGateway.sendEmitTotal(ms);
   }
 
-  public async totalViewByUser(user: User): Promise<number> {
+  public async totalViewByUser(): Promise<number> {
     const posts = await this.repository.find({
-      where: { user: { id: user.id } },
       select: ['total_view'],
     });
 

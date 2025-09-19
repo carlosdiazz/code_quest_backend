@@ -14,6 +14,7 @@ type Category {
   description: String!
   slug: String!
   color: String!
+  postCount: Int!
   post: [Post!]!
   createAt: DateTime!
   updateAt: DateTime!
@@ -161,6 +162,7 @@ type ResponseOnePostDTO {
 
 type TotalResponse {
   total_post: Int!
+  total_post_published: Int!
   total_category: Int!
   total_user: Int!
   total_comment: Int!
