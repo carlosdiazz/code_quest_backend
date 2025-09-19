@@ -7,6 +7,7 @@ import {
   JoinColumn,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
   VirtualColumn,
@@ -20,6 +21,7 @@ import { User } from '../../auth/entities/user.entity';
 import { LikePost } from '../../like-post/entities/like-post.entity';
 import { Bookmark } from '../../bookmark/entities/bookmark.entity';
 import { PostView } from '../../post-view/entities/post-view.entity';
+import { Image } from '../../image/entities/image.entity';
 
 @Entity({ name: ENTITY_ENUM.POST })
 @ObjectType()
@@ -43,10 +45,6 @@ export class Post {
   @Field(() => String)
   @Column({ type: 'varchar' })
   public excerpt: string;
-
-  @Field(() => String)
-  @Column({ type: 'varchar' })
-  public coverImage: string;
 
   @Field(() => Boolean)
   @Column({ type: 'boolean' })
@@ -129,6 +127,14 @@ export class Post {
     eager: true,
   })
   public comment: Comment[];
+
+  @Field(() => Image, { nullable: true })
+  @OneToOne(() => Image, (image) => image.post, {
+    eager: true,
+    nullable: true,
+  })
+  @JoinColumn({ name: 'id_image' })
+  public image?: Image;
 
   @Field(() => Date)
   @CreateDateColumn({

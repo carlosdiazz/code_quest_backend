@@ -9,6 +9,7 @@ export enum ENTITY_ENUM {
   POST = 'post',
   SUB_COMMENT = 'sub_comment',
   POST_VIEW = 'post_view',
+  IMAGE = 'image',
 }
 
 // import { ENTITY_ENUM } from '../../../config';

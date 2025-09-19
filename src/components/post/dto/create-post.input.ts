@@ -1,5 +1,12 @@
 import { InputType, Int, Field } from '@nestjs/graphql';
-import { IsArray, IsBoolean, IsNumber, IsString, Min } from 'class-validator';
+import {
+  IsArray,
+  IsBoolean,
+  IsNumber,
+  IsOptional,
+  IsString,
+  Min,
+} from 'class-validator';
 
 @InputType()
 export class CreatePostInput {
@@ -31,6 +38,12 @@ export class CreatePostInput {
   @IsArray()
   @IsString({ each: true })
   public tags: string[];
+
+  @Field(() => Int, { nullable: true })
+  @IsOptional()
+  @IsNumber()
+  @Min(1)
+  public id_image?: number;
 
   @Field(() => Int)
   @IsNumber()

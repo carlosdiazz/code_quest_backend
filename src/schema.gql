@@ -87,13 +87,19 @@ type PostView {
   createAt: DateTime!
 }
 
+type Image {
+  id: Int!
+  secure_url: String!
+  public_id: String!
+  post: Post
+}
+
 type Post {
   id: Int!
   title: String!
   slug: String!
   content: String!
   excerpt: String!
-  coverImage: String!
   published: Boolean!
   featured: Boolean!
   total_view: Int!
@@ -108,6 +114,7 @@ type Post {
   post_view: [PostView!]!
   bookmark_post: [Bookmark!]!
   comment: [Comment!]!
+  image: Image
   createAt: DateTime!
   updateAt: DateTime!
 }
@@ -241,6 +248,7 @@ input CreatePostInput {
   published: Boolean!
   featured: Boolean!
   tags: [String!]!
+  id_image: Int
   id_category: Int!
 }
 
@@ -252,6 +260,7 @@ input UpdatePostInput {
   published: Boolean
   featured: Boolean
   tags: [String!]
+  id_image: Int
   id_category: Int
   id: Int!
 }

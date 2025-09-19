@@ -7,9 +7,15 @@ import { Post } from './entities/post.entity';
 import { PostPublicResolver } from './post-public.resolver';
 import { CategoryModule } from '../category';
 import { PostViewModule } from '../post-view';
+import { ImageModule } from '../image';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Post]), CategoryModule, PostViewModule],
+  imports: [
+    TypeOrmModule.forFeature([Post]),
+    CategoryModule,
+    PostViewModule,
+    ImageModule,
+  ],
   providers: [PostResolver, PostPublicResolver, PostService],
   exports: [PostService],
 })

@@ -24,6 +24,7 @@ import { CategoryService } from '../category';
 import { User } from '../auth';
 import { WsGateway, WsTotalResponse } from '../ws';
 import { PostViewService } from '../post-view';
+import { ImageService } from '../image';
 
 @Injectable()
 export class PostService {
@@ -33,15 +34,17 @@ export class PostService {
     private readonly categoryService: CategoryService,
     private readonly wsGateway: WsGateway,
     private readonly postviewService: PostViewService,
+    private readonly imageService: ImageService,
   ) {}
 
   public async create(
     createPostInput: CreatePostInput,
     user: User,
   ): Promise<Post> {
-    const { slug, id_category, ...rest } = createPostInput;
+    const { slug, id_image, id_category, ...rest } = createPostInput;
     await this.verifySlug(slug);
     await this.categoryService.findOne(id_category);
+    if (id_image) await this.imageService.findOne(id_image);
 
     try {
       const newEntity = this.repository.create({
@@ -52,6 +55,7 @@ export class PostService {
         user: {
           id: user.id,
         },
+        ...(id_image && { image: { id: id_image } }),
         ...rest,
       });
       const entity = await this.repository.save(newEntity);
@@ -155,11 +159,16 @@ export class PostService {
       );
     }
 
-    const { slug, id_category, ...rest } = updatePostInput;
+    const { slug, id_image, id_category, ...rest } = updatePostInput;
 
     if (id_category) {
       const category = await this.categoryService.findOne(id_category);
       entity.category = category;
+    }
+
+    if (id_image) {
+      const image = await this.imageService.findOne(id_image);
+      entity.image = image;
     }
 
     if (slug) {
