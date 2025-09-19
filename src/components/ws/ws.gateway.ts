@@ -23,9 +23,6 @@ export class WsGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   public sendEmitTotal(WsTotalResponse: WsTotalResponse) {
-    this.logger.log(
-      `Topic => ${WsTotalResponse.topic} Total => ${WsTotalResponse.total}`,
-    );
     this.wss.emit(WsTotalResponse.topic, WsTotalResponse);
   }
 }

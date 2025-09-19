@@ -112,6 +112,28 @@ export class AuthService {
     }
   }
 
+  public async returnTotalAdmin(): Promise<number> {
+    try {
+      return await this.repository.count({
+        where: { role: Role.ADMIN },
+      });
+    } catch {
+      return 0;
+    }
+  }
+
+  //TODO este metodo solo se usara para crear un seed
+  public async createMock(CreateUserInput: CreateUserInput): Promise<User> {
+    try {
+      const newUser = this.repository.create(CreateUserInput);
+      const entity = await this.repository.save(newUser);
+      await this.wsTotal();
+      return await this.findOne(entity.id);
+    } catch (error) {
+      throw new UnprocessableEntityException(error?.message);
+    }
+  }
+
   private async wsTotal() {
     const total = await this.returnTotal();
     const ms: WsTotalResponse = { topic: ENTITY_ENUM.USER, total };

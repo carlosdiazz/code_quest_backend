@@ -35,7 +35,7 @@ export class ImageController {
 
     if (!buffer) throw new BadRequestException('No vino la imagen');
 
-    return await this.imageSercive.create(buffer);
+    return await this.imageSercive.pre_create(buffer);
   }
 
   @Delete()

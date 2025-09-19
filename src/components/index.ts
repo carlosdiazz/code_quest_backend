@@ -11,3 +11,4 @@ export * from './total';
 export * from './post-view';
 export * from './ws';
 export * from './image';
+export * from './seed';

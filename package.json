@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@as-integrations/fastify": "^2.1.1",
+    "@faker-js/faker": "^10.0.0",
     "@fastify/multipart": "^9.2.1",
     "@nest-lab/fastify-multer": "^1.3.0",
     "@nestjs/apollo": "^13.1.0",

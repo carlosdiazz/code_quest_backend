@@ -27,13 +27,17 @@ export class ImageService {
     });
   }
 
-  public async create(buffer: Buffer): Promise<Image> {
+  public async pre_create(buffer: Buffer): Promise<Image> {
     const file = await this.uploadFile(buffer);
+    const { public_id, secure_url } = file;
+    return this.create(public_id, secure_url);
+  }
 
+  public async create(public_id: string, secure_url: string): Promise<Image> {
     try {
       const newEntity = this.repository.create({
-        public_id: file.public_id,
-        secure_url: file.secure_url,
+        public_id,
+        secure_url,
       });
 
       const entity = await this.repository.save(newEntity);

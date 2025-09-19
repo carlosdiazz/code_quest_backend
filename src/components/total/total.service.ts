@@ -23,6 +23,7 @@ export class TotalService {
       total_post,
       total_post_published,
       total_user,
+      total_user_admin,
       total_sub_comment,
       total_view,
     ] = await Promise.all([
@@ -31,6 +32,7 @@ export class TotalService {
       this.postService.returnTotal(),
       this.postService.returnTotalPublished(),
       this.authService.returnTotal(),
+      this.authService.returnTotalAdmin(),
       this.subCommentService.returnTotal(),
       this.postService.totalViewByUser(),
     ]);
@@ -40,6 +42,7 @@ export class TotalService {
       total_sub_comment,
       total_post,
       total_user,
+      total_user_admin,
       total_view,
       total_post_published,
     };

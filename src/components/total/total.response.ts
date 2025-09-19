@@ -15,6 +15,9 @@ export class TotalResponse {
   public total_user: number;
 
   @Field(() => Int)
+  public total_user_admin: number;
+
+  @Field(() => Int)
   public total_comment: number;
 
   @Field(() => Int)
