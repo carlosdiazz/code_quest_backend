@@ -12,12 +12,13 @@ import {
 import { FileInterceptor } from '@nest-lab/fastify-multer';
 import type { File } from '@nest-lab/fastify-multer';
 
+import { ImageRemoveDto } from './dto/image-remove.dto';
 import { ImageService } from './image.service';
 import { Image } from './entities/image.entity';
+import { ImageValidationPipe } from './image.pipe';
 
 import { AuthHttpGuard, CurrentUserHttp, Role, User } from '../auth';
 import { ResponsePropio } from '../../common';
-import { ImageRemoveDto } from './dto/image-remove.dto';
 
 @Controller('upload')
 @UseGuards(AuthHttpGuard)
@@ -28,7 +29,7 @@ export class ImageController {
   @UseInterceptors(FileInterceptor('file-imagen'))
   public async uploadFile(
     @CurrentUserHttp(Role.ADMIN) user: User,
-    @UploadedFile() file: File,
+    @UploadedFile(ImageValidationPipe) file: File,
   ): Promise<Image> {
     const buffer = file.buffer;
 

@@ -1,5 +1,11 @@
 import { Field, Int, ObjectType } from '@nestjs/graphql';
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 import { ENTITY_ENUM } from '../../../config';
 import { Post } from '../../post/entities/post.entity';
@@ -22,4 +28,12 @@ export class Image {
   @Field(() => Post, { nullable: true })
   @OneToOne(() => Post, (post) => post.image)
   public post?: Post;
+
+  @Field(() => Date)
+  @CreateDateColumn({
+    name: 'create_at',
+    type: 'timestamptz',
+    default: () => 'CURRENT_TIMESTAMP',
+  })
+  public createAt: Date;
 }

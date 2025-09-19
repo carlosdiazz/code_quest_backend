@@ -92,6 +92,7 @@ type Image {
   secure_url: String!
   public_id: String!
   post: Post
+  createAt: DateTime!
 }
 
 type Post {
