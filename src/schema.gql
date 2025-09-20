@@ -160,6 +160,16 @@ type ResponseOnePostDTO {
   is_bookmark: Boolean!
 }
 
+type ResponseCategoryDTO {
+  items: [Category!]!
+  total: Int!
+}
+
+type ResponseCommentDTO {
+  items: [Comment!]!
+  total: Int!
+}
+
 type TotalResponse {
   total_post: Int!
   total_post_published: Int!
@@ -175,7 +185,7 @@ type Query {
   allUser(offset: Int = 0, limit: Int = 10, active: Boolean = true): ResponseAllUserDTO!
   user(id: Int!): User!
   checkProfile: User!
-  allCategory(offset: Int = 0, limit: Int = 10, active: Boolean = true): [Category!]!
+  allCategory(offset: Int = 0, limit: Int = 10, active: Boolean = true): ResponseCategoryDTO!
   category(id: Int!): Category!
   post(id: Int!): Post!
   allPost(offset: Int = 0, limit: Int = 10, active: Boolean = true, id_category: Int): ResponsePostDTO!
@@ -184,7 +194,7 @@ type Query {
   likePost(id: Int!): LikePost!
   allLikeComment(offset: Int = 0, limit: Int = 10, active: Boolean = true): [LikeComment!]!
   likeComment(id: Int!): LikeComment!
-  allComment(offset: Int = 0, limit: Int = 10, active: Boolean = true): [Comment!]!
+  allComment(offset: Int = 0, limit: Int = 10, active: Boolean = true): ResponseCommentDTO!
   comment(id: Int!): Comment!
   allLikeSubComment(offset: Int = 0, limit: Int = 10, active: Boolean = true): [LikeSubComment!]!
   likeSubComment(id: Int!): LikeSubComment!
