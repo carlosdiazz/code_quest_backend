@@ -1,5 +1,6 @@
 export * from './dto/create-category.input';
 export * from './dto/update-category.input';
+export * from './dto/response-category.dto';
 
 export * from './entities/category.entity';
 

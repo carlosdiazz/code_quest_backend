@@ -8,6 +8,7 @@ import { UpdateCategoryInput } from './dto/update-category.input';
 import { PaginationArgs, ResponsePropio } from '../../common';
 import { AuthGuard } from '../auth/guard/auth.guard';
 import { CurrentUser, Public, Role, User } from '../auth';
+import { ResponseCategoryDTO } from './dto/response-category.dto';
 
 @Resolver(() => Category)
 @UseGuards(AuthGuard)
@@ -23,11 +24,11 @@ export class CategoryResolver {
     return await this.categoryService.create(createCategoryInput);
   }
 
-  @Query(() => [Category], { name: 'allCategory' })
+  @Query(() => ResponseCategoryDTO, { name: 'allCategory' })
   @Public()
   public async findAll(
     @Args() paginationArgs: PaginationArgs,
-  ): Promise<Category[]> {
+  ): Promise<ResponseCategoryDTO> {
     return await this.categoryService.findAll(paginationArgs);
   }
 

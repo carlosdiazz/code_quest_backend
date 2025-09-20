@@ -3,8 +3,11 @@ import { ParseIntPipe, UseGuards } from '@nestjs/common';
 
 import { CommentService } from './comment.service';
 import { Comment } from './entities/comment.entity';
+
 import { CreateCommentInput } from './dto/create-comment.input';
 import { UpdateCommentInput } from './dto/update-comment.input';
+import { ResponseCommentDTO } from './dto/response-commet.dto';
+
 import { PaginationArgs, ResponsePropio } from '../../common';
 import { AuthGuard } from '../auth/guard/auth.guard';
 import { CurrentUser, User } from '../auth';
@@ -22,10 +25,10 @@ export class CommentResolver {
     return await this.commentService.create(createCommentInput, user);
   }
 
-  @Query(() => [Comment], { name: 'allComment' })
+  @Query(() => ResponseCommentDTO, { name: 'allComment' })
   public async findAll(
     @Args() paginationArgs: PaginationArgs,
-  ): Promise<Comment[]> {
+  ): Promise<ResponseCommentDTO> {
     return await this.commentService.findAll(paginationArgs);
   }
 

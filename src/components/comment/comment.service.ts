@@ -15,6 +15,7 @@ import { PostService } from '../post';
 import { Role, User } from '../auth';
 import { WsGateway, WsTotalResponse } from '../ws';
 import { ENTITY_ENUM } from '../../config';
+import { ResponseCommentDTO } from './dto/response-commet.dto';
 
 @Injectable()
 export class CommentService {
@@ -52,16 +53,24 @@ export class CommentService {
     }
   }
 
-  public async findAll(paginationArgs: PaginationArgs): Promise<Comment[]> {
+  public async findAll(
+    paginationArgs: PaginationArgs,
+  ): Promise<ResponseCommentDTO> {
     const { limit, offset } = paginationArgs;
 
-    return await this.repository.find({
-      order: {
-        createAt: 'DESC',
-      },
-      take: limit,
-      skip: offset * limit,
-    });
+    const [total, items] = await Promise.all([
+      this.repository.count(),
+      this.repository.find({
+        order: { createAt: 'DESC' },
+        take: limit,
+        skip: offset * limit,
+      }),
+    ]);
+
+    return {
+      items,
+      total,
+    };
   }
 
   public async findOne(id: number): Promise<Comment> {

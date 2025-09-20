@@ -59,13 +59,13 @@ export class SeedService {
   }
 
   private async createCategory(): Promise<Category[]> {
-    const arr_category: Category[] = await this.categoryService.findAll({
+    const { items } = await this.categoryService.findAll({
       limit: 10,
       offset: 0,
       active: true,
     });
 
-    if (arr_category.length >= 1) return arr_category;
+    if (items.length >= 1) return items;
 
     for (let index = 0; index < 10; index++) {
       const createPost: CreateCategoryInput = {
@@ -78,13 +78,13 @@ export class SeedService {
       try {
         const new_entity = await this.categoryService.create(createPost);
         this.logger.debug(`Categoria Nueva ${new_entity.name}`);
-        arr_category.push(new_entity);
+        items.push(new_entity);
       } catch {
         this.logger.error(`No pudo crearse la category => ${createPost.name}`);
       }
     }
 
-    return arr_category;
+    return items;
   }
 
   private async createUser(): Promise<User[]> {
@@ -168,7 +168,7 @@ export class SeedService {
   }
 
   private async createComment(posts: Post[]): Promise<Comment[]> {
-    const items = await this.commentService.findAll({
+    const { items } = await this.commentService.findAll({
       limit: 10,
       offset: 0,
       active: true,

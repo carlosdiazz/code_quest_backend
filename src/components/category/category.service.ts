@@ -14,6 +14,7 @@ import { Category } from './entities/category.entity';
 import { MESSAGE, PaginationArgs, ResponsePropio } from '../../common';
 import { WsGateway, WsTotalResponse } from '../ws';
 import { ENTITY_ENUM } from '../../config';
+import { ResponseCategoryDTO } from './dto/response-category.dto';
 
 @Injectable()
 export class CategoryService {
@@ -42,16 +43,24 @@ export class CategoryService {
     }
   }
 
-  public async findAll(pagination: PaginationArgs): Promise<Category[]> {
+  public async findAll(
+    pagination: PaginationArgs,
+  ): Promise<ResponseCategoryDTO> {
     const { limit, offset } = pagination;
 
-    return await this.repository.find({
-      order: {
-        createAt: 'DESC',
-      },
-      take: limit,
-      skip: offset * limit,
-    });
+    const [total, items] = await Promise.all([
+      this.repository.count(),
+      this.repository.find({
+        order: { createAt: 'DESC' },
+        take: limit,
+        skip: offset * limit,
+      }),
+    ]);
+
+    return {
+      items,
+      total,
+    };
   }
 
   public async findOne(id: number): Promise<Category> {
