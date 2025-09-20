@@ -94,8 +94,6 @@ export class SeedService {
       active: true,
     });
 
-    if (items.length >= 1) return items;
-
     for (let index = 0; index < 5; index++) {
       const createUser: CreateUserInput = {
         avatar: faker.image.avatar(),
