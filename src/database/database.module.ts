@@ -19,7 +19,7 @@ import { envs } from '../config';
       ssl: envs.STATE === 'DEV' ? false : true,
       extra: {
         ssl: {
-          rejectUnauthorized: envs.STATE === 'DEV' ? false : true,
+          rejectUnauthorized: false,
         },
       },
     }),
