@@ -145,3 +145,6 @@ src/
 Todos los usuarios creados, por defecto tienen el rol de USER, hay que ponerlo manual el primer user ADMIN, ya luego ese user ADMIN puede cambiar los demas usuarios.
 
 Las migraciones hay que correrla manual, una vez que tengamos la base de Datos Levantada, debemos de ejecutar ```npm run migracion:run```, la primera vez para que la migracion tengan efecto, ya leugo podemos usarlo mediante Docker o en Node.
+
+## Licencia
+Este proyecto está bajo la [Licencia MIT](./LICENSE).
