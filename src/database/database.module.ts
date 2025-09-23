@@ -18,9 +18,12 @@ import { envs } from '../config';
       synchronize: false,
       ssl: envs.STATE === 'DEV' ? false : true,
       extra: {
-        ssl: {
-          rejectUnauthorized: false,
-        },
+        ssl:
+          envs.STATE === 'DEV'
+            ? false
+            : {
+                rejectUnauthorized: false,
+              },
       },
     }),
   ],
