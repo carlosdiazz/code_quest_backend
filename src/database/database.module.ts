@@ -17,11 +17,11 @@ import { envs } from '../config';
       autoLoadEntities: true,
       synchronize: false,
       ssl: envs.STATE === 'DEV' ? false : true,
-      //extra: {
-      //  ssl: {
-      //    rejectUnauthorized: false,
-      //  },
-      //},
+      extra: {
+        ssl: {
+          rejectUnauthorized: envs.STATE === 'DEV' ? false : true,
+        },
+      },
     }),
   ],
 })
