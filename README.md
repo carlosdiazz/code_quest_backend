@@ -85,6 +85,46 @@ npm run dev
 
 El servidor estará disponible en `http://localhost:{PUERTO}/graphql` para interactuar con GraphQL Playground.
 
+## Cargar datos de prueba (Seed)
+
+Para poder ejecutar el *Seed*, lo primero que necesitas es:
+
+1. **Crear una cuenta de usuario** en el sistema.
+2. **Asignarle el rol de ADMIN** a ese usuario, para el primer usuario es obligatorio que lo cambies manual, desde la BD, solo el primer usuario.
+
+> ⚠️ **Importante:** Solo un usuario con rol **ADMIN** puede ejecutar la consulta del Seed.
+
+---
+
+### Ejecución del Seed
+
+Una vez tengas un usuario con rol **ADMIN** y su respectivo **token**, puedes ejecutar la siguiente consulta **GraphQL**:
+
+```graphql
+query ExecSeed {
+  execSeed {
+    error
+    message
+  }
+}
+```
+
+---
+
+### ¿Qué hace esta consulta?
+
+Al ejecutarla, se generará automáticamente data de ejemplo utilizando **Faker.js**, incluyendo:
+
+- **10 usuarios de prueba**
+- **Comentarios**
+- **Likes**
+- **Subcomentarios**
+
+De esta forma tendrás una base inicial de datos para trabajar en el entorno de **desarrollo**.
+
+
+
+
 ## Producción
 
 #### Pre-requisitos
